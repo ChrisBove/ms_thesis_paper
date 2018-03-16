@@ -283,9 +283,14 @@ Additionally, an insertion motion plan must allow the probe tip to enter through
 
 Current operation of the neuroablation robot requires the coordination of two engineers to drive the robot joint-by-joint to prevent collision with the patient head and align the system to the desired insertion point. This process is time consuming and requires knowledge of the robot’s kinematic limitations and movement, increasing the difficulty for medical professionals to perform this procedure themselves. Further, the workspace of the robot given the placed burr hole in the skull is currently not visualized before the alignment is attempted. This limitation can lead to situations in which time is wasted attempting to align and reach a position that is outside the robot’s workspace, in which case the patient may need to be repositioned.
 
+\subsection{System Objectives}
+
+\subsection{System Constraints}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Background}
 \section{Neuroablative Procedures}
+
 \section{AIM Lab Neuroablation Robot Platform}
 
 \begin{figure}[thpb]
@@ -295,10 +300,9 @@ Current operation of the neuroablation robot requires the coordination of two en
     \label{fig:networkDiagram}
 \end{figure}
 
-\section{Motion Planning}
-
-
 \section{ROS Architecture and Tools}
+
+\section{Motion Planning with MoveIt!}
 
 \section{Medical Imaging Software: OpenIGTLink and 3D Slicer}
 
@@ -344,6 +348,9 @@ This project seeks to enhance the visualization and interaction tools available 
     \label{fig:softwareDiagram}
 \end{figure}
 
+\subsection{System Features}
+
+\subsection{Software Control}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Neurobot ROS Modeling}
@@ -391,8 +398,7 @@ The approach will be to sample from configuration space, passing joint values th
 
 \section{Collision-Aware Workspace Examination}
 
-\section{Manipulability Analysis}
-
+\section{Workspace Evaluation from Entry Point}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Motion Planning}
@@ -421,8 +427,6 @@ As discussed in \autoref{sec:relatedWork}, LBKPIECE is supported by MoveIt! and 
     \label{fig:traj}
 \end{figure}
 \section{Transforming Joint Space Trajectories}
-
-\section{Creating Collision-Free Trajectories}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{System Implementation}
@@ -552,7 +556,7 @@ Videos of the system in operation are listed below:
 % defined in the bib-file.
 % Then, you run bibtex once in a while during compilation, and the
 % rest is done in two lines:
-
+\todo[inline]{Get bibliography to show up in TOC.}
 \begin{thebibliography}{99}
 
 \bibitem{texasOncology} Texas Oncology. ``Brain Tumor Surgery.'' Accessed 2017. Online at \url{http://www.texasoncology.com/types-of-cancer/brain-cancer/surgery-for-brain-tumors}
