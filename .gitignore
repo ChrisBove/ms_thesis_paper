@@ -1,0 +1,10 @@
+# ignore tex generated files
+*.aux
+*.lof
+*.log
+*.lot
+*.out
+*.pdf
+*.gz
+*.tdo
+*.toc
