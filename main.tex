@@ -259,7 +259,7 @@ A challenge with minimally invasive surgery is positioning the instrument and re
     \label{fig:stereotactic}
 \end{figure}
 
-\section{Hardware Solution}
+\section{Robotic Solution}
 An potential alternative to manually aligning stereotactic frames is to utilize a robotic system to align the ablation tool, using closed loop feedback in both the joints (utilizing the forward kinematics of the robot) and the MRI feedback of the probe to precisely position the ablation tool at the location of the tumor. This promises significant speed and reliability improvements over manual tool alignment. Past research at WPI AIM Laboratory has produced a 5 DOF neuroablation robot which is MRI safe, lacking ferrous material, and does not distort the image significantly while operating with piezo electric motors. \cite{aimLabRobot} Kinematically, the system produces Cartesian translation from the base and orientation through a remote center of motion, emulating stereotactic frames. Newer iterations of this system provide an extra degree of freedom to rotate the ultrasonic probe for better coverage of tumors once the probe is inserted and the ability for the robot to perform the needle insertion along a separate joint. \autoref{fig:neuroRVizModel} shows the latest version of the robot in ROS RViz.
 
 \begin{figure}[thpb]
@@ -270,6 +270,8 @@ An potential alternative to manually aligning stereotactic frames is to utilize 
 \end{figure}
 
 \section{Problem Statement}
+
+\subsection{Problem Description}
 When the neuroablation robot is attached to the patient table on the MRI machine, it faces several constraints that can interfere with achieving the desired needle insertion into the patient head. The robot's joint limits change based on the motions of other joints (i.e. the amount of z travel depends on the current height due to the scissor lift mechanism). With the patient rigidly placed on the table, the robot must move to achieve alignment without striking the patient's head. This is aided by removal of the ultrasonic probe and canula, as shown in \autoref{fig:neuroRVizModelNoProbe}. 
 
 \begin{figure}[thpb]
@@ -283,15 +285,22 @@ Additionally, an insertion motion plan must allow the probe tip to enter through
 
 Current operation of the neuroablation robot requires the coordination of two engineers to drive the robot joint-by-joint to prevent collision with the patient head and align the system to the desired insertion point. This process is time consuming and requires knowledge of the robot’s kinematic limitations and movement, increasing the difficulty for medical professionals to perform this procedure themselves. Further, the workspace of the robot given the placed burr hole in the skull is currently not visualized before the alignment is attempted. This limitation can lead to situations in which time is wasted attempting to align and reach a position that is outside the robot’s workspace, in which case the patient may need to be repositioned.
 
-\subsection{System Objectives}
-
 \subsection{System Constraints}
 
+The system is subject to the following contraints
+
+\subsection{System Objectives}
+
+\section{Contributions}
+This project seeks to enhance the visualization and interaction tools available to better plan and conduct ablation procedures with the robot by generating collision-free motion plans in the interest of improving awareness of robot capabilities, reducing procedure time, and minimizing personnel involvement of manual robot alignment during ablation procedures.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Background}
+\chapter{Background and Related Work}
 \section{Neuroablative Procedures}
 
 \section{AIM Lab Neuroablation Robot Platform}
+
+\subsection{System Overview}
 
 \begin{figure}[thpb]
 	\centering
@@ -300,30 +309,53 @@ Current operation of the neuroablation robot requires the coordination of two en
     \label{fig:networkDiagram}
 \end{figure}
 
+\subsection{Kinematics}
+
+\subsection{Software Control System}
+
+
 \section{ROS Architecture and Tools}
+
+\subsection{Communication Paradigm}
+
+\subsection{Robot Modeling}
+
 
 \section{Motion Planning with MoveIt!}
 
-\section{Medical Imaging Software: OpenIGTLink and 3D Slicer}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Related Work and Contributions}
-\section{Motion Planning}
-\label{sec:relatedWork}
+\subsection{Motion Planning Overview}
 Classic motion planning problems have developed several solutions that adapt to this problem well. Sampling-based approaches, such as Rapidly-exploring Random Trees (RRT) and Probabilistic Road Maps (PRM) work well for finding solutions to problems with high dimensional configuration space, as is the case in this 7 DOF system. \cite{planningAlgorithms} However, they most often fail to find optimal solutions and can be shown to most often find non-optimal solutions, prompting developments to ensure optimality such as the development of RRT*. \cite{rrtStar} Optimality is of some concern in this situation in order to reduce procedure time, but completeness and feasibility is of more importance. Given the relatively slow speed of the robot joints (after gear reduction using leadscrews), there is likely benefit to an optimal planner, yet the cost of the extra planning time to find the optimal solution could exceed the time it takes for a suboptimal path to be planned and executed.
 
 In addition, uniform sampling methods are often very slow to find paths through narrow passages, which is a significant part of the problem for this project as the needle needs to be guided through a small opening. There are several methods for biasing task space sampling to increase configuration sampling within the narrow passages, such as using workspace features. \cite{workspaceBiasing} Such changes to the sampling may prove to be necessary in order to speed up the search time for finding viable solutions or showing that there is probably not a solution for the given problem. 
 
 To that end, a well-developed motion planning solver, Kinodynamic Motion Planning by Interior-Exterior Cell Exploration (KPIECE), achieves a fast and robust solution for the motion planning problem by coupling, as the name suggests, dynamic aware state space searching with optimizations on searching through less-explored areas of configuration space. \cite{kpiece} KPIECE achieves noticeable computational and success rate gains compared to other algorithms such as RRT. \cite{kpiece} In addition, an implementation of KPIECE can also allow the dynamics of the robot to be considered in finding an optimal trajectory. Some of the same authors of KPIECE developed the Open Motion Planning Library (OMPL), which provides several motion planning algorithm implementations to reduce development time for robotics systems utilizing motion planning. \cite{ompl} OMPL includes an implementation of KPIECE known as LBKPIECE, which utilizes lazy collision checking (only nodes are checked for collision - edges are ignored until completing the final solution path) and bi-directional search to significantly speed searches. Utilizing OMPL, an analysis of the different motion planners was conducted, and LBKPIECE was shown to be very fast but with slightly longer than optimal path lengths. \cite{omplBenchmarks} Based on this research, LBKPIECE seems a suitable choice for this project.
 
-\section{Neurobot Software}
-\section{Contributions}
-This project seeks to enhance the visualization and interaction tools available to better plan and conduct ablation procedures with the robot by generating collision-free motion plans in the interest of improving awareness of robot capabilities, reducing procedure time, and minimizing personnel involvement of manual robot alignment during ablation procedures.
+
+\subsection{MoveIt! Overview}
+
+\subsection{MoveIt! Features}
+
+\subsection{MoveIt! Motion Planning Implementation}
+
+
+\section{Medical Imaging Software}
+\subsection{OpenIGTLink}
+
+\subsection{3D Slicer}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\chapter{Related Work and Contributions}
+%\section{Motion Planning}
+%\label{sec:relatedWork}
+%
+%
+%\section{Neurobot Software}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{System Design}
-\section{Surgical Workflow Procedures}
+\section{Surgical Workflow}
 
 \begin{figure}[thpb]
 	\centering
@@ -350,14 +382,22 @@ This project seeks to enhance the visualization and interaction tools available 
 
 \subsection{System Features}
 
-\subsection{Software Control}
+\subsection{Software Modules}
+
+\subsection{System Interfaces}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Neurobot ROS Modeling}
 In order to utilize path planning and trajectory generation tools, the robot configuration will be exposed to the ROS framework, where several of these problems have already been solved by turnkey solutions, such as MoveIt!, which utilizes OMPL to provide interfaces for motion planning on robotic systems. \cite{moveIt} 
-\section{Representation of Neurobot Kinematics}
 
-\section{MoveIt! Neurobot Implementation}
+
+\section{Representation of Neurobot Kinematics}
+\subsection{Exporting Robot Model to ROS}
+
+\subsection{Configuring URDF}
+
+
+\section{MoveIt! Neurobot Configuration}
 Generating this particular robot model in ROS requires a bit more processing than normal. The Universal Robot Description Format (URDF) does not allow closed link loops since the joints are eventually described using TF, which expresses coordinate frames as a tree structure. This complicates the development of an accurate model and synthesis of collision models, since there are parallel linkages in the design resulting in more joints than degrees of freedom. Further, z and y motion is attained through a pair of lead screws, where the differential between the two achieves y motion and synchronized actuation produces z motion. 
 
 The system must be modeled as a kinematic chain, so URDF mimic tags will allow the parallel linkage mechanisms to be described somewhat properly so that ROS motion planning platforms, such as MoveIt, work as desired. However, generated trajectories will have to be transformed back into the joint space of the true robot. Ideally, the IK solver utilized by MoveIt will suffice, though a custom solver implemented with IKFast may be necessary to cope with these differences from the URDF robot to the actual mechanism and speed the execution to be acceptable. \cite{ikFastMoveIt} By default, MoveIt! utilizes the Orocos Kinematics and Dynamics Library (KDL), which can describe and develop IK solutions for a number of different kinematic systems. \cite{orocosKDL} KDL also provides collision checking with the robot itself and the surrounding environment. Additionally, the RVIZ plugin will be utilized for allowing quick control and interaction with the robot model to visualize reachable areas and for considering manipulability in certain robot configurations.
@@ -400,8 +440,12 @@ The approach will be to sample from configuration space, passing joint values th
 
 \section{Workspace Evaluation from Entry Point}
 
+\section{Converting to IGTL Datatype}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Motion Planning}
+\section{Setup Planning Problem}
+
 \section{Generating Trajectories with MoveIt!}
 In effect, two separate motion planning problems need to be solved for the two different configurations of the robot during the procedure outlined in \autoref{sec:intro}. To reiterate, during the first step, the robot is outside of the MRI bore and does not have the needle driver installed. This allows the robot to move without the constraints of the needle driver hitting the patient head and the rest of the robot striking the MRI bore. However, once the robot has moved to the entry point, the needle driver is added and inserted to the required depth, and the patient bed is slid into the MRI tube.
 
@@ -426,6 +470,7 @@ As discussed in \autoref{sec:relatedWork}, LBKPIECE is supported by MoveIt! and 
     \caption{RViz screenshot of a trajectory being completed, though without proper collision checking of the head model inserted into the world.}
     \label{fig:traj}
 \end{figure}
+
 \section{Transforming Joint Space Trajectories}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
