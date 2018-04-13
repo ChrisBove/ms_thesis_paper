@@ -1,39 +1,9 @@
-% This is a template for  Masters' Theses at WPI.
-% It complies (more or less) to the standards given by the Library 
-% (as of February 1999)
-%
-% Feel free to use this file, but I give no guarantee for its compliance
-% to standards (meaning I won't pay for the paper if the library rejects it :))
-%
-%
-% The lengths (textheight, width etc.) are fine-tuned for ps1, ps2, and ps3, 
-% but seem to be somewhat dependent on the machine you are using to compile, 
-% the date, time, moon phase, the weather, and other quantum effects.
-% You may have to change \oddsidemargin a little, but it's about 98% correct.
-%
-% Also, the spacing is correct (doublespacing with footnotes correctly
-% singlespaced). Curiously, the font size is not specified in the
-% regulations. So feel free to change it, but the majority of theses
-% that I have seen is written in 12 point font.
-% 
-% As for the inclusion of graphics, I recommend the methods specified
-% in ``latexguide.ps'' off the CS-GSO Website. You can use other
-% methods including copy and paste with a photocopier, but I think
-% using the graphicx package is the easiest.
-%
-% Have fun and good luck with the thesis.
-%
-%
-%  Andreas Koeller (koeller@wpi.edu)
-%
+% This document is still in draft state.
 
 
-% The preamble
-% 12 point font, and your thesis is a ``report'' to LaTeX
+%  Template created by Andreas Koeller (koeller@wpi.edu)
 \documentclass[12pt]{report}
 
-% this enables correct linespacing and graphics inclusion via 
-%``\includegraphics''
 \usepackage{setspace}
 \usepackage{graphicx}
 \usepackage{hyperref} % Chris - hyperlink all the things
@@ -41,10 +11,9 @@
 \usepackage{listings} % Chris - include some code formatting stuff
 \usepackage{textcomp} % Chris - fixes warnings due to gensymb below
 \usepackage{gensymb} % Chris - so we can have \degrees
-\usepackage{tabularx}
+\usepackage{tabularx} % Chris - tables
+% \usepackage[printwatermark]{xwatermark}
 
-% leave 1.5in margin to the left and 1in margin to the other
-% sides. Don't print page number in the margin (but rather above it)
 \setlength{\textheight}{8.63in}
 \setlength{\textwidth}{5.9in}
 \setlength{\topmargin}{-0.2in}
@@ -52,33 +21,30 @@
 \setlength{\evensidemargin}{0.3in}
 \setlength{\headsep}{0.0in}
 
-% Start to write
+% for todo notes to look better
+\setlength{\marginparwidth}{1in}
+% \makeatletter
+% \renewcommand{\todo}[2][]{%
+%     \@todo[caption={#2}, #1]{\begin{spacing}{0.5}#2\end{spacing}}%
+% } 
+% \makeatother 
+
+% \newwatermark[allpages,color=red!50,angle=0,scale=1,xpos=0,ypos=130]{DRAFT}
+
+
 \begin{document}
-
-% First things first: The Titlepage
-% This is the recommended format by the library
-%
-
 
 % Define \brk as a command for leaving a little vertical space. Makes
 % the titlepage easier to read - normally, this is NOT GOOD LATEX
 % STYLE!!!
-%
 \newcommand{\brk}{\vspace*{0.18in}}
 
-% No page number on the title page
-\thispagestyle{empty}
+\thispagestyle{empty} % No page number on the title page
 
-% Center the whole title page
-\begin{center}
+\begin{center} % Center the whole title page
 
 \brk
 
-% Large font and bold face for the headline. Try to keep it at one or
-% two lines. Headlines over two lines will mess up the spacing, and you have to
-% manually finetune it. Note that the line break in the SOURCE CODE
-% does not affect the line breaking in the output file. If you want
-% hardcoded line breaks, you have to mark them with a double backslash (\\)
 
    {\large 
 	\textbf{
@@ -91,13 +57,11 @@
 by
 
 \brk
-% insert your name here. 
-Christopher Bove
+Christopher Bove % insert your name here. 
 
 
-% All this is constant:
 \brk\brk
-A Thesis DRAFT \todo{Update Draft statement.}
+A Thesis \todo{Rough Draft!}
 
 \brk
 Submitted to the Faculty
@@ -123,11 +87,11 @@ Robotics Engineering
 \brk
 by
 
-% This is how LaTeX draws lines :) It's where your signature goes.
 \brk\brk
-\rule{3in}{1.2pt}
+%\brk
+%\includegraphics[height=1.8\baselineskip]{images/signature.png}
+\rule{3in}{1.2pt} % This is how LaTeX draws lines :) It's where your signature goes.
 
-% Adjust this to your preferred month and year
 \brk
 May 2018
 
@@ -152,31 +116,18 @@ Professor Zhi Jane Li, Committee Member
 
 Professor William Michalson, Committee Member
 
-% end of titlepage
-\newpage
+\newpage % end of titlepage
 
-% This is the command for doublespacing when you use the setspace
-% package
-% Please do NOT use \baselinestretch, this will mess up everything,
-% cause earthquakes, tornados and lots of questions for me...
 % If you need a singlespaced paragraph (BAD STYLE!!!), use
 % \singlespacing or \onehalfspacing and enclose it together with the
 % paragraph in braces {\singlespacing This is my text... blah blah blah}
-%
 \doublespacing
 
-% Now you can start to be creative.
-% First, you need an abstract.
-% Fortunately, LaTeX has thought of that, so it's very easy:
-%
 \begin{abstract}
-\todo[inline]{Write full abstract.}
-In needle-based surgical interventions, accurate alignment and insertion of the tool is paramount for providing proper treatment at the target site while minimizing healthy tissue damage. While manually-aligned interventions are well-established, robotics platforms promise to provide reduced procedure time, increased precision, and improved patient survival rates. Conducting interventions in an MRI scanner provides real-time, closed-loop feedback for the robotics platform, improving its accuracy, yet the tight environment potentially impairs motion. This project seeks to develop a surgical workflow and software system for evaluating the workspace and planning the motions of a robotics platform within the confines of an MRI scanner. 3D Slicer, a medical imaging visualization and processing platform, will provide a familiar and intuitive interface for operators to quickly plan procedures with the robotics platform. Robotics tools such as ROS and MoveIt! will be utilized to formulate the motion planning solution, analyze the workspace of the robot within the patient, and perform optimization for positioning of the robot and insertion point. For this study, a 7 DOF robot arm designed for ultrasonic ablation of brain tumors will be the targeted platform.
-% This project seeks to develop a software package to generate motion plans for a 7 DOF MRI-Safe neuroablation robot for use in ultrasonic ablation of brain tumors. The solution must solve motion planning problems for two different robot configurations, and, if necessary, join the configuration states together to ensure that the robot can travel to the insertion site on the skull and insert the ultrasonic probe without colliding with the MRI machine. ROS tools such as RViz and MoveIt! will be utilized to synthesize the solution with validation using Gazebo through system simulation.
+In needle-based surgical interventions, accurate alignment and insertion of the tool is paramount for providing proper treatment at the target site while minimizing healthy tissue damage. While manually-aligned interventions are well-established, robotics platforms promise to reduce procedure time, increase precision, and improve patient comfort and survival rates. Conducting interventions in an MRI scanner provides real-time, closed-loop feedback for a robotics platform, improving its accuracy, yet the tight environment potentially impairs motion. This project seeks to develop a surgical workflow and software system for evaluating the workspace and planning the motions of a robotics platform within the confines of an MRI scanner. 3D Slicer, a medical imaging visualization and processing platform, will provide a familiar and intuitive interface for operators to quickly plan procedures with the robotics platform over OpenIGTLink. Robotics tools such as ROS and MoveIt! will be utilized to analyze the workspace of the robot within the patient and formulate the motion planning solution for positioning of the robot during surgical procedures. For this study, a 7 DOF robot arm designed for ultrasonic ablation of brain tumors is the targeted platform.
+
 \end{abstract}
 
-% From here on, we need Roman page numbers according to the library
-% regulations. So let's assign those.
 
 \pagenumbering{roman} % or {Roman} if you like them capitalized
 
@@ -185,15 +136,13 @@ In needle-based surgical interventions, accurate alignment and insertion of the 
 	\textbf{Acknowledgements}
 \end{center}
 
-\todo[inline]{Write acknowledgements.}
+I would like to express my gratitude to Professor Fischer for his assistance scoping the project, guiding the feature development, and offering alternative solutions when I hit some tough walls to climb. Professor Michaelson and Professor Li provided excellent feedback as I worked through the thesis formally and helped refine the end product in a flurry of activity in the last couple months. I also need to extend my thanks to the other graduate students I worked with in AIM Lab, Christopher Nycz, Joe Schornak, Katie Gandomi, Paulo Carvalho, and Radian Gondokaryono, for helping me work alongside them and making the project much more entertaining.
+
+Finally, I need to thank my parents for supporting my foray into robotics during my childhood. From tearing apart VCR's to cluttering the basement with model airplanes, dissected Furby's, and walking mechanical ostriches controlled by RockBand guitars, I owe you both a lot in the patience department, especially in your tireless support of helping me start FIRST teams in high school which inspired my education at WPI that culminated in my Master's degree today. Thanks for cheering me on when things seemed hopeless on the path to my first full-time job and always encouraging me to hold fast to the hope that is found in Christ.
 
 \clearpage
 
-
 \tableofcontents
-
-% THAT'S IT. REALLY. Everything else is automatic. No formatting, no headline.
-% All predefined.
 
 % Now - just as easy - the List of Figures.
 % This will catch all objects enclosed in \begin{figure}\end{figure}
@@ -208,23 +157,31 @@ In needle-based surgical interventions, accurate alignment and insertion of the 
 \clearpage
 
 \begin{center}
-	\textbf{Glossary and Notation}
+	\textbf{Glossary}
 \end{center}
 
-\todo[inline]{Continue updating glossary.}
 \begin{tabular}{rl}
 	AIM Lab& Automation and Interventional Medicine Research Laboratory\\
 	WPI& Worcester Polytechnic Institute\\
 	\\
 	DOF& Degrees of Freedom\\
+    FK& Forward Kinematics\\
+    IK& Inverse Kinematics\\
 	MOCAP& Motion Capture\\
     MRI& Magnetic Resonance Imaging\\
+    MRTI& Magnetic Resonance Thermal Imaging\\
     Neurobot& Neuroablation Robot\\
+    OpenRAVE& Open Robotics Automation Virtual Environment\\
+    PCL& Point Cloud Library\\
 	Pose& Position and Orientation\\
+    RCM& Remote Center of Motion\\
 	ROS& Robot Operating System\\
 	RVIZ& ROS Robot Visualizer \\
+    SRDF& Semantic Robot Description Format\\
+    STL& STereoLithography - 3D triangle mesh file\\
 	TF& ROS Transform Library\\
 	URDF& Universal Robot Description File\\
+    VM& Virtual Machine\\
 \end{tabular}
 
 \todototoc
@@ -235,226 +192,672 @@ In needle-based surgical interventions, accurate alignment and insertion of the 
 
 \clearpage
 
-% And now - tataa - the text.
-% This is the place to become really creative.
-
-% From here on, we need arabic numbering again and we need to start
-% from 1.
-
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}
 \label{sec:intro}
-\section{Clinical Problem}
-Many treatments for brain cancers involve removing as much as the tumor as possible before other treatments, such as radiation or chemotherapy, are utilized to destroy the remaining tissue. Traditional procedures involve significant removal of the skull to access the tumor area, yet minimally invasive stereotactic procedures, those using 3D imaging for guidance of instruments inserted through a small hole in the skull, can reduce healthy tissue trauma, improve accuracy, and speed recovery. \cite{texasOncology}  Recent research has shown that MRI-guided ultrasonic ablation, a minimally invasive method which uses an ultrasonic probe inserted through a small hole to heat up and destroy tumor tissue, is a viable approach for treatment of brain cancers. \cite{thermalMRIAblation} 
+Since only, perhaps, a couple of decades ago, the fields of medicine and robotics remained relatively separate practices, linked only in the common technology utilized by both of them. Yet in responding to increasing needs of healthcare providers for faster, more cost-effective, safer, and more accurate treatments, the solution space has moved towards robotics systems, where, in the industry and beyond, they have been improving performance in procedures which were very labor and time intensive while at the same time requiring very high precision and repeatability. In some respects, robotics and medical problems are similar, and the vast development in both worlds has illuminated the strong benefit in joining the two fields of expertise to better solve the challenging issues facing each of them today. 
 
-A challenge with minimally invasive surgery is positioning the instrument and reaching the target area successfully, since the tooltip cannot be directly observed by the surgeon. Rather, it can only be visualized through MRI or ultrasound image feedback. Frames can be rigidly attached to the skull to precisely guide the instrument to the desired location \cite{texasOncology}, but significant time is required to setup these frames and verify the correct alignment. An example of this type of frame is shown in \autoref{fig:stereotactic}.
+Through a careful examination of the problem described below, a robotics solution manifested itself and WPI AIM Lab produced a hardware platform capable of fulfilling a need in the medical community. The contribution of this project is to provide new software features for this platform to further improve the system's performance. \todo {This is way too broad. Make this more specific to the actual problem at hand for a better introduction.}
+
+
+\section{Clinical Problem}
+\label{sec:clinicalProblem}
+One of the major goals in surgical procedures is to minimize healthy tissue damage while remaining effective at performing the procedure. Minimally invasive surgical techniques can mitigate the risk of infection, blood loss, and tissue damage by reducing the incision made in the skin. \todo{Citation} However, this usually comes at the cost of diminished perception, manipulative ability, and surgeon comfort. In regaining these losses, other technologies have been developed to compensate for these drawbacks and make minimally invasive surgeries more desirable for both surgeons and patients, to the extent that robotics interventions can sometimes be preferable over conventional surgeries, such as Intuitive's da Vinci Surgical System used for general laparoscopic surgery. \todo{cite} Providing feedback for the surgeon, such as through the use of imaging devices, and more comfortable system operation is key for improving the performance and utilization of minimally invasive surgical procedures.
+
+Several interventions for brain cancers and malevolent tumors involve removing as much of the tumor as possible before sometimes utilizing further treatments, such as radiation or chemotherapy, to destroy the remaining unhealthy tissue. One way to kill unhealthy tissue is through ultrasonic ablation, where the energy from an ultrasonic element heats up cells to a point at which they die. \cite{thermalMRIAblation} The challenge with this treatment method is how to guide the probe to the treatment location effectively. While traditional procedures could involve significant removal of the skull to access the tumor area, ultrasonic probes are small enough to allow minimally invasive stereotactic procedures which create only a small burr hole in the skull and use 3D imaging for instrument guidance, which can reduce healthy tissue trauma, improve accuracy, and speed recovery. \cite{texasOncology} Recent research has shown that MRI-guided ultrasonic ablation is a viable approach for treatment of brain cancers. \cite{thermalMRIAblation} By conducting the experiment within an MRI scanner, the temperature change can be monitored using a special type of MRI scan (MRTI) to ensure that the malevolent cells have received sufficient temperature levels to terminate them. \todo{cite} 
+
+As stated before, one challenge with minimally invasive surgery is that the tooltip cannot be directly observed by the surgeon, which complicates positioning the instrument and reaching the target area successfully. Rather, the tool can only be tracked through some form of imaging feedback. While a camera could be inserted for some surgical procedures, most needle-based interventions are prohibitive of having empty space around the treatment location for a camera to see anything useful. Rather, MRI or ultrasound image feedback would be used, necessitating the procedure being conducted in an image scanner. For MRI scanners, this means using non-ferrous tools and MRI-compatible electronics for the procedure. However, the physical properties of an MRI bore make it very challenging ergonomically for a surgeon to perform the procedure with real-time image feedback for guidance. There are some MRI scanners which allow access in the center, but these are still challenging to work with. \todo{cite}
+
+Alternatively (or in addition to having imaging feedback), the tool can be guided using a mechanical device. Frames can be rigidly attached to the skull to precisely insert the instrument to the desired location \cite{texasOncology}, but significant time is required to setup these frames, register their coordinate system with the patient, and verify correct alignment. Additionally, there is some healthy tissue damage during the attachment of the stereotactic frame to the head. An example of this type of frame is shown in \autoref{fig:stereotactic}. Once again, using non-ferrous metals in the frame or other similar guidance systems can allow surgeries to be conducted in a scanner for imaging feedback or to be utilized for validating the tool insertion and setup.
+
+% need to transition to wanting the robot in the imager while procedure is done for feedback.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 2.5in]{images/stereo_tactic_frame.jpg}
+	\includegraphics[width = 3.5in]{images/stereo_tactic_frame.jpg}
     \caption{A photograph of an example stereotactic frame that could be used for interventions and treatments during minimally invasive neurosurgery. \cite{stereotactic}}
     \label{fig:stereotactic}
 \end{figure}
 
 \section{Robotic Solution}
-An potential alternative to manually aligning stereotactic frames is to utilize a robotic system to align the ablation tool, using closed loop feedback in both the joints (utilizing the forward kinematics of the robot) and the MRI feedback of the probe to precisely position the ablation tool at the location of the tumor. This promises significant speed and reliability improvements over manual tool alignment. Past research at WPI AIM Laboratory has produced a 5 DOF neuroablation robot which is MRI safe, lacking ferrous material, and does not distort the image significantly while operating with piezo electric motors. \cite{aimLabRobot} Kinematically, the system produces Cartesian translation from the base and orientation through a remote center of motion, emulating stereotactic frames. Newer iterations of this system provide an extra degree of freedom to rotate the ultrasonic probe for better coverage of tumors once the probe is inserted and the ability for the robot to perform the needle insertion along a separate joint. \autoref{fig:neuroRVizModel} shows the latest version of the robot in ROS RViz.
+A potential alternative to manually aligning stereotactic frames for tool insertion is to achieve the same motion control with a robotic system. Such a system could obtain the tool location using the forward kinematics of the robot and/or MR images of the probe to precisely position the ablation tool at the treatment site. This promises significant speed and reliability improvements over manual tool alignment. Past research at WPI AIM Laboratory produced a five DOF neuroablation robot which was MRI safe, lacking ferrous material, and did not distort the image significantly while operating its piezo electric motors to move. \cite{aimLabRobot} Kinematically, the system produced Cartesian translation from the base and orientation through a remote center of motion, emulating the workspace of stereotactic frames. Newer iterations of this system provide two extra degrees of freedom for the robot to perform the needle insertion along the insertion axis and to rotate the ultrasonic probe for more precise coverage of tumors once the probe is inserted. \autoref{fig:neuroRVizModel} shows the latest version of the robot as modeled in ROS RViz.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 2.5in]{images/neuro_rviz_model.png}
-    \caption{Screenshot of the neurosurgical ablation robot RViz model. Each placed frame on the robot represents a DOF. The global coordinate system is x to the left, z into the image, and y up. }
+	\includegraphics[width = 4in]{images/rviz_screenshot_2018_model_needle_in_iso.png}
+    \caption{RViz screenshot of the neuroablation robot model in ROS.}
     \label{fig:neuroRVizModel}
 \end{figure}
 
-\section{Problem Statement}
+\section{Problem Description}
+\label{sec:problemDescription}
+As discussed earlier in \autoref{sec:clinicalProblem}, some of the primary challenges when working with minimally invasive surgical techniques are perception and maneuverability limitations. For the neurobot, these problems manifest themselves in two primary manners: 1) - it is difficult for operators to plan procedures with the robot without knowing what it can reach and 2) the robot needs to be able to move to the procedure location without striking obstacles. In other words, it is necessary to know where the robot can reach and how to move it there, and there are some complications of solving these seemingly simple problems.
 
-\subsection{Problem Description}
-When the neuroablation robot is attached to the patient table on the MRI machine, it faces several constraints that can interfere with achieving the desired needle insertion into the patient head. The robot's joint limits change based on the motions of other joints (i.e. the amount of z travel depends on the current height due to the scissor lift mechanism). With the patient rigidly placed on the table, the robot must move to achieve alignment without striking the patient's head. This is aided by removal of the ultrasonic probe and canula, as shown in \autoref{fig:neuroRVizModelNoProbe}. 
+When the neurobot is attached to the patient table on the MRI scanner, it faces several constraints that can interfere with achieving the desired needle insertion into the patient's head to place the ultrasonic probe at the treatment location. Some of these are inherent due to the robot design itself while others are environmental constraints. A few of the robot's joint limits change based on the motions of other joints (i.e. the amount of axial travel depends on the current height due to the scissor lift mechanism). This complicates the modeling of the robot's kinematics in conventional robotics software packages and means that extra precautions must be taken with planning its motions and ensuring treatment locations are reachable.
+
+Considering the environment, there are two primary objects the robot can unintentionally collide with and must avoid: the patient and the scanner. When the patient is secured on the scanner bed, the robot must move to the entry point in the skull without striking the patient's head. This is aided by removal of the ultrasonic probe and cannula, as shown in \autoref{fig:neuroRVizModelNoProbe}. 
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 2.5in]{images/neuro_no_probe.png}
-    \caption{Screenshot of RViz model of neurosurgical ablation robot in the configuration for positioning probe to entry point with the canula and ultrasonic probe removed. }
+	\includegraphics[width = 4in]{images/neuro_no_probe.png}
+    \caption{Screenshot of RViz model of neurosurgical ablation robot in the configuration for positioning probe to entry point with the cannula and ultrasonic probe removed. }
     \label{fig:neuroRVizModelNoProbe}
 \end{figure}
 
-Additionally, an insertion motion plan must allow the probe tip to enter through the burr hole in the skull without hitting the skull. Once the robot is in place above the burr hole, the canula is inserted into the skull and attached to the robot, and the ultrasonic ablation probe is attached to the robot and inserted into the brain by the driver DOF. This final configuration must then be able to enter the bore of the MRI machine without having the probe attachments or robot collide with the MRI machine. Therefore, a successful insertion solution must abide by the robot’s kinematic limitations, avoid collisions with the patient’s head and skull during movement to the configuration (with the canula and probe removed), have a final configuration that does not collide with the MRI bore, and reaches the target destination successfully.
+Once the robot is in place above the burr hole, the cannula is inserted into the skull and attached to the robot, and the ultrasonic ablation probe is attached to the robot and inserted into the brain by the robot's needle driver joint. This final robot configuration must then be able to enter the bore of the MRI scanner without the ultrasonic probe or robot collide with the scanner. Therefore, a successful insertion solution must abide by the robot's kinematic limitations, avoid collisions with the patient's head and skull during movement to the configuration (with the cannula and probe removed), has a final configuration that does not collide with the MRI bore, and reaches the target destination successfully.
 
-Current operation of the neuroablation robot requires the coordination of two engineers to drive the robot joint-by-joint to prevent collision with the patient head and align the system to the desired insertion point. This process is time consuming and requires knowledge of the robot’s kinematic limitations and movement, increasing the difficulty for medical professionals to perform this procedure themselves. Further, the workspace of the robot given the placed burr hole in the skull is currently not visualized before the alignment is attempted. This limitation can lead to situations in which time is wasted attempting to align and reach a position that is outside the robot’s workspace, in which case the patient may need to be repositioned.
-
-\subsection{System Constraints}
-
-The system is subject to the following contraints
-
-\subsection{System Objectives}
+To meet this need currently, the neuroablation robot requires the coordination of two engineers to drive the robot joint-by-joint to prevent collision with the patient head and align the system to the desired insertion point. This process is time consuming and requires knowledge of the robot's kinematic limitations, increasing the difficulty for medical professionals to perform this procedure themselves. Further, the workspace of the robot is not visualized before the alignment is attempted. Given the placed burr hole in the skull, it would be very useful to know where the robot can reach and administer treatment, but this ability has not yet been realized. This limitation can lead to costly situations in which time is wasted attempting to align and reach a position that is outside the robot's workspace, in which case the patient may need to be repositioned.
 
 \section{Contributions}
-This project seeks to enhance the visualization and interaction tools available to better plan and conduct ablation procedures with the robot by generating collision-free motion plans in the interest of improving awareness of robot capabilities, reducing procedure time, and minimizing personnel involvement of manual robot alignment during ablation procedures.
+This project entails developing a software system which integrates existing medical platforms, provides a mechanism for evaluating the neurobot's reachable workspace, and generates collision-free trajectories to enable faster, less tiresome, and more intuitive surgical procedures using the neurobot in ultrasonic ablation. The specific contributions of this work include:
+
+\begin{itemize}
+\singlespacing
+\item Designing and implementing a software system for conducting motion planning
+\item Modeling the neurobot in and interfacing it to the ROS environment
+\item Generating the collision-aware workspace of the robot
+\item Computing the collision-aware treatment workspace given an entry point
+\item Computing collision-free trajectories to control the robot's motion
+\item Using OpenIGTLink to transfer data between the robotic system and ROS
+\item Employing 3D Slicer to visualize and interact with the generated data
+\item Validating system performance on the neurobot
+\item Validating the system in animal trials \todo{Adjust if not accurate}
+\end{itemize}
+
+While this project does not necessarily contribute to the specific implementations used to achieve the solution to the problem described in \autoref{sec:problemDescription}, it does contribute to the field in a larger sense of demonstrating the feasibility of using existing technology in both medical and robotics fields together to bring missing capabilities to a robotics platform that lies between those two worlds. This work does not introduce a groundbreaking new approach for motion planning or a novel way of interfacing medical devices. Rather, it is an exercise in using current state of the art software on a new system in a somewhat unconventional way to produce useful functionality with reduced development overhead. This work also provides the opportunity to evaluate the utilized toolsets to perhaps illuminate some weak points or technical stumbling blocks for other organizations wishing to accomplish similar objectives. In the end, this work advances the capabilities of the neurobot, making it easier to operate in the hope of improving surgical procedures and the outcome for patients suffering from cranial diseases.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Background and Related Work}
-\section{Neuroablative Procedures}
+As a project that spans several technical fields, there are a number of topics that need further examination to better understand the current state-of-the-art and how this project relates to those developments. In this section, current medical technology, neuroablation procedures, the Neurobot platform, robotics tools including ROS, and motion planning concepts will be explored before the system design is discussed.
 
-\section{AIM Lab Neuroablation Robot Platform}
+\section{Medical Technology}
+The medical field has several key technologies that are closely entwined with the contributions of this project. This includes ultrasonic ablation, MRI, and medical imaging software tools.
 
-\subsection{System Overview}
+\subsection{Ultrasonic Ablation}
+The process of ablating, or removing, tissue can be achieved through different means. Ultrasonic thermal ablation involves utilizing a high intensity, focused ultrasonic element to heat up surrounding tissue to the point at which it dies while leaving healthy tissue at safe temperatures due to the narrow field of effect of the beam. \cite{thermalAblation} Once tissue has been exposed to high enough temperatures for a certain length of time, as shown in \autoref{fig:thermalAblation}, tissue will experience necrosis, or death.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width=\textwidth]{diagrams/Networking_Diagram.pdf}
+	\includegraphics[width=4in]{images/Thermal_Ablation.jpg}
+    \caption{Graph of tissue reaction to heating at particular durations of time. From \cite{thermalAblation}.}
+    \label{fig:thermalAblation}
+\end{figure}
+
+By modulating the length of time and exposure to temperatures, a very precise treatment can be achieved which leaves healthy tissue unexposed to dangerous temperature levels for long lengths of time while fully destroying unhealthy tissue. By conducting a series of ablations, using different ultrasonic probes with limited fields of effect, or by rotating the probe, arbitrary tumor shapes and sizes can be effectively ablated. Effectively planning and conducting these probe rotations and insertions to achieve proper treatment coverage is a goal of current research. Ultrasonic probes are typically MRI-compatible and cooled with water, which can increase their size, as shown in \autoref{fig:ultrasonicProbe}.
+
+\begin{figure}[thpb]
+	\centering
+	%\includegraphics[width=\textwidth]{images/mri_image_example.png}
+    \missingfigure[figwidth=4in]{Picture of a probe from our study.}
+    \caption{An example of an ultrasonic probe used in thermal ablation.}
+    \label{fig:ultrasonicProbe}
+\end{figure}
+
+
+\subsection{Magnetic Resonance Imaging}
+Magnetic resonance imaging (MRI) is a non-invasive imaging technique which utilizes a very strong magnet and radio frequency to image soft tissues in the body, providing 3D images when slices are combined together. \cite{mri} Essentially, hydrogen protons are spin-aligned to the magnetic field in the scanner, and radio waves are used to temporarily realign the protons while the radio is on. When the radio is turned off, the protons realign with the permanent magnetic field, releasing energy as they do so, and sensors in the scanner can resolve this energy release into 3D positions within the scanner. Based on a number of factors, differences in tissues (usually molecular density including water) can be detected and seen in the MR images, as seen in the image of the pig brain in \autoref{fig:mriPigImage}. 
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=4in]{images/MRI_scan_pig_brain.png}
+    \caption{Example MRI image of a pig head, showing the brain and surrounding tissue.}
+    \label{fig:mriPigImage}
+\end{figure}
+
+Because MRI's soft tissue contrast is much higher than X-Ray or CT scans and there is no ionizing radiation emitted (which can cause harmful DNA mutations), it is a preferred imaging method, yet more expensive, for cases where repeated images need to be taken to guide procedures. However, the tight confines within an MRI scanner (most are between 55-70cm in diameter \cite{mriSize}) makes scanning patients sometimes challenging and also hinders efforts to conduct medical interventions within the scanner. 
+
+The scanner located at the UMASS Memorial Medical Center, the primary location for current tests with the Neurobot, is a Phillips Achieva 3T scanner with a 60 cm bore. 
+
+\subsubsection{Frame Conventions}
+MRI scanners have relatively standardized frames which describe the orientation of images and the patient position within, as \autoref{fig:mriScannerFrame} illustrates.  While there are some specialized naming conventions for the patient (anterior and posterior, left and right, and superior and inferior), these are generally straightforward frame definitions. Within the scanner itself, due to the cylindrical nature of the bore, the terminology of lateral and axial motions describe movements in the x direction and z direction respectively. 
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/mri_coordinate_systems.png}
+    %\missingfigure[figwidth=4in]{Picture of MRI frame and naming conventions}
+    \todo[inline]{Ensure this is correct for us.}
+    \caption{Typical MRI scanner frame (left), patient frame naming conventions (center), and image pixel coordinate frame (right). From \cite{mriFrames}}
+    \label{fig:mriScannerFrame}
+\end{figure}
+
+\subsubsection{Magnetic Resonance Thermal Imaging}
+MRTI is a scanning technique for MRI machines which effectively allows for real-time monitoring of changes in tissue temperature, which is of use particularly during ablation of tumors in the body. \cite{mrti} This process is typically limited to analysis in a 2D plane, but serves great utility for monitoring the progress of thermal ablation procedures in that the ablation process can be terminated once the tumor tissue has received adequate heat so as to minimize damage to surrounding, healthy tissue. \autoref{fig:mrtiExample} shows an example of MRTI on an ablation procedure.
+
+\begin{figure}[thpb]
+	\centering
+	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+    \missingfigure[figwidth=4in]{Picture of MRTI from pig study.}
+    \caption{Images showing temperature change as obtained using MRTI techniques on a pig during an ablation.}
+    \label{fig:mrtiExample}
+\end{figure}
+
+
+\subsection{Medical Imaging Software}
+While commercial MRI scanners typically ship with the manufacturer's own software solution for running the scanner and collecting and viewing images, there is a growing interest in developing platforms which standardize medical imaging protocols and provide open-source methods for analyzing MRI's without proprietary software. These two desires have been addressed by the development of OpenIGTLink and 3D Slicer, open-source software which has greatly assisted recent medical research.  
+
+\subsubsection{OpenIGTLink}
+OpenIGTLink is a communications protocol which standardizes the interfaces of scanners, surgical systems, and analytical tools on computers. \cite{openIGTLink} Essentially, this could do for the medical research world what ROS did for much of robotics research (see \autoref{sec:ros}). The specifications for the OpenIGTLink protocol allow equipment from different manufacturers to be compatible (or at least allow compatible drivers to be written easily) to reduce the overhead of researchers using these systems for planning, image collection, and image analysis. It supports real-time communications with data types specifically designed for and needed by medical imaging systems.
+
+\subsubsection{3D Slicer}
+3D Slicer is an open-source computer application for viewing and processing medical images. \cite{3DSlicer} It includes a large assortment of downloadable extensions from a repository contributed to by a growing community, and it is relatively straightforward to write custom extensions or modules in C++ or Python. The main goal of Slicer is to fulfill a need of researchers and the general public to have a free tool for accessing medical images and to serve as a platform for conducting experimental image processing and research for image-guided interventions. It includes an OpenIGTLink extension, which effectively allows it to interface with any OpenIGTLink-supported devices. The interface yields itself easily for interacting with imaging data and includes many processing techniques useful during pre-operative planning and during surgical procedures. \autoref{fig:3DSlicerScreenshot} shows a screenshot of the 3D Slicer application.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/Slicer_screenshot_pig.png}
+    \caption{Screenshot of 3D Slicer application being used to view MR images of a pig head with a volume rendering using ray casting in the top right corner.}
+    \label{fig:3DSlicerScreenshot}
+\end{figure}
+
+
+\section{AIM Lab Neuroablation Robot Platform}
+\subsection{System Overview}
+The neurobot is a seven DOF robot with piezoelectric motors with encoder feedback shaped in a form factor capable of fitting within an MRI bore, as shown in \autoref{fig:neurobotRenderInTube}. As stated previously, the current iteration has stemmed from a series of developments in WPI's AIM Laboratory. \cite{aimLabRobot} Electrical components are designed to limit the noise introduced in the scanner environment, which can degrade the quality of MRI. This is especially apparent with the choice of motors; since most motors rely on magnetic fields to operate, traditional brushed or brushless motors cannot be used inside an MIR machine. Alternatives are available, such as pneumatic steppers and piezoelectric motors, which utilize piezo elements which flex under electrical voltages to achieve motion to drive shafts. \cite{piezoLegs} The mechanical components are iron-free and MRI-safe, which allows it to operate in the MRI freely, and it can undergo proper sterilization and covering procedures during surgery.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=4in]{images/neurobot_rendering_with_patient_in_bore.png}
+    \caption{Rendering of neurobot SolidWorks model in cut-away MRI scanner bore. }
+    \label{fig:neurobotRenderInTube}
+\end{figure}
+
+The robot is connected via a copper wire tether to a control box which resides in the MRI scanner room. Motor control boards and an embedded microprocessor with an FPGA provide the low-level functionality for the robot, including position control, safety features, and communications. WPI custom built most of the components in the interface box, and the networking connection for the neurobot is shown in \autoref{fig:networkDiagram}. This box is then connected to a pneumatic safety foot pedal, which enables robot motion when the operator presses it, a fiber optic cable for communication, and a power cable to a standard 120 volt wall outlet. Only the fiber cable leaves the MRI scanner room through a barrier wall into the operator control room. Here, a computer can be connected to the robot to control it, and other computers interface with the MRI scanner to configure scans and obtain images. 
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=4in]{diagrams/Networking_Diagram.pdf}
+    \todo[inline]{Make better diagram.}
     \caption{Diagram of the network interfaces between the robot, control computer, and MRI scanner. }
     \label{fig:networkDiagram}
 \end{figure}
 
-\subsection{Kinematics}
+\subsection{Coordinate Frames}
+Most of the neurobot frames follow similar conventions to those used in the scanner itself. \autoref{fig:neurobotFrames} show the primary coordinate frames of the robot: the tool frame and the base frame, also known as the z-frame. The z-frame is a specially designed fixture which holds vials of MRI-visible liquid at geometrically aligned locations in which performing image analysis on scans of the z-frame allow the centroid of the frame to be identified relatively quickly and accurately. This z-frame then serves as the registration between the scanner frame and the robot. The optical frame of the scanner is simply a translational offset from the base frame. Since the robot is always situated in the scanner in the same orientation, movements in the base frame x direction are considered lateral and movements in the z direction are considered axial.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/neuro_frames.jpg}
+    \caption{Neurobot frames and naming conventions.}
+    \label{fig:neurobotFrames}
+\end{figure}
+
+\subsection{Kinematics and Joint Information}
+\label{sec:kinematicsJointInfo}
+The neurobot is essentially a Cartesian platform base with a remote center of motion wrist which also includes a degree of freedom for driving the needle along its axis, as illustrated in \autoref{fig:neurobotKinematics}, totaling seven active DOF. This makes the system under constrained in some configurations. Cartesian motions of the base are achieved through screw drives, with lateral translation being a simple screw driven joint. Vertical and axial motion is obtained through a differentially driven pair of lead screws attached to a parallelogram mechanism. When both screws are driven in the same direction, this achieves axial translation. When screws are driven in different directions, the `legs' of the parallelogram are brought closer together or further apart, which achieves a change in height.
+
+\begin{figure}[thpb]
+	\centering
+	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+    \missingfigure[figwidth=4in]{Neurobot kinematics, possibly from 3 views }
+    \caption{Neurobot kinematic structure.}
+    \label{fig:neurobotKinematics}
+\end{figure}
+
+Rotational motion of the upper assembly of the neurobot is attained through revolute joints. Changes in yaw are rendered by a single point of actuation to rotate the entire upper assembly. To achieve pitch changes about the remote center of motion, a linkage translates rotations at the base near the yaw joint to that about the RCM. The needle driver is a linear screw prismatic joint which can translate the needle through the hollow cannula a total travel depth of 4mm. Finally, a gearing at the top of the needle allows the needle to rotate continuously, useful for non-symmetrically beamed ultrasonic probes in order to aim the treatment appropriately. \autoref{tab:jointInfo} summarizes some more information considering the joints on the neurobot.
+
+\todo[inline]{Include the equations used to formulate the FK and IK?}
+
+\begin{table}[htbp]
+\caption{Joint types and limits in position and velocity.}
+\label{tab:jointInfo}
+\todo[inline]{Double check these values with neuro team.}
+% update with https://docs.google.com/document/d/136ywwUs2Z6RTJQrI72aEzYw0TrwOrAI5MM6YhfEL3f4/edit
+\vskip6pt
+\centerline{
+		\begin{tabular}{|p{3cm}|p{2cm}|p{3cm}|p{3cm}|p{3cm}|}
+		\hline
+		\bf{Joint Name} & \bf{Type} & \bf{Lower Limit} & \bf{Upper Limit}  & \bf{Max Speed} \\ \hline
+		Lateral & Prismatic & 0m & 0.055m & xx \\ \hline
+		Axial 1 & Prismatic & 0m & 0.15m & xx \\ \hline
+        Axial 2 & Prismatic & 0m & 0.15m & xx \\ \hline
+        Yaw & Revolute & 0deg & -90deg & xx \\ \hline
+        Pitch & Revolute & -35deg & 35deg & xx \\ \hline
+        Needle Driver & Prismatic & 0m & 0.04m & xx \\ \hline
+        Needle Rotation & Revolute & Continuous & Continuous & xx \\ \hline
+		\end{tabular}
+	}
+\end{table}
 
 \subsection{Software Control System}
+Within the interface control box of the neurobot is an embedded system with a microprocessor running Linux and an FPGA board. This board runs the joint-level position control and calibration routines for the robot, reading in encoder data and interfacing with the piezo driver cards to properly drive the axis to the proper set points. The software computes forward and inverse kinematics for the robot and can publish and receive data over OpenIGTLink.
 
+A web interface is used to control the robot over the fiber optic network interface. Joint level commands can be inputted using this interface and sent to the robot, and the IK solution can be used to specify a desired target position for the robot and drive the joints to that state. To resolve the desired position and orientation of the end effector for IK computation, the entry point in the skull and the treatment location are specified using the interface. From there, target joint values are set and the operator can enable or disable particular joints and press the foot pedal to begin motion.
+
+\section{Neuroablation Procedures}
+\label{sec:neuroablationProcedures}
+Setup for a neuroablation procedure is fairly similar to other types of surgical procedures involving the brain and use of an MRI scanner. Preoperative images are usually taken of the patient to identify where the tumor (or planned treatment area) is located with respect to the patient's anatomy. Current tests with the neurobot are being conducted with live swine subject which are kept under general anesthesia. The surgeon places a burr hole, a small hole in the skull created using a special drill that stops at the brain matter, in the skull at a location they deem to be suitable through which to insert the ultrasonic probe and be able to reach the treatment site. However, there is often a misunderstanding between what the robot can reach (due to the constraints of conducting the ablation in the MRI scanner) and where the burr hole is drilled; the surgeon may not necessarily be familiar with the workspace of the robot as it must enter through the burr hole.
+
+The robot is rigidly bolted to the MRI scanner bed after the scanner bed has been homed, and the z-frame registration is performed after the robot has homed itself and calibrated its joint encoders. Images are taken of the z-frame and then inputted into a computer running TheraVision which computes the registration using the fiducial vials in the z-frame. This registration is manually typed into the robot control software interface. The ultrasonic probe and cannula are removed from the robot, then the bed is backed out of the scanner and the patient is placed and strapped down. Once the patient has been imaged, planning for the neurobot ablation can begin.
+
+As seen in \autoref{fig:offsetConventions}, there are four different offsets used by the control software to configure the parameters for solving IK for entering the patient head and reaching the treatment location with the ultrasonic element on the probe. These offsets are user adjustable for tailoring the solution for insertion to give a safety cushion around the patient and to simplify the problem of solving the IK for the robot.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=4in]{diagrams/neuro_offsets_flip.jpg}
+    \caption{Treatment offset definitions used by the robot control software. }
+    \label{fig:offsetConventions}
+\end{figure}
 
 \section{ROS Architecture and Tools}
+\label{sec:ros}
+The Robot Operating System (ROS) is a software platform officially supported on Ubuntu Linux which seeks to make developing robotics systems easier by standardizing sensor drivers and data types and providing common tools on which to build software for robotics systems. ROS is not an operating system by any means, but rather provides a node-based communication framework with standardized messages which are published and subscribed to using different topics. This allows a distributed system to be built relatively easily, with nodes unconcerned with what computer or robot is publishing data, and it also makes a system more abstract and modular. As long as, for instance, a sensor driver exists for publishing the standard ROS point cloud message for a certain piece of hardware, that hardware can be used as easily as any other and software becomes hardware agnostic. This reduces the amount of work the programmer must complete to get a new system running and greatly simplifies the ability for simulations to be performed with different platforms.
 
-\subsection{Communication Paradigm}
+Apart from the libraries used to achieve node-to-node communication and standard message datatypes and services, ROS provides several tools to simplify the coding and testing of complex machines. Robots can be modeled through the Universal Robot Description File (URDF), a type of XML document that describes the kinematic structure of a robot (including joint data such as limits, efforts, and speeds) as well as how to assemble visual and collision geometry. The URDF supports fixed, floating, planar, prismatic, continuous, and revolute joint types. There are methods for exporting 3D CAD drawings of robotics into the URDF format with some amount of work, such as the Solidworks to URDF Plugin. \todo{cite} With the various drivers in place for real robot, the joint state of the internal model can be updated, and other packages can use that information, together with the Transforms Library (TF) to relate various parts of the robot to its environment, for the purposes of motion planning or mapping. Finally, various visualization tools such as Robot Visualizer (RViz) and RQT (ROS Qt-based GUI for plotting data streamed over the ROS network) further simplify testing and operation of robotics platforms.
 
-\subsection{Robot Modeling}
+\todo[inline] {Add a section about the openIGTLink bridge, describe message types.}
 
-
-\section{Motion Planning with MoveIt!}
+\section{Motion Planning}
+\label{sec:motionPlanning}
 
 \subsection{Motion Planning Overview}
-Classic motion planning problems have developed several solutions that adapt to this problem well. Sampling-based approaches, such as Rapidly-exploring Random Trees (RRT) and Probabilistic Road Maps (PRM) work well for finding solutions to problems with high dimensional configuration space, as is the case in this 7 DOF system. \cite{planningAlgorithms} However, they most often fail to find optimal solutions and can be shown to most often find non-optimal solutions, prompting developments to ensure optimality such as the development of RRT*. \cite{rrtStar} Optimality is of some concern in this situation in order to reduce procedure time, but completeness and feasibility is of more importance. Given the relatively slow speed of the robot joints (after gear reduction using leadscrews), there is likely benefit to an optimal planner, yet the cost of the extra planning time to find the optimal solution could exceed the time it takes for a suboptimal path to be planned and executed.
+Motion planning is the process of generating valid instructions to get an object in one configuration to another configuration without violating any constraints in the workspace. In the context of robotics platforms, motion planning usually manifests itself in determining how to move a robotic manipulator from a starting configuration to an ending configuration without colliding with itself or objects in the environment, usually with the secondary goal of generating a motion which can be considered to be optimal against some form of costing. 
 
-In addition, uniform sampling methods are often very slow to find paths through narrow passages, which is a significant part of the problem for this project as the needle needs to be guided through a small opening. There are several methods for biasing task space sampling to increase configuration sampling within the narrow passages, such as using workspace features. \cite{workspaceBiasing} Such changes to the sampling may prove to be necessary in order to speed up the search time for finding viable solutions or showing that there is probably not a solution for the given problem. 
+When discussing motion planning on robotic manipulators, there are two spaces to consider: configuration space and task space. Configuration space represents the valid n-dimensional set of joint states that can be reached, where n would be the number of joints on the system and a configuration would be specified as the joint angles or positions of the manipulator. Task space is the world in which motion of the end effector/body is effected and described, and for the neurobot and people, this is a 3D Cartesian space with an additional 3 degrees of freedom of rotation and notated as SE(3) space. In most motion planning approaches, the configuration space is explored to join the starting configuration and ending configuration together in a path of valid configurations that span the configuration space. How this search is conducted and how configurations are sampled during that exploration are some of the key differentiators between motion planning implementations.
 
-To that end, a well-developed motion planning solver, Kinodynamic Motion Planning by Interior-Exterior Cell Exploration (KPIECE), achieves a fast and robust solution for the motion planning problem by coupling, as the name suggests, dynamic aware state space searching with optimizations on searching through less-explored areas of configuration space. \cite{kpiece} KPIECE achieves noticeable computational and success rate gains compared to other algorithms such as RRT. \cite{kpiece} In addition, an implementation of KPIECE can also allow the dynamics of the robot to be considered in finding an optimal trajectory. Some of the same authors of KPIECE developed the Open Motion Planning Library (OMPL), which provides several motion planning algorithm implementations to reduce development time for robotics systems utilizing motion planning. \cite{ompl} OMPL includes an implementation of KPIECE known as LBKPIECE, which utilizes lazy collision checking (only nodes are checked for collision - edges are ignored until completing the final solution path) and bi-directional search to significantly speed searches. Utilizing OMPL, an analysis of the different motion planners was conducted, and LBKPIECE was shown to be very fast but with slightly longer than optimal path lengths. \cite{omplBenchmarks} Based on this research, LBKPIECE seems a suitable choice for this project.
+\subsection{Motion Planning Algorithms}
+Classic motion planning problems have developed several solutions that adapt well to the problem of moving the neurobot to the entry location on the patient's head. Sampling-based approaches, such as Rapidly-exploring Random Trees (RRT) and Probabilistic Road Maps (PRM) work well for finding solutions to problems with high dimensional configuration space, as is the case in this seven DOF system. \cite{planningAlgorithms} However, they most often fail to find optimal solutions and can be shown to most often find non-optimal solutions, prompting developments to ensure optimality of solutions such as the development of RRT*. \cite{rrtStar} Optimality is of some concern in this situation in order to reduce procedure time (due to the time it takes for the robot to move), but completeness and feasibility is of more importance. Given the relatively slow speed of the neurobot's joints, there is a benefit to an optimal planner, yet the cost of the extra planning time to find the optimal solution could exceed the time it takes for a suboptimal path to be planned and executed.
 
+In addition, uniform sampling methods to explore configuration space are often very slow to find paths through narrow passages, which could be a problem for this project as the needle needs to be guided through a small opening in the skull. However, this problem can be removed by separately considering the problem of moving to the entry point first, treating the robot as a 5 DOF system without the ultrasonic probe, and then adding the probe and simply ensuring the robot will reach the target once the probe is inserted. Nonetheless, there are several methods for biasing task space sampling to increase configuration sampling within the narrow passages, such as using workspace features that prove to be important key passageways for finding a solution. \cite{workspaceBiasing} Such changes to the sampling be necessary in order to speed up the search time for finding viable solutions or for better determining there is no valid solution for the given motion planning problem. 
 
-\subsection{MoveIt! Overview}
+To that end, a well-developed motion planning algorithm, Kinodynamic Motion Planning by Interior-Exterior Cell Exploration (KPIECE), achieves a fast and robust solution for the motion planning problem by coupling, as the name suggests, dynamic-aware state space searching with optimizations on searching through less-explored areas of configuration space. \cite{kpiece} KPIECE achieves noticeable computational and success rate gains compared to other algorithms such as RRT. \cite{kpiece} In addition, an implementation of KPIECE can also allow the dynamics of the robot to be considered in finding an optimal trajectory. However, due to the high-gearing on the neurobot and the slow speed of the motors, dynamic considerations can be safely omitted for this project. 
 
-\subsection{MoveIt! Features}
+A customized implementation of KPIECE known as LBKPIECE utilizes lazy collision checking (only nodes are checked for collisions - edges are ignored until completing the final solution path) and bi-directional search (searching from both the starting configuration and ending configuration) to significantly speed searches beyond those possible with KPIECE. Utilizing OMPL (which is discussed in the next section), a team of researchers analyzed the different motion planners, and LBKPIECE was shown to be very fast compared to the others but suffered from slightly longer than optimal path lengths. \cite{omplBenchmarks}
 
-\subsection{MoveIt! Motion Planning Implementation}
+\subsection{Motion Planning Libraries}
+\subsubsection{Open Motion Planning Library}
+Some of the same authors of KPIECE developed the Open Motion Planning Library (OMPL), which provides several motion planning algorithm implementations that can be instantiated easily with minimal interfacing to reduce development time. \cite{ompl} Once methods are provided for collision checking and describing the configuration and task space, many of OMPL's motion planning implementations can be used relatively easily. The source packages can be installed on Linux, Mac, and Windows, but other dependencies are needed to enable collision checking and allow the system to compile properly on some platforms.
 
+\subsubsection{MoveIt!}
+MoveIt! is the ROS package for motion planning, which utilizes OMPL and wraps it in ROS-compatible layer to support motion planning objectives for robots in the ROS environment. \cite{moveIt} By default, MoveIt! utilizes the Orocos Kinematics and Dynamics Library (KDL), which can describe develop numerical IK solutions for a number of different kinematic systems. \cite{orocosKDL} KDL also provides collision checking with the robot itself and the surrounding environment, which, in ROS, can be specified as several different types of geometric primitives, octomaps, STL meshes, or inferred through real-time depth maps.
 
-\section{Medical Imaging Software}
-\subsection{OpenIGTLink}
+MoveIt! includes a setup assistant for taking a preexisting URDF and turning it into a MoveIt! motion planning package. This package includes several YAML files which describe the OMPL planning and KDL parameters and a Semantic Robot Description Format (SRDF), which contains extended information beyond the URDF about the robot for the purpose of describing motion planning groups, end effectors, and collision checking optimizations. A MoveIt! motion planning package generated for a robot can then be used to instantiate instances for planning motions through Python and C++ API's and through a plugin available in RViz for manually planning and executing motions, an example of which can be seen in \autoref{fig:moveItExample}.
 
-\subsection{3D Slicer}
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/moveit_rviz.png}
+    \caption{Screenshot of an RViz instance using MoveIt! to plan on a PR2. The orange limbs are the desired state.}
+    \label{fig:moveItExample}
+\end{figure}
 
+\subsubsection{OpenRAVE}
+Open Robotics Automation Virtual Environment (OpenRAVE) is a research-grade software environment which includes methods of modeling different robots and environment objects through a simulation engine to serve as a platform for experimenting with and validating motion planning algorithms. \todo{cite.} OpenRAVE also includes the IKFast module, which can generate very quick C++ code that analytically solves the IK for robotic manipulators described in the OpenRAVE-supported robot description format. \todo{cite} C++ and Python API's are available for interacting with OpenRAVE, and it can be installed on Ubuntu and Windows with Visual Studio. There is decidedly a smaller community supporting OpenRAVE than its ROS counterpart, MoveIt!, but OpenRAVE can be used in ROS installations with some additional setup to allow access to IKFast and other tools. \autoref{fig:openRAVEExample} shows a screenshot of an OpenRAVE environment being used for planning on a PR2 humanoid.
+% http://openrave.org/docs/latest_stable/
+% http://openrave.org/docs/0.8.2/openravepy/ikfast/
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\chapter{Related Work and Contributions}
-%\section{Motion Planning}
-%\label{sec:relatedWork}
-%
-%
-%\section{Neurobot Software}
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/openrave_pr2_planning.png}
+    \caption{Screenshot of an OpenRAVE instance with a PR2 in a simulated environment. }
+    \label{fig:openRAVEExample}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{System Design}
+This chapter is concerned with the first step of this project: defining the objectives and requirements of the system, deciding how to integrate the system in surgical procedures, and designing the software infrastructure to support the functions that need to be fulfilled. \todo{need more?}
+
+\section{System Objectives}
+\label{sec:systemObjectives}
+% this is where we list use cases, features, etc.
+This project has the following objectives to accomplish in order to successfully fulfill the user need on the neurobot:
+
+\begin{itemize}
+\singlespacing
+\item Interfaces with existing medical platforms including the neurobot control system and 3D Slicer.
+\item Accurately assesses robot workspace considering the environment and entry point into the skull.
+\item Generates collision-free trajectories from the robot's starting configuration to the entry point in the skull.
+\item Segments the patient head into a 3D volume for collision avoidance.
+\item Provides a mechanism for assisting surgeons with selecting an optimal insertion point in the skull to most readily reach the treatment location.
+\end{itemize}
+
+\section{System Requirements}
+There are some additional considerations that can impact how the system can be designed. These have been organized into the below list of requirements the system must abide by.
+
+The system shall...
+\begin{itemize}
+\singlespacing
+\item Operate on Windows, Mac, or Linux computers.
+\item Be easy to install by a non-technical user.
+\item Be packaged for portability and distribution.
+\item Be readily accessible to new developers in the lab.
+\item Communicate with the robot using OpenIGTLink.
+\item Utilize 3D Slicer as the user interaction interface.
+\item Communicate with 3D Slicer using OpenIGTLink.
+\end{itemize}
+
+
 \section{Surgical Workflow}
+\label{sec:surgicalWorkflow}
+During procedures with the neurobot, there is an established workflow as discussed in \autoref{sec:neuroablationProcedures}. The software system being developed in this project will redefine that workflow, and it is important to consider how the system can best modify that workflow to effectively make use of its new features. \autoref{fig:surgicalWorkflowPg1} and \autoref{fig:surgicalWorkflowPg2} functionally illustrate the workflow during a procedure making use of this system. A high-level overview of the workflow is as follows:
+
+\begin{enumerate}
+\item Register the robot in the scanner and send offsets for planning.
+\item Send the patient head as a model to the software system.
+\item Software system sends a workspace of reachable entry points to 3D Slicer.
+\item Surgeon selects entry point. System computes the ultrasonic element workspace given that entry.
+\item Target point is selected. System computes motion plan from current configuration to entry.
+\item Operator examines plan and sends to robot controller.
+\item Robot executes motion. Cannula and probe are attached to robot. 
+\item Robot inserts probe and ablation(s) are performed. 
+\item Cannula and probe are removed from patient. Robot is removed from scanner. 
+\end{enumerate}
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[page=1,width=\textwidth]{diagrams/Surgical_Workflow_-_Hole_Predrilled.pdf}
+	\includegraphics[page=1,width=5in]{diagrams/Surgical_Workflow_-_Hole_Predrilled.pdf}
+    \todo[inline]{Update workflow diagram.}
     \caption{Diagram of the surgical system workflow when the hole is drilled before the patient is placed on the MRI bed. Page 1 showing procedure setup, worskspace visualization, and trajectory generation.}
     \label{fig:surgicalWorkflowPg1}
 \end{figure}
 
 \begin{figure}[thpb]
 	\centering
-    \includegraphics[page=2,width=\textwidth]{diagrams/Surgical_Workflow_-_Hole_Predrilled.pdf}
+    \includegraphics[page=2,width=5in]{diagrams/Surgical_Workflow_-_Hole_Predrilled.pdf}
     \caption{Diagram of the surgical system workflow when the hole is drilled before the patient is placed on the MRI bed. Page 2 showing needle insertion procedure and extraction.}
     \label{fig:surgicalWorkflowPg2}
 \end{figure}
 
 
 \section{Software Design}
+Based on the objectives and requirements for the system at consideration, the following approach has been formulated. The motion planning is completed using MoveIt!, utilizing ROS as the system for managing the robot configuration and model. This choice is driven by the capability of OMPL, the streamlined collision checking with the environment in MoveIt!, strong community support and knowledge of ROS and MoveIt!, and the ease of installing and maintaining the ROS software environment. Initially, development began with the hope of installing OMPL on a Windows machine since this operating system was most commonly used in the hospital and this could allow OMPL to be used directly from within a Slicer module built in C++. Unfortunately, source installation of OMPL was necessary, unsupported by the OMPL developers, and several other dependencies for running OMPL were equally as challenging to install. After some time was spent trying to overcome these barriers (some resources and instructions for the progress made on this endeavor can be found in \autoref{sec:omplWindowsInstallation}), it was decided that even if a solution could be found, the complexity of the install process was too great and increased the risk of the software failing to be easy to install and configure on new systems. Thus it was decided that having a separate computer (or virtual machine) running Ubuntu was acceptable given the ease of setting up OMPL through ROS on that platform. 
+
+ROS and MoveIt! are installable on Ubuntu by a single scripted command and supported on Long Term Support Ubuntu releases, increasing the potential lifespan of the software system before needing upgrades. The motion planning code would then run on an Ubuntu computer linked to the robot and Slicer over OpenIGTLink. Alternatively, a Virtual Machine (VM) running Ubuntu can be hosted on a Windows machine to reduce the number of computers needed to run the neurobot during procedures.
+
+\autoref{fig:softwareDiagram} shows the software modules and data interfaces between the ROS packages for workspace analysis and motion planning, the Slicer module for interacting with the workspace data, and the robot controller. A key component for managing the interface between ROS and Slicer is the ROS-OpenIGTLink-Bridge package, which connects to OpenIGTLink interfaces and exposes that data on the ROS network via custom messages. \todo{cite} This allows a clear separation between OpenIGTLink-connected software and ROS connected software.
+
 \begin{figure}[thpb]
 	\centering
 	\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+    \todo[inline]{update}
     \caption{Diagram of the software architecture showing interfaces between ROS and 3D Slicer. }
     \label{fig:softwareDiagram}
 \end{figure}
 
-\subsection{System Features}
-
-\subsection{Software Modules}
-
-\subsection{System Interfaces}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Neurobot ROS Modeling}
-In order to utilize path planning and trajectory generation tools, the robot configuration will be exposed to the ROS framework, where several of these problems have already been solved by turnkey solutions, such as MoveIt!, which utilizes OMPL to provide interfaces for motion planning on robotic systems. \cite{moveIt} 
+\chapter{System Implementation}
+This chapter covers the development setup of the system, implementation of key interfaces, and the packaging of the software for use in the field.
 
+\section{Development Configuration}
+The system was designed to run on a Ubuntu 16.04 computer with ROS Kinetic installed. Installing 3D Slicer on this system was optional and trivial, but at least one computer had to have Slicer installed for conducting the procedure. Beyond the simple one-line installation of ROS and MoveIt!, OpenIGTLink had to be downloaded and built from source using a script. With those simple dependencies installed, software was ready to be built.
 
-\section{Representation of Neurobot Kinematics}
-\subsection{Exporting Robot Model to ROS}
-
-\subsection{Configuring URDF}
-
-
-\section{MoveIt! Neurobot Configuration}
-Generating this particular robot model in ROS requires a bit more processing than normal. The Universal Robot Description Format (URDF) does not allow closed link loops since the joints are eventually described using TF, which expresses coordinate frames as a tree structure. This complicates the development of an accurate model and synthesis of collision models, since there are parallel linkages in the design resulting in more joints than degrees of freedom. Further, z and y motion is attained through a pair of lead screws, where the differential between the two achieves y motion and synchronized actuation produces z motion. 
-
-The system must be modeled as a kinematic chain, so URDF mimic tags will allow the parallel linkage mechanisms to be described somewhat properly so that ROS motion planning platforms, such as MoveIt, work as desired. However, generated trajectories will have to be transformed back into the joint space of the true robot. Ideally, the IK solver utilized by MoveIt will suffice, though a custom solver implemented with IKFast may be necessary to cope with these differences from the URDF robot to the actual mechanism and speed the execution to be acceptable. \cite{ikFastMoveIt} By default, MoveIt! utilizes the Orocos Kinematics and Dynamics Library (KDL), which can describe and develop IK solutions for a number of different kinematic systems. \cite{orocosKDL} KDL also provides collision checking with the robot itself and the surrounding environment. Additionally, the RVIZ plugin will be utilized for allowing quick control and interaction with the robot model to visualize reachable areas and for considering manipulability in certain robot configurations.
-
-%\subsection{Neurobot Model Control}
-\section{Environmental Modeling}
-The MRI bore and human head models will be loaded as STL files into the MoveIt! framework so that they can be utilized as a collision scene for motion planning purposes. The final result of such imports is shown in \autoref{fig:mriBore}
+\subsection{ROS Workspace}
+A standard catkin build tools workspace was created for building and sourcing the ROS packages for the software platform. A git repository contained the code for the project and could be cloned and built in the catkin workspace alongside other ROS packages. Nodes were written in C++, and \autoref{fig:rosNodeGraph} shows the network of running ROS nodes the topics used for message transport.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 3in]{images/mri_bore_and_head.png}
+	\includegraphics[width=\textwidth]{diagrams/rosgraph_workspace_clipped.pdf}
+    \caption{Graph of ROS nodes and topics on the completed system. }
+    \label{fig:rosNodeGraph}
+\end{figure}
+
+\subsection{Slicer Configuration}
+\todo[inline]{Revisit this section based on whether automation was achieved or not.}
+
+\section{Bridging with OpenIGTLink}
+The ROS-OpenIGTLink-Bridge package simplified the task of interfacing with OpenIGTLink, yet it did not complete all of work that was necessary to complete the integration of the two systems. The ROS-OpenIGTLink-Bridge defined its own messages, so packages needing to subscribe to topics using those message types had to specifically include the bridge package to build. This ran contrary to the goal of having the ROS-based workspace analysis and motion planning be agnostic to OpenIGTLink and able to operate entirely within the ROS environment. Consequently, nodes were written which were parameterized to allow conversions from the OpenIGTLink messages to standard ROS messages, and the following sections document some of the key interfaces of the system. Additionally, these nodes also performed unit conversion from ROS (using meters) to Slicer (using millimeters). Potentially, it would be useful to push these conversion nodes to the bridge project as this would allow for better compatibility with ROS systems which already exist and do not need to be rewritten to use the bridge data types.
+
+An advantage of the ROS communication paradigm was that two OpenIGTLink connections could be made, one to Slicer and one to the robot, yet both would be exposed to the same topics on ROS. In other words, the ROS system did not care (and could not tell) how many different OpenIGTLink connections provided and sent the information to them. This provided additional flexibility in allowing the target and entry points to be defined by the robot control software as well as from an operator using Slicer.
+
+\subsection{Transferring Frames}
+The key transform necessary for the software system was the registration transform from the optical frame of the scanner to the z-frame (also the base frame) of the robot. This transform was sent through OpenIGTLink by the robot control software, and a node was written to take the IGTLink transform published by the ROS-openIGTLink-bridge package and publish it as a transform to the TF2 package. This transform would then be used to transform incoming entry and target points into the robot's frame of reference for the purposes of workspace analysis and motion planning. \autoref{fig:rosTFTree} shows the TF tree in ROS.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[height=6in]{diagrams/neuro_tf_frames_clipped.pdf}
+    \caption{TF tree of the system showing the transforms defined in ROS. }
+    \label{fig:rosTFTree}
+\end{figure}
+
+\subsection{Transferring Offsets and Points}
+Additional nodes were written to convert the IGTLink points into geometry point stamped messages so that those points could be transformed into the coordinate frame in which subscribing nodes would be doing processing. Unfortunately, points sent over OpenIGTLink did not have transform data associated with them. In other words, all points (as is the case with Slicer) are specified in the optical scanner frame. This necessitated writing the nodes such that this assumption could be changed or specified as needed.
+
+The offsets discussed in \autoref{sec:neuroablationProcedures} were transferred as OpenIGTLink string types since the bridge did not include the OpenIGTLink double or float types. Nodes then converted these strings into messages that were simply published as floats. Alternatively, and better following ROS practices, these offsets could be updated with a dynamic reconfigure server instead of being published on separate topics.
+
+\subsection{Sending Workspace Volume}
+\label{sec:sendingWorkspaceVolume}
+% originally marching cubes, then concave hull
+The workspace was generated as a point cloud by the workspace analysis ROS package, so a node had to convert the point cloud into a format for OpenIGTLink. While there was a type for fiducial points, publishing over around 700 points caused Slicer to hang and run very slowly once all the points were loaded. Thus a different format was needed.
+
+When viewing the MRI scan planes, Slicer overlays polydata meshes on whatever slice was being viewed. This was ideal for visualizing the workspace as it pertained to the procedure planning. Polydata could contain points, polygons, vertices, strips, and lines. Seeing only points representing the workspace reduced the understanding of the workspace boundary, and the points were also very difficult to see in Slicer due to the size in which they were rendered. However, meshes (consisting of polygons) were very easy to see from different slice perspectives and allowed a more intuitive interpretation for what was reachable within the boundary of the mesh.
+
+A node was written which converted the point clouds to polydata meshes using the Point Cloud Library (PCL) and VTK data conversion tools. The ROS point cloud was converted to a PCL point cloud which allowed the point cloud to be processed using PCL's built-in manipulation tools. Under the recommendation of a developer of the ROS-OpenIGTLink-Bridge, the marching cubes reconstruction algorithm was first implemented, but this attempted to create a mesh which best connected the surface normals of all the points, whether they were points on the edge of the workspace or if they were points within the workspace, which resulted in some broken borders and internal meshes in the workspace. Once this was attempted, a concave hull approximation was used instead, which essentially tries to shrinkwrap a mesh around a point cloud. This achieved the desired result, and after some parameter tuning to ensure a smooth shape which closely held to the underlying structure of the point cloud, point clouds in ROS could be sent over OpenIGTLink to Slicer as seen in \autoref{fig:cubeMeshConversion}. 
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/cube_mesh_rviz_slicer.png}
+    \caption{A point cloud of a cube in ROS (left) with the resultant polydata mesh object in Slicer (right).}
+    \label{fig:cubeMeshConversion}
+\end{figure}
+
+In slicer, the 3D displays under the model module had to be changed to show all surfaces, not just what Slicer thought was the front planes. When this viewing option was not selected, the mesh would appear jagged and incomplete, as seen in \autoref{fig:cubeMeshConversionBadView}. This was simply an issue with the way Slicer attempted to show through parts of the mesh, but toggling the option for that model to show the full surface rendered it properly as seen in \autoref{fig:cubeMeshConversion}.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=4in]{images/jagged_slicer_mesh.png}
+    \caption{Polymesh object in Slicer with only the front faces being rendered, resulting in a choppy-looking mesh.}
+    \label{fig:cubeMeshConversionBadView}
+\end{figure}
+
+\subsection{Receiving Robot State}
+\label{sec:receivingRobotState}
+For the purposes of motion planning, the robot's starting configuration needed to be known. With the robot modeled in ROS, the joint state publisher would hold the state of the robot, but as will be discussed in \autoref{sec:transformJointSpace}, a difference between the ROS model and the actual robot necessitated a conversion between the two. With this transformation in place, the joint state had yet to be communicated between OpenIGTLink and ROS, and this proved to be somewhat of a challenge. The ND Array type in OpenIGTLink was ideal for holding this information, but this was not implemented in the ROS-OpenIGTLink-Bridge package. The bridge package repository was forked and the ND Array type was added as a message and the bridge. Then a node was written that took properly labeled incoming ND Arrays representing the robot's state sent from the robot controller, transformed the joint state of the actual robot into the modeled state, converted units, and published those updates to the robot joint state publisher so that the motion planning package could use the updated robot state.
+
+\todo[inline]{Include more detail about transformation once completed.}
+
+\subsection{Sending Joint Trajectories}
+Trajectories in ROS were well standardized as messages with an array of joint values with time stamps on each state starting with zero seconds. Of course, this format did not exist in OpenIGTLink, so the ND Array format was utilized once again. In each vector in the array, the first element was the time at which the joint state should be achieved during the trajectory, and remaining elements in the vector represented the joint state of the robot. A node listened to trajectories being published from the motion planner, transformed the joint space as discussed in \autoref{sec:transformJointSpace}, converted units, and sent those messages over OpenIGTLink. The robot controller would then parse this array to perform the desired trajectory.
+
+To provide a method for visualizing the trajectory in Slicer before approving it and allowing the controller to perform the action, another array was sent which contained the end effector position as an array at each state in the trajectory. This removed the need to have a FK solver bundled within Slicer. \todo{Revisit this when completed.}
+
+\section{Software Packaging}
+In order for the system to run on Windows and Mac systems, a VM image of Ubuntu 16.04 was created and maintained with ROS, MoveIt!, and OpenIGTLink installed. Oracle's VirtualBox was the virtual machine monitor used, but others were compatible with the VM image format as well. The image was essentially identical to the setup on a developer computer, but included scripts on the desktop for downloading and rebuilding code changes for the software, automatic login, and shortcuts for configuring OpenIGTLink parameters to adjust changes in the robot's or Slicer's IP address. The VM was run on the laptop computer which ran the Slicer interface during procedures, where the entry and target points would be specified while viewing the MRI captured of the patient.
+
+\section{Software Documentation}
+As with all software projects, documentation of code is key for enabling the system to continue to be useful and ensure that changes can be made easily. Documentation from a non-technical user perspective is written so that new operators can learn how to use the system without necessarily being trained personally. The user documentation can be found in \autoref{sec:userDocumentation}. Code is commented throughout, but having dedicated technical documents for specific procedures to complete routine changes to the software is necessary. \autoref{sec:technicalDocumentation} contains the technical writings developed during the course of this project.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Neurobot ROS Modeling}
+In order to utilize the tools within ROS for completing collision detection and conducting motion planning with MoveIt!, the robot had to be modeled in a ROS-compatible format, as discussed in \autoref{sec:ros}. This chapter discusses modeling the neurobot in ROS, creating its MoveIt! package, modeling environment objects, and interacting with the system and visualizing its outcomes.
+
+
+\section{Representation of Neurobot Kinematics}
+Generating this particular robot model in ROS required a bit more processing than a normal serial manipulator. The URDF does not allow closed loop linkages since the kinematic structure of the robot is eventually described using TF, which expresses coordinate frames as a tree structure. This complicated the development of an accurate model since the neurobot includes parallel linkages in the design, resulting in more joints than degrees of freedom. Further, as described in \autoref{sec:kinematicsJointInfo}, axial and vertical motion is attained through a pair of lead screws, where the differential between the two achieves vertical motion and synchronized actuation produces axial motion. 
+
+A workaround the limitation of the URDF to describe closed loop chains was to use mimic tags, which describe how one joint mimics or follows the pattern of another and removes the mimicing joint from the list of the robot's active DOF. This allowed the parallelogram linkage mechanism, which was actually two prismatic joints, to be modeled as two decoupled joints with a prismatic joint for axial translation and a revolute joint for changes in height. Two separate chains with a single active degree of freedom that controlled the height through rotations on one linkage. A similar mimicing pattern was used for the pitch axis, and the result of the final modeling of the neurobot is shown in \autoref{fig:neuroROSModel}.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/rviz_screenshot_2018_model.png}
+    \caption{The finished ROS model of the neurobot showing joint frames on the parallelogram structure. Height was changed by rotating the bottom right joint on the linkage.}
+    \label{fig:neuroROSModel}
+\end{figure}
+
+\subsection{Exporting Robot Model to ROS}
+The robot was drafted in SolidWorks as an assembly of several parts and subassemblies. Fortunately, a tool (creatively) named ``Solidworks to URDF Exporter'' was available as a SolidWorks add-in that simplified the creation of URDF's by starting from a SolidWorks assembly. General operation included opening up the add-in window and selecting parts or assemblies that represented a linkage on the robot, defining the frame and axis for each joint, selecting the joint type, and building a tree structure of joints which could be converted into a URDF format by exporting the URDF and properly generating STL files of the robot geometry. A screenshot of the tool in action can be seen in \autoref{fig:solidWorksExport}.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/solidworks_to_urdf_screenshot.PNG}
+    \caption{Screenshot of the SolidWorks to URDF add-in being used on the neurobot assembly. The left panel shows the kinematic tree and joint options for the base link.}
+    \label{fig:solidWorksExport}
+\end{figure}
+
+While the add-in featured an auto-detection tool for identifying joint types, this did not work for the neurobot, and presumably would only work on simple serial mechanisms that were properly constrained to move only at the joints. Rather, at every joint, a coordinate frame had to be created which defined the zero location of the joint, and an axis was also defined through that coordinate frame around which (or along which) movement on that joint would be rendered. Of somewhat inconvenience, these frames and axis had to be created in the top-level assembly; when these were defined in subassemblies, the export process would improperly assign frames and the STL files were not properly transformed to the right frames.
+
+Once the joints were assigned and defined in the tree structure with the associated parts assigned to each linkage, the export process could begin. Joint limits, movement axis directions, efforts, and velocities were specified for each joint, rotational inertia and mass properties were inputted, colors were specified for linkages, and the ROS package was generated. However, some of these parameters, such as the joint limits, were not saved in the configuration file and had to be regenerated every time the URDF was exported. Once generated, the package was placed directly in the repository for the software system, but the following fixes had to be made:
+\begin{itemize}
+\item The package author needed to be specified to allow the package to build in current versions of ROS.
+\item Paths in launch files had to be corrected to point at the URDF in the proper folder.
+\end{itemize}
+
+\subsection{Final URDF Cleanup}
+Some further tweaks were necessary to the URDF once it was generated by the SolidWorks to URDF add-in. Since some of the parameters for generating the URDF had to be reentered every time the package was generated, sometimes it was easier to edit the joint limit information after the fact. There was some trial and error involved with correcting motion directions, usually amounting to a sign flip to have the joint values increment and decrement as desired. Velocities also had to be specified for the joints so that generated trajectories would not try to move the joints in each time step faster than they were capable of moving. Once the joint limits, velocities, and directions were corrected, mimic tags were added to joints appropriately to achieve the desired kinematic chain. In the end, the robot had seven active degrees of freedom with seven additional joints that were either fixed or mimicing the active joints to produce the correct motion of neurobot, and the GUI for controlling the simulated robot is shown in \autoref{fig:jointStatePublisherGUI}.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=1.4in]{images/joint_states.png}
+    \caption{Screenshot of the joint state publisher GUI for controlling the seven degrees of freedom on the robot.}
+    \label{fig:jointStatePublisherGUI}
+\end{figure}
+
+\subsection{Addressing Calibrated Joint Limits}
+\todo[inline]{Talk about how to deal with calibrated joint limits once figured out.}
+
+\subsection{Transforming Joint Space Representations}
+\label{sec:transformJointSpace}
+\todo[inline]{Revisit this section when completed.}
+
+\section{MoveIt! Neurobot Configuration}
+The MoveIt! Setup Assistant tool was utilized to generate the MoveIt! package for the neurobot. The URDF for the neurobot was selected, and the setup tool loaded the robot and stepped through the process of generating the SRDF that would be used for motion planning. A self-collision matrix was first generated, which tests for collisions between different links to see which links, if any, can have collision checking disabled between them to speed up collision checks. The highest resolution of checks was selected to ensure that there would not be any skipped checks that may cause self collisions.
+
+Planning groups were configured next, which described chains of joints which would be considered as a complete manipulator which motion planning would have to solve for. Two planning groups were created. The first described the full arm, which went from the base frame to the needle tip, which included all seven active degrees of freedom. A second planning group included only the first five degrees of freedom to the needle driver base. This second planning group would simplify motion planning to the entry point, where the needle driver and rotation were not needed to be controlled. 
+
+Planning groups also needed an IK solver to be specified that would be instantiated upon a planning instance. The default IK solver utilized KDL, which was a numerical IK solution capable of solving serial chains and dealing with underconstrained systems. It properly supported the mimic joints within the planning group chain as well but would not always update the joints of the robot outside of the planning group which were mimicing joints within the planning group. This opened up the necessity for some additional workarounds in the workspace analysis and motion planning aspects of the project. 
+
+While the KDL IK solver worked properly, a custom solver implemented with IKFast, which was an analytical solver, could significantly speed the execution of the program. \cite{ikFastMoveIt} OpenRAVE includes IKFast as a plugin, so OpenRAVE was installed as an attempt to quickly generate an IKFast solution for the neurobot. This included converting the neurobot URDF to a COLLADA file using a command line tool and running the IKFast generation using that COLLADA file. Unfortunately, IKFast could not recognize the mimic joints on the robot to generate an analytical solution. As a faster IK solver was seen as an optimization, further work on this front was halted, but eventually including an analytical IK solution for the neurobot could noticeably speed up the workspace analysis and motion planning.
+
+Robot poses could also be specified, which were joint configurations that would be meaningful to drive the robot to in common practice. For the neurobot, the default zero position sufficed. End effectors were also chosen, which were tied to planning groups which controlled them. The needle and cannula were both selected as end effectors for the full arm planning group and driver base planning group respectively. Finally, no virtual joints were created for the robot, but this option existed in the setup assistant. With all of the above options set, the MoveIt! package for the neurobot was generated in the workspace.
+
+\section{Environmental Modeling}
+The environment for the neurobot consisted of the MRI scanner bore and the patient head. The MRI bore was exported from a SolidWorks model of the scanner with the bed removed to reduce the polygon count of the STL to speed up collision checking. For testing purposes, the patient head was imported as an STL of a mannequine approximation of a person's head. This was not ideal, but Slicer could later be used to take real patient images and generate an accurate collision model for planning around the patient, as described in \autoref{sec:mriSegmentation}.
+
+These models were loaded into the MoveIt! planning scene over a planning scene monitor to utilize as collision objects for the workspace analysis and motion planning. Using the monitor allowed the collision objects to be added and removed from the world at will and to be manually modified within the MoveIt! RViz plugin. An RViz screenshot the typical planning scene environment is shown in \autoref{fig:mriBore}.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width = 4in]{images/mri_bore_and_head.png}
     \caption{An image from RVIZ showing the MRI Bore model and human head model loaded with the robot utilizing the MoveIt! API from within a C++ node.}
     \label{fig:mriBore}
 \end{figure}
 
 \section{System Interaction and Visualization}
+MoveIt! included a plugin for RViz that allowed motion plans to be generated by moving an interactive marker representing the end effector state around the environment while the IK was computed for the robot in real time, showing the actual state of the robot necessary to reach the desired point. A motion plan could then be generated from the current state of the robot to the target state, and if the planning was successful, a preview of the trajectory was played on a loop on the robot model. The interface also allowed collision objects to be loaded from STL's or added and removed once they were published to the planning scene monitor, as discussed in the previous section. \autoref{fig:moveItRViz} shows the MoveIt! plugin being used in RViz.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/moveit_rviz_plugin_neurobot.png}
+    \caption{Screenshot of RViz with the MoveIt! plugin enabled for the neurobot. A trajectory has just been found to the state with the brightly-colored model of the neurobot.}
+    \label{fig:moveItRViz}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Workspace Examination}
-\section{Basic Workspace Visualization}
-Given an entry point in the skull, the workspace of the robot needs to be visualized in order for operators to verify that the chosen patient and robot positions will allow the targeted site to be reached adequately. An analytical solution would be most elegant, though a discretized solution would also produce the desired outcome. As an initial implementation, the entry point will be given, and the proposed software system will calculate the reachable workspace of the robot at that entry point. This will require the borehole diameter and skull thickness, which will be provided by an STL model of a typical skull. \autoref{fig:workspace} shows a sample of the desired visualization.
+In this chapter, the work of conducting workspace analysis of the neurobot is discussed. The different components of this objective were visualizing the full entry workspace of the robot, visualizing the workspace of the ultrasonic element, adding collision checks with the environment, and creating the workspace given an entry point. 
+
+\section{Entry Point Workspace Visualization}
+The general approach for the workspace visualization was to iterate through the joint space of the robot and use the FK solution to store the end effector position in a list which was then published as a point cloud. In this step of the process, the workspace of valid entry points was generated. The entry point was based on the inputted offsets, discussed in \autoref{sec:neuroablationProcedures}, and the first five DOF of the robot were sufficient to resolve this. A discrete linear space was created between the joint limits on each of the five active joints, and this space was then iterated through to fully explore the robot's available workspace. 
+
+Self-collisions between links had to be checked, and this proved to require some careful use and updating of the planning scene that was storing the robot state. The general process was to load the kinematic model of the robot and the planning groups defined using MoveIt!, and use the planning scene to update a virtual robot with new joint values, test for self collisions, and based on the result, add the reachable end effector point to the list of reachable workspace points.
+
+Issues arose with simply using the active planning group for the workspace analysis; setting the planning group joint limits did not update the full kinematic state of the robot. In most applications, this is desirable, but for the Neurobot, the changes in the serial chain needed to be mimiced by the other joints in the robot to check that the state was valid. This was resolved by algorithmically detecting the active degrees of freedom of the robot from the entire kinematic model, storing their names in order, and then rather than updating the planning group joint values, the active joint values for the entire robot were updated and the Robot State API would update any mimicing joints as necessary in the entire robot's kinematic model. Better support for mimic joints in MoveIt!, especially with the planning groups, would have simplified much of the development of this node, but even with these limitations, the entry workspace of the robot was successfully generated as a point cloud and wrapped with a mesh that was viewable in Slicer, as shown in \autoref{fig:entryWorkspace}.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 1.25in, angle=180]{images/neuro_workspace.jpg}
-    \caption{Example 3D rendering of robot workspace without consideration of entry point location with ellipsoid of target for deep brain stimulation. \cite{aimLabRobot} This project will implement the rendering in RViz.}
-    \label{fig:workspace}
+	\includegraphics[width=\textwidth]{images/slicer_entry_workspace}
+    \caption{Screenshot of Slicer with the entry workspace mesh overlaid on a pig head.}
+    \label{fig:entryWorkspace}
 \end{figure}
 
-The approach will be to sample from configuration space, passing joint values through a self-collision aware IK solver (either from MoveIt or the Java implemented controller for the robot software), to generate a point cloud of reachable needle tip positions. This cloud will then be wrapped in a mesh and exported through OpenIGTLink so that Slicer3D, a medical imaging research tool, can display the proper workspace within the skull in the context of the rest of the robot control system. \autoref{fig:workspaceAct} shows the achieved workspace visualization.
+\section{Element Workspace Visualization}
+The ultrasonic element on the probe was essentially the true end effector of the robot. For determining the element workspace of the robot, the same process described for the entry workspace was used, but including the additional DOF provided by the needle driver. The needle rotation was ignored since it would not move the element workspace, but it is possible the geometry of the cooling tubes could allow needle rotations to have a slight impact on the workspace. In the future, since it would be desirable to have the ability to spin the needle for conducting treatments using a non-symmetric ultrasonic probe. 
+
+Since a fixed-length needle based on the SolidWorks model of the robot was used and the actual offsets could change to accommodate different probes, this was compensated for while iterating the needle DOF through its range of motion. The canula length could also change, so a check was made to ensure that the ultrasonic element would be exposed beyond the cannula to be considered a valid position. If the ultrasonic element of the probe was still within the cannula, the ablation and possibly the probe could fail. However, it was also possible to adjust the cannula manually to achieve the desired size, so this was not particularly critical to operations. \autoref{fig:elementWorkspace} shows the generated workspace as shown in Slicer.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 2.5in]{images/workspace_v1.png}
-    \caption{RViz screenshot of the generated workspace (green) given the canula position (red) within the MoveIt interface.}
-    \label{fig:workspaceAct}
+	\includegraphics[width=\textwidth]{images/slicer_element_workspace.png}
+    \caption{Screenshot of Slicer with the ultrasonic probe element workspace mesh overlaid on a pig head.}
+    \label{fig:elementWorkspace}
 \end{figure}
 
 \section{Collision-Aware Workspace Examination}
+Collision checking was added somewhat easily to the process of generating the workspace. Collisions with the environment could be checked by publishing collision objects to the planning scene. For the full workspace of the robot, collision checks with the MRI scanner bore were necessary. The STL model of the bore was loaded by file path and published to the planning scene monitor, such that the internal scene in the node included the scanner and the published planning scene in ROS also had access. \autoref{fig:rvizEntryWorkspaceBore} shows the view in RViz with the scanner bore loaded and the entry workspace generated with collision checking with the bore.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/rviz_entry_workspace_bore.png}
+    \caption{Screenshot of RViz with the scanner bore loaded in the planning scene and the entry workspace computed as a point cloud.}
+    \label{fig:rvizEntryWorkspaceBore}
+\end{figure}
+
+The above two features were then modified to accept a collision checking function to allow flexible collision checking with either just self-collision checks or environmental checks. To speed up full collision checks, self-collisions were first checked since these were sped up by the self-collision matrix created during MoveIt! setup. If a self collision happens, then environment collision checks are skipped and the next configuration is tested. However, if the self-collision check passes, then collision checks with the environment are performed. \autoref{fig:entryAndElemeWorkspaceCollision} shows the entry and element workspaces in Slicer with the collisions with the scanner bore considered.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/slicer_entry_and_elem_with_bore.png}
+    \caption{Screenshot of Slicer with the entry point and element workspace meshes overlaid on a pig head considering collisions with the scanner. Red mesh is entry; blue is element.}
+    \label{fig:entryAndElemeWorkspaceCollision}
+\end{figure}
 
 \section{Workspace Evaluation from Entry Point}
+The final workspace that was evaluated was that of the element given an entry point for the robot. This analysis was a bit different from the previous two. Essentially, the IK was solved for the first five DOF of the robot to the entry point (with the offset) by iterating through valid rotations at that point, and when a configuration was found that solved the IK, collisions were checked and the needle joint was swept through its joint space. In order to speed up collision checking, when an IK solution was found, the needle was kept at the maximum depth so that if collisions occurred at this configuration, they would definitely still occur when the needle was retracted and those tests could be skipped.
 
-\section{Converting to IGTL Datatype}
+While it was desired that the approach would be fairly generic and explore all 3 DOF of rotation, the IK solver was too slow for exploring spaces that were known to be invalid given the kinematics of the neurobot. \todo{get this number} This was due in part to the numerical nature of the IK solver - an IK solution really was a searching process, so failure to find a solution occurred at a user-specified timeout. Using an analytical solution would allow the full rotational space to be explored to make the solution more generic, but this solution approach worked well and could generate a workspace in about 40 seconds for an entry point, the result of which can be seen in \autoref{fig:elementWorkspaceEntryPoint}.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/slicer_workspace_given_entry.png}
+    \caption{Screenshot of Slicer with the ultrasonic probe element workspace given an entry point.}
+    \label{fig:elementWorkspaceEntryPoint}
+\end{figure}
+
+\section{Selecting the Target Point}
+With the workspace of the probe element shown in Slicer given the entry point in the patient head, the user could then select the target point. Guided by this workspace, it was clear whether the target point was reachable by the robot and how far the robot could treat within the patient's head with the current burr hole. \autoref{fig:targetPointSelectedInSlicer} shows the target point selected within the allowable workspace of the ultrasonic element on the probe.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/slicer_target_point_selected.png}
+    \caption{Screenshot of Slicer showing the target point selected within the workspace allowable by the entry point.}
+    \label{fig:targetPointSelectedInSlicer}
+\end{figure}
+
+The target point was then sent back over OpenIGTLink to ROS. This would allow ROS to resolve the entry point into an entry pose upon which a motion planning solution could be found. \autoref{fig:rviz_target_and_entry.png} shows an image from RViz of the target and entry point as standard ROS point stamped messages.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/rviz_target_and_entry.png}
+    \caption{Graphic from RViz showing the entry point (blue) and the target point (pink) in the point cloud (orange) representing the reachable element workspace given the entry point.}
+    \label{fig:rviz_target_and_entry.png}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Motion Planning}
-\section{Setup Planning Problem}
+For this part of the system development, the MoveIt! API was used within a ROS node to solve the motion planning problem of moving the robot to the entry point without colliding into the patient head to achieve a pose which allowed the target point to be reached by the ultrasonic element on the probe. Once the trajectory was generated, it was transformed into the joint space of the actual robot, and the trajectory was then sent through OpenIGTLink to Slicer, where the path was examined and allowed to be executed on the robot controller. The following sections in this chapter discuss the development of these capabilities.  
 
-\section{Generating Trajectories with MoveIt!}
-In effect, two separate motion planning problems need to be solved for the two different configurations of the robot during the procedure outlined in \autoref{sec:intro}. To reiterate, during the first step, the robot is outside of the MRI bore and does not have the needle driver installed. This allows the robot to move without the constraints of the needle driver hitting the patient head and the rest of the robot striking the MRI bore. However, once the robot has moved to the entry point, the needle driver is added and inserted to the required depth, and the patient bed is slid into the MRI tube.
+\section{Motion Planning with MoveIt!}
+\subsection{Resolving Entry Pose}
+In order for a motion plan to be generated to the entry point that reaches the target point once the ultrasonic probe is added and inserted, the entry point must be resolved into an entry pose in order for the IK to solve for a configuration and the motion planner to have a goal configuration to reach. This was achieved by using both the entry point and the target point to resolve an orientation that could be combined with the entry point to get a full 6 DOF pose. Of course, two 3D points could only resolve two degrees of rotational information, but the last degree (the rotation about the needle) was not needed for the five joints that moved the robot to the entry point and could be determined by the kinematic constraints of the five DOF system in that case. 
 
-To simplify the problem, a solution can attempt to be found for aligning the robot without the probe, and then collision between the probe and MRI tube can be checked once the probe was inserted. If there was no collision, then the solution is valid and the trajectory can be executed. However, if the probe will collide with the MRI tube, then another planning session must begin considering the second robot configuration, where the c-space around the insertion point must be searched for a collision free state. For each one that is found, meaning that the probe can be inserted to depth and be collision free, a path to that state without the probe (first configuration) needs to be found as well to ensure it is reachable from the initial robot state. In this way, the problem of having two configurations to plan can be sufficiently handled.
+\todo[inline]{include psuedocode once finished.}
 
-As discussed in \autoref{sec:relatedWork}, LBKPIECE is supported by MoveIt! and produces faster trajectories that other motion planning algorithms. Unfortunately, the MoveIt! wrapper does not expose the ability to manipulate or change cost functions. Thus the default cost function was utilized, which optimized the path distance. Below are the available configuration options and the values chosen for the experiments. \autoref{fig:traj} shows an example trajectory being executed within RVIZ given this configuration for the needle planning group.
+\subsection{Updating Robot State and Environment}
+Motion planning to the entry point also required the current state of the robot, which was attained as described in \autoref{sec:receivingRobotState}. The node simply subscribed to the joint state publisher for the robot and updated the planning scene's robot state with the latest information before starting the motion plan. The patient head was also added as a collision object as provided by the MRI segmentation into a volume as detailed in \autoref{sec:mriSegmentation}, or alternatively motion planning could be conducted on a generic head shape if the patient model was not available. \autoref{fig:motionPlanningSetup} shows the environment setup with the entry point, target point, and patient head mesh for the start of the motion planning process.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/motion_planning_setup_2.png}
+    \caption{Screenshot from RViz showing the motion planning setup for finding a trajectory to the entry pose around the patient head.}
+    \label{fig:motionPlanningSetup}
+\end{figure}
+
+\subsection{Checking Collisions and Assumptions}
+As review, the robot remained outside of the MRI bore and did not have the ultrasonic probe and cannula installed when the robot was sent to the entry point during procedures. This allowed the robot to move without the additional constraints of the probe and cannula potentially hitting the patient head and the rest of the robot striking the MRI bore. However, once the robot moved to the entry point, the needle driver was added and inserted to the required depth, and the patient bed was slid into the MRI tube for monitoring of the ablation. 
+
+Before beginning the process of motion planning, it was checked to see if an IK solution could be found to bring the robot to the required entry pose and if that configuration (with the needle inserted to achieve the target point) avoided collisions with the MRI bore. It could be assumed that the target point was chosen within the allowable workspace given the entry point, but a warning would be thrown if this was a case, requiring an override by the user to continue to generate a solution with the knowledge that the final configuration of the robot would be in a collision state.
+
+With it now known that the entry pose and target point were reachable without collision, the next step of the motion planning process could be completed. Since the robot did not have the cannula and ultrasonic probe installed during movements to the entry point, these links could be ommitted from collision checking. This was accomplished by modifying the Allowable Collision Matrix (ACM) within the MoveIt! planning scene to ignore collisions between the cannula link and the needle/probe link. 
+
+\subsection{Generating a Motion Plan}
+With the setup work completed, searching for a motion plan was a relatively straightforward task. This was as simple as calling a function with the MoveIt! API to generate a plan to the entry pose joint configuration. The motion planner then had 1 minute to search for a valid path to the goal, and if the planner timed out, this was considered a failure and the operators would have to manually position the robot. It could also indicate that there was no way to move the robot to the entry point without violating its kinematic constraints while avoiding collisions with the patient head, so perhaps a safer response would be to reposition the patient, perform new scans, and begin the process again as shown in the workflow designed in \autoref{sec:surgicalWorkflow}. If the plan was successful, the trajectory was published, and the set of end effector poses was published as well.
+
+As discussed in \autoref{sec:motionPlanning}, LBKPIECE was supported by MoveIt! and produced faster trajectories that other motion planning algorithms. Unfortunately, the MoveIt! wrapper did not expose the ability to manipulate or change cost functions. Thus the default cost function was utilized, which optimized the path distance. Below are the available configuration options and the values chosen for the experiments. \autoref{fig:motionPlanRViz} shows a trajectory being executed within RVIZ given this configuration to move the robot from the current state to the entry pose without striking the patient head.
 
 \begin{enumerate}
-\item border fraction: 0.9
+\singlespacing
+\item border fraction: 0.9 \todo{make this a table}
 \item failed expansion score factor: 0.5
 \item goal bias: 0.05
 \item min valid path fraction: 0.5
@@ -466,124 +869,361 @@ As discussed in \autoref{sec:relatedWork}, LBKPIECE is supported by MoveIt! and 
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 2.5in]{images/traj.png}
-    \caption{RViz screenshot of a trajectory being completed, though without proper collision checking of the head model inserted into the world.}
-    \label{fig:traj}
+	\includegraphics[width = \textwidth]{images/motion_plan_rviz.png}
+    \caption{RViz screenshot of the trajectory solution showing the starting and ending state of the robot. An looped animation plays showing the robot following the trajectory.}
+    \label{fig:motionPlanRViz}
 \end{figure}
 
-\section{Transforming Joint Space Trajectories}
+\section{Transform Joint Space Trajectories}
+Essentially, the same tools used for converting the joint space as discussed in \autoref{sec:receivingRobotState} was utilized for this step as well, which took place in a different node. Each joint state was transformed using the inverse functions applied to convert the real robot's joint state into the modeled version in ROS. Once this transformation occurred, the node published the  The velocities chosen for the modeled joints were matched previously during the URDF creation to ensure velocities would be attainable for the real robot hardware as well. Of course, the robot controller had the capability of slowing down the movements further in order to make sure that all the joints reached the desired setpoint for each step of the trajectory. 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{System Implementation}
-\section{Bridging with OpenIGTLink}
-\section{Receiving Robot State}
-\section{Sending Joint Trajectories}
-\section{Real-time Execution}
+\section{Trajectory Control in Slicer}
+A final check of the validity of the motion plan was performed in Slicer. The end effector path was converted by a ROS node into a OpenIGTLink polydata object that contained the series of lines connecting the points of the path, as illustrated in \autoref{fig:motionPlanSlicer}. This allowed a final sanity check to make sure that the trajectory reached the entry point in a reasonable way and would avoid hitting the patient. Once this was confirmed, the trajectory was allowed to be executed on the robot by using the interface provided on the robot controller software and pressing the foot pedal.
+
+\begin{figure}[thpb]
+	\centering
+	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+    \missingfigure[figwidth=4in]{Screenshot in Slicer of planned path}
+    \caption{Screenshot of Slicer showing the end effector path from the motion planning solution.}
+    \label{fig:motionPlanSlicer}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{MRI Segmentation}
+\label{sec:mriSegmentation}
+In order to have an accurate collision model of the patient head for motion planning, a 3D mesh of the patient head was extracted from available MRI scans and sent over OpenIGTLink to the ROS network for further processing and loading into the planning scene monitor. The following two sections describe this process in more detail.
+
+\section{Slicer Processing}
+The process of generating a solid mesh from a series of scans within Slicer was generally straightforward with the Segment Editor. A segment was added using the thresholding tool with the lower bound set to a number which just eliminated the background from the image and the upper bound set to the maximum. \autoref{fig:segmentationThreshold} shows the scan planes with the threshold mask and the rendered 3D volume. \todo{cite}
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/segmentation_threshold.png}
+    \caption{Screenshot of Slicer showing the rendered mesh of the patient head based on mask thresholding.}
+    \label{fig:segmentationThreshold}
+\end{figure}
+
+Once this mask was applied, the islands tool was used to remove all but the largest islands from the selection, which eliminated noise in the image and any items which were visible in the scan but not connected to the largest object, which was the patient's head. The rendered 3D volume is shown in \autoref{fig:slicerHeadMeshNoFilter}.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/segmentation_islands.png}
+    \caption{Screenshot of Slicer showing the rendered mesh of the patient head once islands were removed from the mask.}
+    \label{fig:slicerHeadMeshNoFilter}
+\end{figure}
+
+To remove noise from the model and smooth the surface finish, two rounds of filters were used on the segment of the patient head. The first was a closing filter, which connected the mesh surface over holes under 3mm in diameter. This had the effect of also closing some internal geometry that added unnecessary polygon counts to the mesh, as seen in \autoref{fig:segmentationClosing}.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/segmentation_closing.png}
+    \caption{Screenshot of Slicer showing the rendered mesh of the patient head after a closing filter was applied.}
+    \label{fig:segmentationClosing}
+\end{figure}
+
+Next, a normal filter with a setting of 4mm was used to generally smooth the model's surface. This would remove some of the detailed texture of the patient's head, but kept the geometric shape suitably. A rendering of the volume after the filtering is shown in \autoref{fig:slicerHeadMeshFiltered}. The segmentation was then exported as a model within Slicer through the segmentations module, which was the same format in which the workspace polydata objects were stored in. This model was then named patient head and sent over OpenIGTLink, which could take a couple dozen seconds to serialize, transmit, and deserialize on the receiving end due to the size of the polydata.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/segmentation_smoothing.png}
+    \caption{Screenshot of Slicer showing the rendered mesh of the patient head after normal filtering.}
+    \label{fig:slicerHeadMeshFiltered}
+\end{figure}
+
+\section{ROS Processing}
+Since collision checking is a time-consuming process, any method of simplifying the geometry of the collision objects can help reduce the processing time for motion planning. The fidelity of the meshes produced by the segmentation in Slicer was much higher than would be required for motion planning, so the triangle count of the polydata objects could be reduced to speed up collision checks. Ideally, collision meshes should simply be a solid shell as only the outer surface is necessary for checking against collisions. To quickly remove the internal geometry of the mesh, the same concave hull process for wrapping point clouds with meshes (as discussed in \autoref{sec:sendingWorkspaceVolume}) was used. This moved the rest of the processing to ROS, so the volume from the segmentation completed in Slicer was then sent over OpenIGTLink. 
+
+A different ROS node was created with the same basic format as the point cloud converter, but in this case, it subscribed to the OpenIGTLink polydata topic and published to the planning scene monitor. Incoming polydata messages were converted to VTK types, then a decimation process was used to reduce the triangle count by 95\%. \autoref{fig:segmentationDecimated} shows what that decimated mesh looked like if it was viewed in Slicer.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/segmentation_decimated.png}
+    \caption{Screenshot of Slicer showing the STL of the decimated patient head after processing from the ROS node.}
+    \label{fig:segmentationDecimated}
+\end{figure}
+
+The decimated polydata object's points were converted to a PCL point cloud so the same code could be used for performing the concave hull approximation developed in \autoref{sec:sendingWorkspaceVolume}, and the resulting VTK object was saved to disk so that it could be viewed in Slicer for reference purposes, as shown in \autoref{fig:headMeshConcave}. The VTK object was then saved as an STL, and the STL path was published to the Workspace Visualizer so it could load the mesh resource as a collision object at the appropriate time and publish that to the planning scene. \autoref{fig:patientHeadInPlanningScene} shows the final outcome of this process with the patient head model properly loaded into the planning scene, attached to the base link of the robot to allow collision checks to be skipped for that link and to prevent false positives.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/segmentation_convex_hull.png}
+    \caption{The patient head shown in Slicer as a result of the concave hull operation.}
+    \label{fig:headMeshConcave}
+\end{figure}
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/segmentation_rviz.png}
+    \caption{The planning scene as shown in RViz with the patient head added as a collision object attached to the robot.}
+    \label{fig:patientHeadInPlanningScene}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Optimization of Patient Head Positioning}
-\section{Description of Optimization Problem}
-The patient head position and orientation could be optimized to provide the robot with greatest manipulability around the target area. This would involve consideration of the target area, typical burr hole locations on the skull, comfortable range of motion of the patient’s head, and the flexibility of robot mounting locations. Though a challenging problem to solve, this could remove some of the uncertainty and replanning that occurs during procedures due to a patient position that prevents the robot from reaching the target site.
-\section{Implementation of Optimization Solution}
+\todo[inline]{Not sure this will happen. Revisit or move the below to future work.}
+An occasional problem that occurred during procedures was that in some cases, the patient's head or the burr hole was placed in way that was not conducive to the actual workspace of the neurobot. While the workspace visualization could show what was reachable on a trial and error process once the scans of the patient were taken, there would be great utility in a tool that could show optimal locations for the burr hole to be placed on the patient's skull given typical head orientations once the patient was in the scanner with the robot. Though an automated system which computes an optimal patient head orientation and burr hole based on MRI scans and pre-operative data would be desirable, sometimes a human can make equally valid decisions if they are provided with sufficient data in an easily understandable format.
+
+% \section{Description of Optimization Problem}
+% The patient head position and orientation could be optimized to provide the robot with greatest manipulability around the target area. This would involve consideration of the target area, typical burr hole locations on the skull, comfortable range of motion of the patient's head, and the flexibility of robot mounting locations. Though a challenging problem to solve, this could remove some of the uncertainty and replanning that occurs during procedures due to a patient position that prevents the robot from reaching the target site.
+% \section{Implementation of Optimization Solution}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Experiments}
-\section{Motion Planning Benchmarking}
-\todo[inline]{Refreshed and rethink benchmarking.}
-Several experiments were conducted in order to gain a better understanding of the execution time of the IK solver and the motion planning implementation. Tests were configured by determining a viable end effector needle pose by uniform random sampling from the configuration space of the robot and using the forward kinematics to compute the end effector position. This position was then fed back into the IK solver and the time it took the IK solver to compute the solution was measured. There were several variations of this test, but collision checking with the environment was not implemented.
+In order to validate that the system meets the user requirements and to better understand its performance and capabilities, several tests were completed. A series of metrics were collected for the IK solver and motion planning performance of the system. Then, tests were conducted using the actual robot to validate the workspace analysis and motion planning accuracy of the system, which inherently tests the modeling of the neurobot as well. 
 
-In the first experiment, the parameters of the IK solver, namely the number of allowed solver attempts and the allowed search time, were set at default values of 5 attempts and 0.01 seconds. \autoref{fig:ikTimeFixed} shows the execution time plotted over 200 iterations of the solver. Interestingly, the solving time is somewhat dependent on the order of the queries: the initial query takes the longest and the number of long queries decreases over time. This seems to indicate a weak caching optimization to speed up processing.
+\section{Benchmarking}
+Several experiments were conducted in order to gain a better understanding of the execution time of the IK solver and the motion planning implementation. Tests were configured by determining a viable end effector needle pose by uniform random sampling from the configuration space of the robot and using the forward kinematics to compute the end effector position. This position was then fed back into the IK solver and the time it took the IK solver to compute the solution was measured. There were several variations of this test, with collision checking with the environment enabled and disabled for the motion planning section. Tests were conducted on a computer with a Ryzen 7 1700 processor operating at 3.00 GHz with 16GB of DDR4 RAM.
+
+\subsection{IK Solver}
+In the first experiment, the parameters of the IK solver, namely the number of allowed solver attempts and the allowed search time, were set at default values of 5 attempts and 0.01 seconds. \autoref{fig:ikTimeFixed} shows the execution time plotted over 200 iterations of the solver. Interestingly, the solving time was somewhat dependent on the order of the queries: the initial query takes the longest and the number of long queries decreases over time. This seemed to indicate a weak caching optimization to speed up processing.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 3.5in]{graphs/ik_solver_fixed_stats.png}
-    \caption{Plot of inverse kinematics solver execution time to find viable joint configuration in collision free environment given a random reachable target over 200 consecutive trials. Average 0.004546s. 5 allowed attempts with 0.01s to find configuration.}
+	\includegraphics[width = 5in]{graphs/ik_solver_fixed_stats.png}
+    \caption{Plot of inverse kinematics solver execution time to find viable joint configuration in collision free environment given a random reachable target over 200 consecutive trials. Average 0.004546s. 5 allowed attempts with 0.01s to find a solution.}
     \label{fig:ikTimeFixed}
 \end{figure}
 
-In the next experiment, the number of attempts was fixed at 1 and the time allowed for finding solutions was varied from 0.00001s to 0.00991s. \autoref{fig:ikexeTime} shows the results of the experiment. While a slight minimum appeared around 0.003s, there was not a strong trend, other than in longer search times, the execution time generally increased. \autoref{fig:ikHist} shows the same data but as a histogram plot.
+In the next experiment, the number of attempts was fixed at 1 and the time allowed for finding solutions was varied from 0.00001s to 0.00991s. \autoref{fig:ikexeTime} shows the results of the experiment. While a slight minimum appeared around 0.003s, there was not a strong trend, other than in longer search times, the execution time generally increased. \autoref{fig:ikHist} shows the same data but as a histogram plot. This seemed to indicate that providing longer search times did not have an impact on the execution time; solutions generally took around the same amount of time to converge.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 3.5in]{graphs/ik_exec_time_over_allowed.png}
+	\includegraphics[width = 5in]{graphs/ik_exec_time_over_allowed.png}
     \caption{Plot of inverse kinematics solver execution time over allotted search time to find viable joint configuration in collision free environment given a random reachable target. 200 trials.}
     \label{fig:ikexeTime}
 \end{figure}
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 3.5in]{graphs/ik_hist_1_attempt.png}
+	\includegraphics[width = 5in]{graphs/ik_hist_1_attempt.png}
     \caption{Histogram plot of inverse kinematics solver execution time to find viable joint configuration in collision free environment given a random reachable target. 200 trials. Average 0.00207957s}
     \label{fig:ikHist}
 \end{figure}
 
-In the final experiment with the IK solver, the number of attempts allotted to the solver was varied from 1 to 19, with 200 tests being conducted for each timing point. \autoref{fig:ikNumAttempts} shows the results of the test. Perhaps somewhat unsurprisingly, with only 1 attempt at solving the IK, the average execution time was highest since failure to find a solution would maximize the timeout allowed on the search without being able to spawn another. Beyond 2 allowed attempts, there is no strong trend, indicating that the choice does not matter.
+In the final experiment with the IK solver, the number of attempts allotted to the solver was varied from 1 to 19, with 200 tests being conducted for each timing point. \autoref{fig:ikNumAttempts} shows the results of the test. Perhaps somewhat unsurprisingly, with only 1 attempt at solving the IK, the average execution time was highest since failure to find a solution would maximize the timeout allowed on the search without being able to spawn another search. Beyond 2 allowed attempts, there was no strong trend, indicating that the choice did not matter significantly.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 3.5in]{graphs/ik_sover_over_time.png}
+	\includegraphics[width = 5in]{graphs/ik_sover_over_time.png}
     \caption{Plot of inverse kinematics solver execution time over number of allowed attempts to find viable joint configuration in collision free environment given a random reachable target. 200 trials averaged for each number of allowed attempts. Average 0.001707s}
     \label{fig:ikNumAttempts}
 \end{figure}
 
-The motion planner was examined in the next set of experiments. Similarly to the tests for the IK solver, the same random valid configuration generation was used to set a desired pose to the needle planning group. \autoref{fig:plannerHist} indicates that most planning sessions lasted from 0.1s to 
-0.225s with a tail towards longer execution times. However, no plans took longer than 0.5 second to generate, even given a limit of 5 seconds. This is beneficial to see during the collision free tests, but likely increases to several dozen seconds once large meshes are added to the environment and considered.
+\subsection{Motion Planner}
+The motion planner was examined in the next set of experiments. Similarly to the tests for the IK solver, the same random valid configuration generation was used to set a desired pose to the needle planning group. In the first section, collisions with the environment were not considered, and in the final section, the patient head collision model was added to the environment and considered.
+
+\subsubsection{Planning with No Patient Head}
+\autoref{fig:plannerHist} indicates that most planning sessions lasted from 0.1s to 
+0.225s, with a distribution tail towards longer execution times. However, no plans took longer than 0.5 second to generate, even given a limit of 5 seconds. This showed that motion plans without environment collision models to consider were fairly quick, but performance with environment collision checks could be significantly longer.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 3.5in]{graphs/planner_hist.png}
+	\includegraphics[width = 5in]{graphs/planner_hist.png}
     \caption{Histogram plot of motion planner execution time to find path in collision free environment between 2 random configurations. 200 trials. Average 0.209805s}
     \label{fig:plannerHist}
 \end{figure}
 
-The path smoothing operation was also examined in some detail. \autoref{fig:pathHist} shows the execution time of the path smoothing algorithm, which indicates a relatively narrow distribution with a tail end towards longer execution times, similar to the distribution of planner times. This is expected as more complex trajectories take longer to generate and will consume more time to process. In general, the path smoothing is a very small part of the total path planning operation.
+The path smoothing operation was also examined in some detail. \autoref{fig:pathHist} shows the execution time of the path smoothing algorithm, which indicated a relatively narrow distribution with a tail end towards longer execution times, similar to the distribution of planner times. This is expected as more complex trajectories take longer to generate and will also have a longer path, increasing the time it takes to adequately smooth it. In general, the path smoothing was a very small part of the total path planning operation.
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width = 3.5in]{graphs/smoother_hist.png}
+	\includegraphics[width = 5in]{graphs/smoother_hist.png}
     \caption{Histogram plot of motion planner path smoothing execution time. 40 trials. Average 0.0000073s}
     \label{fig:pathHist}
 \end{figure}
-\subsection{Collision-Free Planning}
-Links to video demonstration of the system performing the above actions can be found in \autoref{sec:appendixVideos}.
-\subsection{Environment Collision-Aware Planning}
 
-\section{Patient Head Optimization Results}
 
-\section{System Validation}
+\subsubsection{Planning with Patient Head}
+\todo[inline]{Complete these tests and write section.}
+
+
+\section{System Workspace Validation}
+To test the workspace validation, motion capture was used on the neurobot as it completed movements mimicing those generated during the workspace analysis on the modeled neurobot. The end goal was to directly compare the shape of the workspace obtained by the real hardware with that achieved by the software system. Fiducials were used on the robot's base to establish the base frame of the robot and a valid transform to directly relate the modeled robot frames with the simulated robot frames. A single fiducial was placed on the robot where the entry point would be located for the robot, as shown in \autoref{fig:workspaceExperimentSetup}.
+
+\begin{figure}[thpb]
+	\centering
+	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+    \missingfigure[figwidth=4in]{picture of experiment.}
+    \caption{Picture of the experimental setup of the neurobot for workspace validation.}
+    \label{fig:workspaceExperimentSetup}
+\end{figure}
+
+a script commanded the robot to move to joint positions evenly spaced in the configuration space. Care on defining these points algorithmically was taken to ensure that the robot did not self-collide since the robot controller could not check for self collisions before executing a motion. Upon the completion of each movement, a control signal was sent to the motion capture signal to log the fiducial position before moving to the next point, eventually generating a point cloud of the entire workspace of the robot. These points were then parsed into a PCL point cloud and processed through the same mesh generation that the software system used for the simulated workspace. \autoref{fig:workspaceMocapCompare} shows an overlay of the real and simulated results of the entry workspace.
+
+\begin{figure}[thpb]
+	\centering
+	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+    \missingfigure[figwidth=4in]{Overlay of entry workspace with simulated and actual results.}
+    \caption{Entry workspaces compared between the real neurobot (color) and that computed by the workspace visualization system.}
+    \label{fig:workspaceMocapCompare}
+\end{figure}
+
+\todo[inline]{Revisit for analysis once tests are complete.}
+
+\section{Trajectory Validation}
+To validate the trajectory generation and execution, a similar setup was used as in the previous section. For this test, a simple cube was placed in the actual robot's space and carefully measured from the base. A geometric cube of the same size was added to the robot in the same position in the planning scene within ROS. The fiducial remained on the entry point of the robot. \autoref{fig:trajectoryExperimentalSetup} shows the experimental configuration for this test.
+
+\begin{figure}[thpb]
+	\centering
+	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+    \missingfigure[figwidth=4in]{picture of experiment.}
+    \caption{Picture of the experimental setup of the neurobot for trajectory validation.}
+    \label{fig:trajectoryExperimentalSetup}
+\end{figure}
+
+In the software system, a motion plan was requested to a goal which could result in a collision if the robot position was linearly interpolated to that point. Once the motion plan was computed and the trajectory of the entry point was saved, the real robot executed the same trajectory, triggering a frame capture at each point a segment in the trajectory was reached. The path of the actual robot was then saved as a point cloud and compared to the desired trajectory as determined by the motion planning software, as shown in \autoref{fig:trajectoryMocapCompare}.
+
+\begin{figure}[thpb]
+	\centering
+	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+    \missingfigure[figwidth=4in]{Overlay of trajectory end effector path in RViz with simulated and actual results.}
+    \caption{Trajectory path compared between the real neurobot (color) and that computed by the motion planning system.}
+    \label{fig:trajectoryMocapCompare}
+\end{figure}
+
+\todo[inline]{Revisit for analysis once tests are complete.}
+
+%\section{Patient Head Optimization Results}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Conclusions}
-\todo[inline]{Revise Conclusions.}
-This project demonstrated implementation of a LBKPIECE algorithm utilizing the OMPL through the MoveIt! API and manipulation of such an implementation for computing workspace reachability and generating trajectories of a 7DOF robot to move an end effector to an entry point. While the proposed project direction was not flawed, time for learning the MoveIt! API was underestimated. It took longer than expected to import the models properly into the planning scene, and a failure to understand the workflow of the API earlier in development did not allow the published collision scene to be reapplied to the local robot environment created in the developed plugin. The issue can be fixed with additional understanding of the API and a rewriting of the implemented node.
+This project demonstrated the successful implementation of a system compatible with the medical platforms OpenIGTLink and Slicer, capable of generating the reachable workspace of the neurobot by checking for collisions with the scanner, and generating collision-free trajectories which yielded improvements to procedure time and understanding of the capabilities of the neuroablation robot platform. The system achieved its objectives, including interfacing with Slicer, assessing the robot workspace, generating motion plans to the entry point of the skull, creating a 3D volume of the patient's head suitable for collision detection, and providing a mechanism for assisting surgeons with planning procedures with the neurobot to best use its capabilities.  
 
-Results and testing show that the system will, when completed, perform the desired tasks sufficiently quickly to be useful on the actual robot hardware. Trajectory generation to a valid pose consumed an average of 0.21 seconds with no collision objects, and as the motion of the robot to an entry point on the skull will generally be collision free, this approach promises to be significantly faster than manually planning and executing trajectories by driving the robot joint by joint in the operating room (several minutes). 
+The system design proved suitable for achieving the objectives at hand and maintaining a good level of modularity and maintainability. The software system was implemented successfully with special attention paid to interfaces between environments. The software distribution through a VM met requirements, but perhaps a less clunky solution would be to use a system such as Docker to avoid the less involved process of installing and maintaining a VM.
 
-Moving forward, MoveIt! appears to be a reasonable platform for developing a `turn-key' motion planning system, yet it does mask several more advanced features of OMPL from the user. For instance, cost functions cannot be modified; they are locked to OMPL defaults by the MoveIt! interface. \cite{moveitIssue} In order to adjust cost functionality currently, OMPL needs to be utilized directly without the MoveIt! wrapper. This would significantly increase development time, but could prove advantageous in other ways. ROS URDF file format cannot model parallel robots, yet KDL does allow for solving parallel kinematic chains. \cite{kdl} So there could be benefit to directly interfacing with KDL and OMPL, yet the benefits of the MoveIt! framework tend to offset its drawbacks for typical use cases.
+Modeling the robot in ROS was possible by decoupling the motions on the differential screw drive. While the URDF format did not offer a mechanism for modeling parallel robots directly, the system functioned adaquately, but with some added complexity of having to manage the entire robot state when planning for a single chain of joints. KDL does allow for solving parallel kinematic chains, but the ROS TF package cannot truly describe the kinematic state of such systems. \cite{kdl} There could be benefit to directly interfacing with KDL, yet the benefits of utilizing higher level features found in MoveIt! tended to offset drawbacks for this use case.
+
+Workspace examination was a success, with the ability to see the entry workspace of the robot directly in Slicer overlaid on surgical images. The examination included consideration of the scanner bore as a collision object, which ensured that the outputted workspace would be accurate and prevent the possibility of finding a robot configuration that reached the target but collided with the bore. Providing the workspace given the entry point was very helpful in formulating a method for determining how flexible a chosen entry point was in allowing a greater number of treatment sites to be targeted and helping the surgeon realize the importance of locating the burr hole in a way to best utilize the ability of the neurobot.
+
+The motion planning components functioned desirably in generating a trajectory which moved the robot to the entry point without colliding with the patient head, removing the cumbersome step in the procedure of moving the robot joint by joint to the correct configuration in order to avoid collisions. MoveIt! proved a reasonable platform for developing a `turn-key' motion planning system, yet it did mask several more advanced features of OMPL. For instance, cost functions could not be modified; they were locked to OMPL defaults by the MoveIt! interface. \cite{moveitIssue} To attain cost functionality adjustment, OMPL must be utilized directly without the MoveIt! wrapper. This would significantly increase development time, but could prove advantageous in other ways, allowing better tuned motion planning algorithms to be used to speed up planning time and potentially develop better paths. Yet with some of the shortcomings with MoveIt!, its ease of use and installation met the requirements set forward by the project and performed as necessary.
+
+Working from MRI scans of the patient's head, the segmentation and extraction of the volume for use in collision detection proved adequate for accurately producing motion plans within a tightly constrained environment. The hand-off between Slicer and ROS yielded the best case of software reuse and utilized each systems' capabilities to the fullest. 
+
+Results and testing show that the system performed the motion planning sufficiently quickly to be useful on the actual robot hardware. Trajectory generation to a valid pose consumed an average of 0.21 seconds with no collision objects, and as the motion of the robot to an entry point on the skull will generally be collision free, this approach promised to be significantly faster than manually planning and executing trajectories by driving the robot joint by joint in the operating room. Further experimentation showed that the actual neurobot produced a similar practical workspace, validating the modeling of the robot and the accuracy of the workspace generation using the tools supplied by ROS and MoveIt!. Finally, tests using motion capture demonstrated the system was capable of accurately tracking the generated trajectories and could avoid colliding with objects in the environment.
+
+In the process of developing these capabilities for the system, there were some libraries and tools that could use some additional development that, if fixed, would make consequent developing on them easier and reduce the amount of work for bringing new systems online. To summarize, these were:
+\begin{itemize}
+\item ROS-OpenIGTLink-Bridge - including conversion nodes to only publish standard ROS messages outside the bridge package.
+\item SolidWorks to URDF - saving joint limit configurations, improvements to auto-detection of joint type.
+\item MoveIt! Planning Groups - better support for mimic joints.
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Future Work}
-\todo[inline]{Update future work.}
-Future work will focus on properly controlling the collision environment to ensure collision-checking works properly within the developed node. Future workspace checking will then be able to use a model of the skull and burr hole for very accurately determining the workspace within the skull itself. Trajectories will be transformed back into the joint space of the actual robot hardware and passed over the software interface currently utilized in AIM Lab. Finally, the patient head pose and burr hole location can be optimized to ensure maximum reachability around the tumor location by porting the robot model into OpenRave and utilizing existing optimality planners for determining where to locate the base of industrial robot manipulators. \cite{workspaceChecker} With the robot model properly represented in OpenRave, a functioning IKFast plugin could be created as well to enable analytical solving of the IK of the robot.
+While the system was successful in meeting its objectives and requirements, there were some improvements that could be made to further improve its capability and utility. Natural extensions to this project could benefit the greater community as a whole with sufficient resources and time.
 
+As mentioned previously, utilizing the software within a VM was not an ideal design choice, but given the time constraints, requirements, and delicate nature of software environments and library installations, this was the best balance of performance and cost. With additional time, it would be ideal to contain the software with Docker or in some way integrate the system better to reduce this extra complexity. It could be possible to make a hardware change to solve this problem too. A high-performance traditional x86 processor in a small form factor (such as an Intel NUC) could be added to the neurobot control box or as the means of providing network communication over the fiber cable and hosting some other higher level functions. This would also yield the benefit of exposing the neurobot to the ROS environment, and perhaps tighter integration of the neurobot with ROS could spur some additional development or integration with other hardware platforms.
 
+In modeling the neurobot, there were some changes that could be made to the SolidWorks to URDF add-in that could enhance its functionality, such as saving the joint configuration data and improving the joint type auto detection. While the workflow of updating a robot model and migrating those changes into URDF is not too burdensome, addressing these problems would greatly speed the process of completing those updates, as had to be done in this project. Eventually, building a simulation of the neurboot in ROS' simulation environment, Gazebo, could help fine-tune the neurobot controls and allow the motion planning solution to be more vested and allow proper unit testing, especially since it is possible in Gazebo to model parallelogram linkages. It would be interesting to develop a simulation of an MRI scanner as well and attempt to model the entire workflow. 
+
+In the workspace analysis, the probe should be rotated during collision checks to make sure that a given configuration allows the probe to be rotated during treatment without hitting the MRI bore. This was not important during current testing of the neurobot since a symmetric probe was used during treatments, but more sophisticated treatments using a narrow beam probe would need this enhancement, albeit at a performance cost. The resolution of the workspace checking could also be enhanced, and perhaps an analytical workspace analysis would be worth developing to reduce the processing time. Alternatively, saving workspaces for the different probe configurations, effectively caching them and loading the proper configuration given the offset specifications, could massively reduce the computational time currently required for checking collisions with the bore and generating the workspace. 
+
+Since a significant portion of this project involved developing a tool for completing the workspace analysis of the neurobot, it would be a valuable endeavor to make the solution more generic and release it as a freely available ROS package for conducting workspace analysis. This would take some additional development effort and a commitment from developers (or enough interest in the community) to continue supporting and updating the package as ROS continues to develop. Yet the effort would be worth it by helping WPI and AIM Lab become more public and well-recognized in the robotics community for their contributions.
+
+In evaluating the validity of the planned trajectory in Slicer, it would be helpful to have a visualization of the robot and the ultrasonic probe that could be traced along the planned trajectory. This would provide a more thorough understanding of the positioning context of the system as it relates to the patient within the MRI machine as well as ensuring that parts of the robot would not strike the patient when executing the trajectory. There could have been more features added to the Slicer interface to better improve the interaction with the motion planning system, but further improvements were not possible in the given time frame.
+
+The patient head pose and burr hole location could be algorithmically optimized (rather than through an operator-informed decision) to ensure maximum reachability around the tumor location by porting the robot model into OpenRave and utilizing existing optimality planners for determining where to locate the base of industrial robot manipulators. \cite{workspaceChecker} With the robot model properly represented in OpenRave, a functioning IKFast plugin could be created as well to enable analytical IK solving of the robot's end effector, which would improve the execution time when solving the IK during the entry point workspace checking.
+
+\todo[inline]{Making the head segmentation more automated.}
+
+More development support for the ROS-OpenIGTLink-Bridge package would open up the door for greater interoperability between the medical and robotics research worlds. However, there are some soul-seeking questions that need to be answered. How much reinventing happens on each side of the fence? There are excellent visualization tools for each platform, but it would be difficult to migrate features from one into another; perhaps there must always be two interfaces for interacting with medical data and robotics sensory information. Additionally, a lot of these tools are for research purposes only and could be hard to attain Food and Drug Administration approval for human treatments due to validating operational safety on a large, open-source software stack and ensuring proper security protocols (to ensure patient privacy and safety) on both ROS and OpenIGTLink communications, not to mention potential licensing issues. Surpassing these more intricate issues can necessitate developing in-house solutions, which greatly increases cost and tends to result in reproducing solutions to basic problems that already exist. Perhaps there is a greater conversation that needs to happen in this front, but at the same time, it is sometimes better to prove out a system concept quickly with the best tools on hand rather than miss an opportunity for sake of technicality to offer a novel treatment system for treating clinical threats to human life and improving the quality of living for those suffering from neurological diseases.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 \chapter{Video Demonstrations}
 \label{sec:appendixVideos}
-Videos of the system in operation are listed below:
+Videos of the system in operation are listed below: \todo{update with videos from presentation.}
 \begin{enumerate}
 \item Robot and joint movements visualized in RViz \url{https://youtu.be/A8vxQcD-D1M}
 \item MoveIt! Planning Scene with MRI Bore and head \url{https://youtu.be/uBkmzkpJ0bE}
 \item Collision-aware IK in MoveIt! Scene \url{https://youtu.be/aWqPCrOiD8k}
 \item Workspace checking demonstration \url{https://youtu.be/w9iJODJL3ho}
-\item Trajectory planning demonstration with canula \url{https://youtu.be/qjk9I6ZQJBc}
+\item Trajectory planning demonstration with cannula \url{https://youtu.be/qjk9I6ZQJBc}
 \item Trajectory movement with needle tip planning group \url{https://youtu.be/b-VsMk519GQ}
 \end{enumerate}
 
+\chapter{User Documentation}
+\label{sec:userDocumentation}
+\todo[inline]{add docs once finalized.}
+
+\chapter{Technical Documentation}
+\label{sec:technicalDocumentation}
+\todo[inline]{Add docs once finalized.}
+
+\section{OMPL Windows Installation}
+\label{sec:omplWindowsInstallation}
+This section includes some of the information found and steps for installing OMPL on Windows, which was eventually abandoned in favor of utilizing the OMPL installation included in ROS MoveIt!. It is included here as a reference for other individuals who may wish to continue these efforts.
+
+\singlespacing
+Install OMPL on Windows:
+\begin{itemize}
+\item \url{http://ompl.kavrakilab.org/installation.html}
+\item \url{https://bitbucket.org/ompl/ompl}
+\item \url{https://searchcode.com/file/102912958/doc/dox/installation.md}
+\item \url{https://cmake.org/download/}
+\item \url{https://bitbucket.org/ompl/ompl/src/tip/.appveyor.yml?fileviewer=file-view-default}
+\end{itemize}
+
+Install python 2.7:
+Make sure to select to add python to system path
+
+Install these things: \url{http://pygccxml.readthedocs.io/en/develop/install.html}
+\begin{lstlisting}
+pip install pygccxml
+\end{lstlisting}
+Install py++ \url{http://pyplusplus.readthedocs.io/en/latest/download.html}
+
+CMAKE:
+\url{https://cmake.org/download/}
+
+Add to system path in install options
+
+MinGW: \url{http://www.mingw.org/}
+Click download \url{http://www.mingw.org/download/installer?}
+
+MinGW wiki: \url{http://www.mingw.org/wiki/Getting_Started/}
+\begin{lstlisting}
+ $env:Path += ";D:\MinGW\bin"
+cmake -G "MinGW Makefiles" ../.. [-DCMAKE_INSTALL_PREFIX=../../..]
+cmake -G "MinGW Makefiles" ../..
+\end{lstlisting}
+Note: cannot have AVR installed on the same machine...
+
+\url{https://andres.jaimes.net/718/how-to-install-the-c-boost-libraries-on-windows/}
+
+Download and install boost for Windows: \url{https://dl.bintray.com/boostorg/release/1.65.0/binaries/}
+
+Need 1.64 \url{https://sourceforge.net/projects/boost/files/boost-binaries/1.64.0/}
+
+Do:
+\begin{lstlisting}
+$env:Path += ";D:\MinGW\bin"
+Cd into the directory
+.\bootstrap.bat gcc
+.\b2.exe install --prefix=d:/boost_install toolset=gcc
+
+b2 install --prefix=c:/installation/path toolset=gcc
+
+$env:BOOST_ROOT = "D:\boost_1_64_install\"
+$env:BOOST_LIBRARYDIR = "D:\boost_1_64_install\lib"
+$env:BOOST_INCLUDEDIR = "D:\boost_1_64_install\include"
+\end{lstlisting}
+
+\url{https://stackoverflow.com/questions/20969280/find-package-doesnt-detect-boost-on-windows-cmake}
+\url{https://stackoverflow.com/questions/19303430/cmake-cannot-find-boost-libraries}
+\url{https://andres.jaimes.net/718/how-to-install-the-c-boost-libraries-on-windows/}
+
+
+Apparently, boost is always built on a CMake version that is in the development pipeline... \url{https://github.com/Kitware/CMake/commit/fa114e7d708b76f33878f6f82a6c2a2e50c1c10f} So have to reinstall an older version of boost or build CMake from source.
+
+\url{https://stackoverflow.com/questions/42123509/cmake-finds-boost-but-the-imported-targets-not-available-for-boost-version}
+
+Install \url{https://tortoisehg.bitbucket.io/} to pull and build Cmake from source...
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % you can save some space by having the bibliography singlespaced, if you want
 \singlespacing
 
@@ -632,6 +1272,22 @@ Videos of the system in operation are listed below:
 \bibitem{kdl} Orocos Kinematics and Dynamics. ``KDL Wiki.'' Accessed April 2017. Online at \url{http://www.orocos.org/kdl}
 
 \bibitem{workspaceChecker} ROS.org ``reuleaux package documentation.'' Accessed April 2017. Online at \url{http://wiki.ros.org/reuleaux}
+
+\bibitem{mri} ``Magnetic Resonance Imaging (MRI).'' National Institute of Biomedical Imaging and Bioengineering, U.S. Department of Health and Human Services, 2 Feb. 2017, \url{www.nibib.nih.gov/science-education/science-topics/magnetic-resonance-imaging-mri}.
+
+\bibitem{mriSize} Jackson, Whitney L. ``MRI Machines Becoming More Patient-Friendly.'' Diagnostic Imaging, Modern Medicine Network, 12 Sept. 2011, \url{www.diagnosticimaging.com/mri/mri-machines-becoming-more-patient-friendly}.
+
+\bibitem{mriFrames} ``Coordinate Systems.'' Slicer Wiki, 30 June 2014, \url{www.slicer.org/wiki/Coordinate_systems}.
+
+\bibitem{mrti} Stauffer, P. R., et al. ``Clinical utility of magnetic resonance thermal imaging (MRTI) for realtime guidance of deep hyperthermia.'' Energy-based Treatment of Tissue and Assessment V. Vol. 7181. International Society for Optics and Photonics, 2009.
+
+\bibitem{thermalAblation} ``Thermal Ablation'' Focused Ultrasound Foundation. \url{https://www.fusfoundation.org/mechanisms-of-action/thermal-ablation}.
+
+\bibitem{openIGTLink} ``About OpenIGTLink.'' The OpenIGTLink Community and Brigham and Women's Hospital. 2018. \url{http://openigtlink.org/about.html}.
+
+\bibitem{3DSlicer} ``3D Slicer.'' Brigham and Women's Hospital and 3D Slicer contributors. 2018. \url{https://www.slicer.org/}.
+
+\bibitem{piezoLegs} Micromo. ``Piezo Motors Power MRI Robot.'' Micromo, a Member of the Faulhaber Group.  \url{https://www.micromo.com/applications/medical-lab-automation-equipment/piezo-motors-power-mri-robot}
 
 \end{thebibliography}
 
