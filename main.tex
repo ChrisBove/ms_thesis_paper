@@ -397,14 +397,13 @@ The neurobot is a seven DOF robot with piezoelectric motors with encoder feedbac
     \label{fig:neurobotRenderInTube}
 \end{figure}
 
-The robot is connected via a copper wire tether to a control box which resides in the MRI scanner room. Motor control boards and an embedded microprocessor with an FPGA provide the low-level functionality for the robot, including position control, safety features, and communications. WPI custom built most of the components in the interface box, and the networking connection for the neurobot is shown in \autoref{fig:networkDiagram}. This box is then connected to a pneumatic safety foot pedal, which enables robot motion when the operator presses it, a fiber optic cable for communication, and a power cable to a standard 120 volt wall outlet. Only the fiber cable leaves the MRI scanner room through a barrier wall into the operator control room. Here, a computer can be connected to the robot to control it, and other computers interface with the MRI scanner to configure scans and obtain images. 
+The robot is connected via a copper wire tether to a control box which resides in the MRI scanner room. Motor control boards and an embedded microprocessor with an FPGA provide the low-level functionality for the robot, including position control, safety features, and communications. WPI custom built most of the components in the interface box, and the system setup in the MRI console room is shown in \autoref{fig:networkDiagram}. The interface box is connected to a pneumatic safety foot pedal, which enables robot motion when the operator presses it, a fiber optic cable for communication, and a power cable to a standard 120 volt wall outlet. Only the fiber cable leaves the MRI scanner room through a barrier wall into the operator control room. Here, a computer can be connected to the robot to control it, and other computers interface with the MRI scanner to configure scans and obtain images. 
 
 \begin{figure}[thpb]
 	\centering
 % 	\includegraphics[width=4in]{diagrams/Networking_Diagram.pdf}
 	\includegraphics[width=4in]{images/mri_console_room.png}
-    \todo[inline]{Make better diagram. GF:a good overview figure (maybe phot too) would be very helpful}
-    \caption{Diagram of the network interfaces between the robot, control computer, and MRI scanner. From \cite{neurobotIEEE2015}}
+    \caption{Photograph with annotations showing the interfaces between the robot, control computer, and MRI scanner in the console room. The computer monitor shows a camera feed from the scanner room on the other side of the wall. From \cite{neurobotIEEE2015}}
     \label{fig:networkDiagram}
 \end{figure}
 
@@ -1350,9 +1349,9 @@ Install \url{https://tortoisehg.bitbucket.io/} to pull and build Cmake from sour
 
 \bibitem{needleSteeringSoftTissues} S. P. DiMaio and S. E. Salcudean, ``Needle steering and motion planning in soft tissues,'' in IEEE Transactions on Biomedical Engineering, vol. 52, no. 6, pp. 965-974, June 2005. doi: 10.1109/TBME.2005.846734
 
-\bibitem{taskSpacePlanning} Greigarn, Tipakorn, and M. Cenk Çavuşoğlu. ``Task-space motion planning of MRI-actuated catheters for catheter ablation of atrial fibrillation.'' Intelligent Robots and Systems (IROS 2014), 2014 IEEE/RSJ International Conference on. IEEE, 2014.
+\bibitem{taskSpacePlanning} Greigarn, Tipakorn, and M. Cenk ??avu??o??lu. ``Task-space motion planning of MRI-actuated catheters for catheter ablation of atrial fibrillation.'' Intelligent Robots and Systems (IROS 2014), 2014 IEEE/RSJ International Conference on. IEEE, 2014.
 
-\bibitem{prostateWorkspaceDesignAnalysis} Song, Sang‐Eun, et al. ``A workspace‐orientated needle‐guiding robot for 3T MRI‐guided transperineal prostate intervention: evaluation of in‐bore workspace and MRI compatibility.'' The International Journal of Medical Robotics and Computer Assisted Surgery 9.1 (2013): 67-74.
+\bibitem{prostateWorkspaceDesignAnalysis} Song, Sang???Eun, et al. ``A workspace???orientated needle???guiding robot for 3T MRI???guided transperineal prostate intervention: evaluation of in???bore workspace and MRI compatibility.'' The International Journal of Medical Robotics and Computer Assisted Surgery 9.1 (2013): 67-74.
 
 \bibitem{workspaceOptimization} Hong Zaidi, Yun Chao, Zhao Lei and Wang Yang, ``A MRI-guided robot for neurosurgery: Optimization, registration and tracking,'' 2008 Chinese Control and Decision Conference, Yantai, Shandong, 2008, pp. 2222-2227. doi: 10.1109/CCDC.2008.4597718
 
@@ -1370,9 +1369,9 @@ Install \url{https://tortoisehg.bitbucket.io/} to pull and build Cmake from sour
 
 \bibitem{mrti} Stauffer, P. R., et al. ``Clinical utility of magnetic resonance thermal imaging (MRTI) for realtime guidance of deep hyperthermia.'' Energy-based Treatment of Tissue and Assessment V. Vol. 7181. International Society for Optics and Photonics, 2009.
 
-\bibitem{mrtiAblation} Xiaonan R. Sun, PhD  Nitesh V. Patel, MD  Shabbar F. Danish, MD. ``Tissue Ablation Dynamics During Magnetic Resonance–Guided, Laser-Induced Thermal Therapy.'' Neurosurgery, Volume 77, Issue 1, 1 July 2015, Pages 51–58, https://doi-org.ezproxy.wpi.edu/10.1227/NEU.0000000000000732
+\bibitem{mrtiAblation} Xiaonan R. Sun, PhD  Nitesh V. Patel, MD  Shabbar F. Danish, MD. ``Tissue Ablation Dynamics During Magnetic Resonance???Guided, Laser-Induced Thermal Therapy.'' Neurosurgery, Volume 77, Issue 1, 1 July 2015, Pages 51???58, https://doi-org.ezproxy.wpi.edu/10.1227/NEU.0000000000000732
 
-\bibitem{openIGTLinkPaper} Tokuda, Junichi, et al. ``OpenIGTLink: an open network protocol for image‐guided therapy environment.'' The International Journal of Medical Robotics and Computer Assisted Surgery 5.4 (2009): 423-434. \url{https://onlinelibrary.wiley.com/doi/full/10.1002/rcs.274}
+\bibitem{openIGTLinkPaper} Tokuda, Junichi, et al. ``OpenIGTLink: an open network protocol for image???guided therapy environment.'' The International Journal of Medical Robotics and Computer Assisted Surgery 5.4 (2009): 423-434. \url{https://onlinelibrary.wiley.com/doi/full/10.1002/rcs.274}
 
 \bibitem{openIGTLink} ``About OpenIGTLink.'' The OpenIGTLink Community and Brigham and Women's Hospital. 2018. \url{http://openigtlink.org/about.html}.
 
