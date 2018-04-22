@@ -409,8 +409,7 @@ The robot is connected via a copper wire tether to a control box which resides i
 \end{figure}
 
 \subsection{Coordinate Frames}
-% paper citation: Shang W, Fischer GS, A High Accuracy Multi-image Registration Method for Tracking MRI-guided robots, SPIE Medical Imaging, San Diego, USA, Feb. 2012. SPIE, PDF
-Most of the neurobot frames follow similar conventions to those used in the scanner itself. \autoref{fig:neurobotFrames} show the primary coordinate frames of the robot: the tool frame and the base frame, also known as the z-frame. \todo{GF: note that it is an image-based registration fiducial, can cite as well heres one, but junichi probably has better ones} The z-frame is a specially designed fixture which holds vials of MRI-visible liquid at geometrically aligned locations in which performing image analysis on scans of the z-frame allow the centroid of the frame to be identified relatively quickly and accurately. This z-frame then serves as the registration between the scanner frame and the robot. The optical frame of the scanner is simply a translational offset from the base frame. Since the robot is always situated in the scanner in the same orientation, movements in the base frame x direction are considered lateral and movements in the z direction are considered axial.
+Most of the neurobot frames follow similar conventions to those used in the scanner itself. \autoref{fig:neurobotFrames} show the primary coordinate frames of the robot: the tool frame and the base frame, which is defined by the z-frame attached to its base. The z-frame is a specially designed fixture for image-based registration in an MRI scanner. The structure holds vials of MRI-visible liquid at geometrically aligned locations in which performing image analysis on scans of the z-frame allow the centroid of the frame to be identified relatively quickly and accurately. \cite{zFrame} This z-frame then serves as the registration between the scanner frame and the robot. The optical frame of the scanner is simply a translational offset from the base frame. Since the robot is always situated in the scanner in the same orientation, movements in the base frame x direction are considered lateral and movements in the z direction are considered axial.
 
 \begin{figure}[thpb]
 	\centering
@@ -490,8 +489,7 @@ Apart from the libraries used to achieve node-to-node communication and standard
 
 \section{ROS OpenIGTLink Bridge}
 \todo[inline] {Add a section about the openIGTLink bridge, describe message types.}
-
-\cite{rosOpenIGTLinkBridge}
+In the effort of enabling greater collaboration and reuse of software tools located in both ROS and resources such as Slicer accessible through OpenIGTLink, recent research has developed a package that bridges the two message-passing systems together, known as the ROS OpenIGTLink Bridge. \cite{rosOpenIGTLinkBridge} This exists as an open-source ROS package, where a node is responsible for initiating an OpenIGTLink as either a client or server, and it publishes ROS topics to accept 
 
 
 \section{Motion Planning}
@@ -1385,6 +1383,8 @@ Install \url{https://tortoisehg.bitbucket.io/} to pull and build Cmake from sour
 \bibitem{piezoLegs} Micromo. ``Piezo Motors Power MRI Robot.'' Micromo, a Member of the Faulhaber Group.  \url{https://www.micromo.com/applications/medical-lab-automation-equipment/piezo-motors-power-mri-robot}
 
 \bibitem{neurobotIEEE2015} Li G, Su H, Cole GA, Shang W, Harrington K, Camilo A, Pilitsis JG, Fischer GS, ``Robotic System for MRI-Guided Stereotactic Neurosurgery,'' IEEE Transactions on Biomedical Engineering, Vol 64, No 4, pp 1088-1088, April 2015. \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=6945849}
+
+\bibitem{zFrame} Shang W, Fischer GS, ``A High Accuracy Multi-image Registration Method for Tracking MRI-guided robots,'' SPIE Medical Imaging, San Diego, USA, Feb. 2012.
 
 \bibitem{rosOpenIGTLinkBridge} Frank T, Krieger A, Leonard S, Patel NA, Tokuda J, ``ROS-IGTL-Bridge: An Open Network Interface for Image-guided Therapy using the ROS Environment,'' International Journal of Computer Assisted Radiology and Surgery, May 2017. Springer.
 
