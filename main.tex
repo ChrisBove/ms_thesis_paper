@@ -298,6 +298,7 @@ This project entails developing a research-grade software system which integrate
 \item Computing collision-free trajectories to control the robot's motion
 \item Utilizing ROS-OpenIGTLink-Bridge to transfer data between the robot, software system and slicer
 \item Employing 3D Slicer to visualize and interact with the generated data
+\item Integrating a workflow to segment patient body MRI into a collision object
 \item Evaluate system performance on the neurobot
 \item Demonstrate the system in animal trials
 \end{itemize}
@@ -1205,14 +1206,25 @@ In the software system, a motion plan was requested to a goal which could result
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Conclusions}
-\todo[inline] {Discuss how this is a prototype and the tools worked, but something more suitable is needed.}
-This project demonstrated the successful implementation of a system compatible \todo{GF:very nice, but maybe also a bullet list of key outcomes that models the one in the intro} with the medical platforms OpenIGTLink and Slicer, capable of generating the reachable workspace of the neurobot by checking for collisions with the scanner, and generating collision-free trajectories which yielded improvements to procedure time and understanding of the capabilities of the neuroablation robot platform. The system achieved its objectives, including interfacing with Slicer, assessing the robot workspace, generating motion plans to the entry point of the skull, creating a 3D volume of the patient's head suitable for collision detection, and providing a mechanism for assisting surgeons with planning procedures with the neurobot to best use its capabilities.  
+This project demonstrated the successful implementation of a system which yielded practical improvements to the neurobot capabilities through an extensible framework which increased perception of the robot's workspace in the confines of an MRI scanner and ability to generate collision free motion plans without striking the patient. The system achieved its objectives, namely:
 
-The system design proved suitable for achieving the objectives at hand and maintaining a good level of modularity and maintainability. The software system was implemented successfully with special attention paid to interfaces between environments. The software distribution through a VM met requirements, but perhaps a less clunky solution would be to use a system such as Docker to avoid the less involved process of installing and maintaining a VM.
+\singlespacing
+\begin{itemize}
+\item Modeled the neurobot using ROS tools
+\item Generated collision-aware workspace of the entry and target points
+\item Computed collision-aware treatment workspace through an entry point
+\item Computed collision-free trajectories to the entry point
+\item Interfaced with Slicer over OpenIGTLink
+\item Interfaced with the robot using OpenIGTLink
+\item Provided workflow for creating 3D model of patient from MRI for collision avoidance
+\end{itemize}
+\doublespacing
 
-Modeling the robot in ROS was possible by decoupling the motions on the differential screw drive. While the URDF format did not offer a mechanism for modeling parallel robots directly, the system functioned adaquately, but with some added complexity of having to manage the entire robot state when planning for a single chain of joints. KDL does allow for solving parallel kinematic chains, but the ROS TF package cannot truly describe the kinematic state of such systems. \cite{kdl} There could be benefit to directly interfacing with KDL, yet the benefits of utilizing higher level features found in MoveIt! tended to offset drawbacks for this use case.
+The system design proved suitable for achieving the objectives at hand and maintaining a good level of modularity and maintainability. The software system was implemented successfully with special attention paid to interfaces between environments. While software remained research-grade, it succeeded as a prototype for a proof-of-concept method for improving procedure workflow by visualizing the workspace of the robot and conducting motion planning using tools already available to a developer, and these worked sufficiently to meet the need. There would be considerable work necessary to bring this system into production, as will be discussed in \autoref{futureWork}. The software distribution through a VM met requirements, but perhaps a better solution would be to use a system such as Docker to avoid the less involved process of installing and maintaining a VM.
 
-Workspace examination was a success, with the ability to see the entry workspace of the robot directly in Slicer overlaid on surgical images. The examination included consideration of the scanner bore as a collision object, which ensured that the outputted workspace would be accurate and prevent the possibility of finding a robot configuration that reached the target but collided with the bore. Providing the workspace given the entry point was very helpful in formulating a method for determining how flexible a chosen entry point was in allowing a greater number of treatment sites to be targeted and helping the surgeon realize the importance of locating the burr hole in a way to best utilize the ability of the neurobot.
+Modeling the robot in ROS was possible by decoupling the motions on the differential screw drive. While the URDF format did not offer a mechanism for modeling parallel robots directly, the system functioned adequately but with some added complexity of having to manage the entire robot state when planning for a single chain of joints. KDL does allow for solving parallel kinematic chains, but the ROS TF package cannot truly describe the kinematic state of such systems. \cite{kdl} There could be benefit to directly interfacing with KDL, yet the benefits of utilizing higher level features found in MoveIt! tended to offset drawbacks for this use case.
+
+Workspace analysis proved very valuable in granting the ability to visualize the entry workspace of the robot directly in Slicer overlaid on surgical images. The examination included consideration of the scanner bore as a collision object, which ensured that the outputted workspace would be accurate and prevent the possibility of finding a robot configuration that reached the target but collided with the bore. Providing the workspace given the entry point was very helpful in formulating a method for determining how flexible a chosen entry point was in allowing a greater number of treatment sites to be targeted and helping the surgeon realize the importance of locating the burr hole in a way to best utilize the ability of the neurobot.
 
 The motion planning components functioned desirably in generating a trajectory which moved the robot to the entry point without colliding with the patient head, removing the cumbersome step in the procedure of moving the robot joint by joint to the correct configuration in order to avoid collisions. MoveIt! proved a reasonable platform for developing a `turn-key' motion planning system, yet it did mask several more advanced features of OMPL. For instance, cost functions could not be modified; they were locked to OMPL defaults by the MoveIt! interface. \cite{moveitIssue} To attain cost functionality adjustment, OMPL must be utilized directly without the MoveIt! wrapper. This would significantly increase development time, but could prove advantageous in other ways, allowing better tuned motion planning algorithms to be used to speed up planning time and potentially develop better paths. Yet with some of the shortcomings with MoveIt!, its ease of use and installation met the requirements set forward by the project and performed as necessary.
 
@@ -1230,7 +1242,8 @@ In the process of developing these capabilities for the system, there were some 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Future Work}
-While the system was successful in meeting its objectives and requirements, there were some improvements that could be made to further improve its capability and utility. Natural extensions to this project could benefit the greater community as a whole with sufficient resources and time.
+\label{futureWork}
+While the system was successful in meeting its objectives and requirements, there were some improvements that could be made to further improve its capability and utility. Natural extensions to this project could benefit the greater community as a whole with sufficient resources and time. \todo{add part about making this production-ready}
 
 As mentioned previously, utilizing the software within a VM was not an ideal design choice, but given the time constraints, requirements, and delicate nature of software environments and library installations, this was the best balance of performance and cost. With additional time, it would be ideal to contain the software with Docker or in some way integrate the system better to reduce this extra complexity. It could be possible to make a hardware change to solve this problem too. A high-performance traditional x86 processor in a small form factor (such as an Intel NUC) could be added to the neurobot control box or as the means of providing network communication over the fiber cable and hosting some other higher level functions. This would also yield the benefit of exposing the neurobot to the ROS environment, and perhaps tighter integration of the neurobot with ROS could spur some additional development or integration with other hardware platforms.
 
