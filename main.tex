@@ -694,6 +694,7 @@ For the purposes of motion planning, the robot's starting configuration needed t
 
 
 \subsection{Sending Joint Trajectories}
+\label{sec:sendJointTrajectories}
 Trajectories in ROS were well standardized as messages with a list of joint names and a list of joint trajectory points which included position, velocity, accelerations, and effort of each of the active DOF and a duration time from the start of the trajectory at which that trajectory point was to be achieved. Of course, this format did not exist in OpenIGTLink, so another conversion had to be made. Again, the NDArray type would have been most suitable, but instead a string was used, in which a time stamp, joint positions, and joint velocities were sent separated by semicolons and commas. For instance, the joint positions were listed with commas while a semicolon separated both the duration time and the joint velocities. A node listened to trajectories being published from the motion planner, transformed the joint space as discussed in \autoref{sec:transformJointSpace}, converted units, and sent those messages over OpenIGTLink. The robot controller would then parse this array to perform the desired trajectory.
 
 To provide a method for visualizing the trajectory in Slicer before approving it and allowing the controller to perform the action, another array was sent which contained the end effector position as an array at each state in the trajectory. This removed the need to have a FK solver bundled within Slicer. \todo{Revisit this when completed.}
@@ -772,7 +773,7 @@ Robot poses could also be specified, which were joint configurations that would 
 
 
 \section{Environmental Modeling}
-The environment for the neurobot consisted of the MRI scanner bore and the patient head. The MRI bore was exported from a SolidWorks model of the scanner with the bed removed to reduce the polygon count of the STL to speed up collision checking. For testing purposes, the patient head was imported as an STL of a mannequine approximation of a person's head. This was not ideal, but Slicer could later be used to take real patient images \todo{GF:i think you can update that now and say you have done it with an animal subject } and generate an accurate collision model for planning around the patient, as described in \autoref{sec:mriSegmentation}.
+The environment for the neurobot consisted of the MRI scanner bore and the patient head. The MRI bore was exported from a SolidWorks model of the scanner with the bed removed to reduce the polygon count of the STL to speed up collision checking. For testing purposes, the patient head was imported as an STL of a mannequine approximation of a person's head, but as discussed in \autoref{sec:mriSegmentation}, Slicer was used to take animal subject images and generate an accurate collision model for planning around the subject's head.
 
 These models were loaded into the MoveIt! planning scene over a planning scene monitor to utilize as collision objects for the workspace analysis and motion planning. Using the monitor allowed the collision objects to be added and removed from the world at will and to be manually modified within the MoveIt! RViz plugin. An RViz screenshot the typical planning scene environment is shown in \autoref{fig:mriBore}.
 
@@ -883,14 +884,42 @@ The target point was then sent back over OpenIGTLink to ROS. This would allow RO
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Motion Planning}
-For this part of the system development, the MoveIt! API was used within a ROS node to solve the motion planning problem of moving the robot to the entry point without colliding into the patient head to achieve a pose which allowed the target point to be reached by the ultrasonic element on the probe. Once the trajectory was generated, it was transformed into the joint space of the actual robot, and the trajectory was then sent through OpenIGTLink to Slicer, \todo{GF: was it, i didnt see this yet?} where the path was examined and allowed to be executed on the robot controller. The following sections in this chapter discuss the development of these capabilities.  
+For this part of the system development, the MoveIt! API was used within a ROS node to solve the motion planning problem of moving the robot to the entry point without colliding into the patient head to achieve a pose which allowed the target point to be reached by the ultrasonic element on the probe. Once the trajectory was generated, it could be transformed into the joint space of the actual robot and sent through OpenIGTLink the robot controller for trajectory execution. The following sections in this chapter discuss the development of these capabilities.  
 
 
 \section{Motion Planning with MoveIt!}
 \subsection{Resolving Entry Pose}
 In order for a motion plan to be generated to the entry point that reaches the target point once the ultrasonic probe is added and inserted, the entry point must be resolved into an entry pose in order for the IK to solve for a configuration and the motion planner to have a goal configuration to reach. This was achieved by using both the entry point and the target point to resolve an orientation that could be combined with the entry point to get a full 6 DOF pose. Of course, two 3D points could only resolve two degrees of rotational information, but the last degree (the rotation about the needle) was not needed for the five joints that moved the robot to the entry point and could be determined by the kinematic constraints of the five DOF system in that case. 
 
-\todo[inline]{include psuedocode once finished.}
+The pose was resolved by computing the angles between the nominal axii of the neurobot's tool tip frame with joint values set to zero and applying a series of rotations, with the position of the frame being located coincident with the entry point. A rotation about the roll and yaw oriented the frame to align with the tool tip frame. The rotation about x was then calculated using atan using the y and z changes in position. In the next computation, since the frame was locally rotated, the calculation of the y orientation had to take into account the changed dz value due to the rotated X axis. Finally, all these separate rotations were post-multiplied together to obtain the appropriate pose orientation based on the entry and target points. Part of the code responsible for this calculation can be found below.
+
+\singlespacing
+\begin{lstlisting}{language=C++}
+tf2::Quaternion rotation_optical_to_tool_tip;
+rotation_optical_to_tool_tip.setRPY(-M_PI_2, 0, M_PI);
+
+double dx = _target_point.point.x - _entry_point.point.x;
+double dy = _target_point.point.y - _entry_point.point.y;
+double dz = _target_point.point.z - _entry_point.point.z;
+
+tf2::Quaternion rot_x;
+// when in the same plane, keep at 0
+if(dy == 0 && dz == 0)
+	rot_x.setRPY(0,0,0);
+else
+	rot_x.setRPY(std::atan2(-dy, -dz) - M_PI_2, 0, 0);
+
+tf2::Quaternion rot_y;
+if(dy == 0 && dx == 0)
+	rot_y.setRPY(0,0,0);
+else
+	rot_y.setRPY(0, -std::atan2(std::sqrt(std::pow(dy,2) + 
+		std::pow(dz,2)), -dx) + M_PI_2, 0);
+
+msg_out.pose.orientation = tf2::toMsg(
+		rotation_optical_to_tool_tip*rot_x*rot_y);
+\end{lstlisting}
+\doublespacing
 
 \subsection{Updating Robot State and Environment}
 Motion planning to the entry point also required the current state of the robot, which was attained as described in \autoref{sec:receivingRobotState}. The node simply subscribed to the joint state publisher for the robot and updated the planning scene's robot state with the latest information before starting the motion plan. The patient head was also added as a collision object as provided by the MRI segmentation into a volume as detailed in \autoref{sec:mriSegmentation}, or alternatively motion planning could be conducted on a generic head shape if the patient model was not available. \autoref{fig:motionPlanningSetup} shows the environment setup with the entry point, target point, and patient head mesh for the start of the motion planning process.
@@ -941,7 +970,7 @@ As discussed in \autoref{sec:motionPlanning}, LBKPIECE was supported by MoveIt! 
 \label{tab:lbkpieceSettings}
 \vskip6pt
 \centerline{
-		\begin{tabular}{|p{3cm}|p{2cm}|}
+		\begin{tabular}{|p{5cm}|p{2cm}|}
 		\hline
 		\bf{Parameter Name} & \bf{Value} \\ \hline
 		Border Fraction & 0.9 \\ \hline
@@ -966,18 +995,6 @@ As discussed in \autoref{sec:motionPlanning}, LBKPIECE was supported by MoveIt! 
 
 \section{Transform Joint Space Trajectories}
 Essentially, the same tools used for converting the joint space as discussed in \autoref{sec:receivingRobotState} was utilized for this step as well, which took place in a different node. Each joint state was transformed using the inverse functions applied to convert the real robot's joint state into the modeled version in ROS. Once this transformation occurred, the node published the  The velocities chosen for the modeled joints were matched previously during the URDF creation to ensure velocities would be attainable for the real robot hardware as well. Of course, the robot controller had the capability of slowing down the movements further in order to make sure that all the joints reached the desired setpoint for each step of the trajectory. 
-
-
-\section{Trajectory Control in Slicer}
-A final check of the validity of the motion plan was performed in Slicer. The end effector path was converted by a ROS node into a OpenIGTLink polydata object that contained the series of lines connecting the points of the path, as illustrated in \autoref{fig:motionPlanSlicer}. This allowed a final sanity check to make sure that the trajectory reached the entry point in a reasonable way and would avoid hitting the patient. Once this was confirmed, the trajectory was allowed to be executed on the robot by using the interface provided on the robot controller software and pressing the foot pedal.
-
-\begin{figure}[thpb]
-	\centering
-	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
-    \missingfigure[figwidth=4in]{Screenshot in Slicer of planned path}
-    \caption{Screenshot of Slicer showing the end effector path from the motion planning solution.}
-    \label{fig:motionPlanSlicer}
-\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1235,6 +1252,16 @@ The patient head pose and burr hole location could be algorithmically optimized 
 
 More development support for the ROS-OpenIGTLink-Bridge package would open up the door for greater interoperability between the medical and robotics research worlds. However, there are some soul-seeking questions that need to be answered. How much reinventing happens on each side of the fence? There are excellent visualization tools for each platform, but it would be difficult to migrate features from one into another; perhaps there must always be two interfaces for interacting with medical data and robotics sensory information. Additionally, a lot of these tools are for research purposes only \todo{Flesh out how to turn this into a production system} and could be hard to attain Food and Drug Administration approval for human treatments due to validating operational safety on a large, open-source software stack and ensuring proper security protocols (to ensure patient privacy and safety) on both ROS and OpenIGTLink communications, not to mention potential licensing issues. Surpassing these more intricate issues can necessitate developing in-house solutions, which greatly increases cost and tends to result in reproducing solutions to basic problems that already exist. Perhaps there is a greater conversation that needs to happen in this front, but at the same time, it is sometimes better to prove out a system concept quickly with the best tools on hand rather than miss an opportunity for sake of technicality to offer a novel treatment system for treating clinical threats to human life and improving the quality of living for those suffering from neurological diseases.
 
+\section{Trajectory Control in Slicer}
+A final check of the validity of the motion plan was performed in Slicer. The end effector path was converted by a ROS node into a OpenIGTLink polydata object that contained the series of lines connecting the points of the path, as illustrated in \autoref{fig:motionPlanSlicer}. This allowed a final sanity check to make sure that the trajectory reached the entry point in a reasonable way and would avoid hitting the patient. Once this was confirmed, the trajectory was allowed to be executed on the robot by using the interface provided on the robot controller software and pressing the foot pedal.
+
+%\begin{figure}[thpb]
+%	\centering
+%	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+%    \missingfigure[figwidth=4in]{Screenshot in Slicer of planned path}
+%    \caption{Screenshot of Slicer showing the end effector path from the motion planning solution.}
+%    \label{fig:motionPlanSlicer}
+%\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
