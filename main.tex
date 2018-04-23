@@ -912,27 +912,47 @@ With it now known that the entry pose and target point were reachable without co
 \subsection{Generating a Motion Plan}
 With the setup work completed, searching for a motion plan was a relatively straightforward task. This was as simple as calling a function with the MoveIt! API to generate a plan to the entry pose joint configuration. The motion planner then searched for a valid path to the goal, and if the planner timed out, this was considered a failure and the operators would have to manually position the robot. With collisions considered between the robot and patient, trajectories were typically found within 20 seconds, so a 30 second timeout was used for the motion planning problem. It could also indicate that there was no way to move the robot to the entry point without violating its kinematic constraints while avoiding collisions with the patient head, so perhaps a safer response would be to reposition the patient, perform new scans, and begin the process again as shown in the workflow designed in \autoref{sec:surgicalWorkflow}. If the plan was successful, the trajectory was published, and the set of end effector poses was published as well.
 
-As discussed in \autoref{sec:motionPlanning}, LBKPIECE was supported by MoveIt! and produced faster trajectories that other motion planning algorithms. Unfortunately, the MoveIt! wrapper did not expose the ability to manipulate or change cost functions. Thus the default cost function was utilized, which optimized the path distance. Below are the available configuration options and the values chosen for the experiments. \autoref{fig:motionPlanRViz} shows a trajectory being executed within RVIZ given this configuration to move the robot from the current state to the entry pose without striking the patient head, and \autoref{tab:lbkpieceSettings}.
+As discussed in \autoref{sec:motionPlanning}, LBKPIECE was supported by MoveIt! and produced faster trajectories that other motion planning algorithms. Unfortunately, the MoveIt! wrapper did not expose the ability to manipulate or change cost functions. Thus the default cost function was utilized, which optimized the path distance. Below are the available configuration options and the values chosen for the experiments. \autoref{fig:motionPlanRViz} shows a trajectory being executed within RVIZ given this configuration to move the robot from the current state to the entry pose without striking the patient head, and \autoref{tab:lbkpieceSettings} documents the planner parameters used for the project.
+
+% \begin{table}[htbp]
+% \caption{Motion planner settings for LBKPIECE.}
+% \label{tab:lbkpieceSettings}
+% \vskip6pt
+% \centerline{
+% 		\singlespacing
+% 		\begin{tabular}{|p{3cm}|p{2cm}|}
+% 		\hline
+% % 		\bf{Parameter Name} & \bf{Value} \\ \hline
+% % 		Border Fraction & 0.9 \\ \hline
+% % 		Failed Expansion Goal Factor & 0.5 \\ \hline
+% % 		Goal Bias & 0.9 \\ \hline
+% % 		Min Valid Path Fraction & 0.5 \\ \hline	
+% % 		Border Fraction & 0.9 \\ \hline
+% % 		Min Valid Path Function & 0.5 \\ \hline
+% % 		Range & 0.0 \\ \hline
+% % 		Type & Geometric KPIECE \\ \hline
+% 		\end{tabular}
+% 		\doublespacing
+% 	}
+% \end{table}
 
 \begin{table}[htbp]
 \caption{Motion planner settings for LBKPIECE.}
 \label{tab:lbkpieceSettings}
 \vskip6pt
 \centerline{
-		\singlespacing
 		\begin{tabular}{|p{3cm}|p{2cm}|}
 		\hline
 		\bf{Parameter Name} & \bf{Value} \\ \hline
-		Border Fraction & 0.9\\ \hline
-		Failed Expansion Goal Factor & 0.5\\ \hline
+		Border Fraction & 0.9 \\ \hline
+		Failed Expansion Goal Factor & 0.5 \\ \hline
 		Goal Bias & 0.9 \\ \hline
 		Min Valid Path Fraction & 0.5 \\ \hline	
 		Border Fraction & 0.9 \\ \hline
-		Min Valid Path Function & 0.5\\ \hline
+		Min Valid Path Function & 0.5 \\ \hline
 		Range & 0.0 \\ \hline
 		Type & Geometric KPIECE \\ \hline
 		\end{tabular}
-		\doublespacing
 	}
 \end{table}
 
