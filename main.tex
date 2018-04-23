@@ -428,8 +428,8 @@ The neurobot is essentially a Cartesian platform base with a remote center of mo
 	\centering
 	\subfloat[Diagram showing remote center of motion pitch joint, with yaw joint along same axis.]{\includegraphics[width=0.5\textwidth]{images/neurobot_pitch_joint.jpg}\label{fig:subKin1}}
 	\hfill
-  \subfloat[Parallelogram structure composing cartesian base on the neurobot for both vertical and axial translation.]{\includegraphics[width=0.5\textwidth]{images/neurobot_parallelogram.png}\label{subKin2}}
-  \subfloat[Needle driver joint showing insertion joint and rotation on the probe.]{\includegraphics[width=0.3\textwidth]{images/neurobot_needle_driver.jpg}}\label{subKin3}
+  \subfloat[Parallelogram structure composing cartesian base on the neurobot for both vertical and axial translation.]{\includegraphics[width=0.49\textwidth]{images/neurobot_parallelogram.png}\label{subKin2}}
+  \subfloat[Needle driver joint showing insertion joint and rotation on the probe.]{\includegraphics[width=0.29\textwidth]{images/neurobot_needle_driver.jpg}}\label{subKin3}
     \caption{Neurobot pitch, parallelogram, and needle driver mechanisms. All images from \cite{neurobotIros}}
     \label{fig:neurobotKinematics}
 \end{figure}
@@ -439,23 +439,36 @@ Rotational motion of the upper assembly of the neurobot is attained through revo
 \todo[inline]{Include the equations used to formulate the FK and IK? GF: yes, please include annotated figures and corresponding equations that match what you used in your code}
 
 \begin{table}[htbp]
-\caption{Joint types and limits in position and velocity.}
+\caption{Joint motions and limits on the neurobot, with frames as defined in \autoref{fig:neurobotFrames}. From \cite{neurobotIros}}
 \label{tab:jointInfo}
-\todo[inline]{Double check these values with neuro team.}
 % update with https://docs.google.com/document/d/136ywwUs2Z6RTJQrI72aEzYw0TrwOrAI5MM6YhfEL3f4/edit
 \vskip6pt
 \centerline{
-		\begin{tabular}{|p{3cm}|p{2cm}|p{3cm}|p{3cm}|p{3cm}|}
-		\hline
-		\bf{Joint Name} & \bf{Type} & \bf{Lower Limit} & \bf{Upper Limit}  & \bf{Max Speed} \\ \hline
-		Lateral & Prismatic & 0m & 0.055m & xx \\ \hline
-		Axial 1 & Prismatic & 0m & 0.15m & xx \\ \hline
-        Axial 2 & Prismatic & 0m & 0.15m & xx \\ \hline
-        Yaw & Revolute & 0deg & -90deg & xx \\ \hline
-        Pitch & Revolute & -35deg & 35deg & xx \\ \hline
-        Needle Driver & Prismatic & 0m & 0.04m & xx \\ \hline
-        Needle Rotation & Revolute & Continuous & Continuous & xx \\ \hline
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			\textbf{Axis} & \textbf{Motion} & \textbf{Min Value} & \textbf{Max Value}&\textbf{Units} \\
+			\hline
+			1 & tx  & -37.5 &0&mm\\
+			2 & ty &  0&44.23&mm\\
+			3& tz & -86 &0&mm\\
+            		3& tz2 & -143&57&mm\\
+           		4 &Rx & -90&0&deg\\
+            		5& Ry & -37.2&30.6&deg\\
+            		6 & Rz& -&Continuous&deg\\
+            		7 & P& -40& 0&mm\\
+            		\hline
 		\end{tabular}
+%		\begin{tabular}{|p{3cm}|p{2cm}|p{3cm}|p{3cm}|p{3cm}|}
+%		\hline
+%		\bf{Joint Name} & \bf{Type} & \bf{Lower Limit} & \bf{Upper Limit}  & \bf{Max Speed} \\ \hline
+%		Lateral & Prismatic & 0m & 0.055m & xx \\ \hline
+%		Axial 1 & Prismatic & 0m & 0.15m & xx \\ \hline
+%        Axial 2 & Prismatic & 0m & 0.15m & xx \\ \hline
+%        Yaw & Revolute & 0deg & -90deg & xx \\ \hline
+%        Pitch & Revolute & -35deg & 35deg & xx \\ \hline
+%        Needle Driver & Prismatic & 0m & 0.04m & xx \\ \hline
+%        Needle Rotation & Revolute & Continuous & Continuous & xx \\ \hline
+%		\end{tabular}
 	}
 \end{table}
 
@@ -594,7 +607,7 @@ In some cases, not all of the steps above would be performed during procedures. 
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[page=1,width=5in]{diagrams/Surgical_Workflow_-_Hole_Predrilled.pdf}
+	\includegraphics[page=1,width=\textwidth]{diagrams/Surgical_Workflow_-_Hole_Predrilled.pdf}
     \todo[inline]{Update workflow diagram. GF: make these as big as you can fit on the page}
     \caption{Diagram of the surgical system workflow when the hole is drilled before the patient is placed on the MRI bed. Page 1 showing procedure setup, worskspace visualization, and trajectory generation.}
     \label{fig:surgicalWorkflowPg1}
@@ -602,7 +615,7 @@ In some cases, not all of the steps above would be performed during procedures. 
 
 \begin{figure}[thpb]
 	\centering
-    \includegraphics[page=2,width=5in]{diagrams/Surgical_Workflow_-_Hole_Predrilled.pdf}
+    \includegraphics[page=2,width=\textwidth]{diagrams/Surgical_Workflow_-_Hole_Predrilled.pdf}
     \caption{Diagram of the surgical system workflow when the hole is drilled before the patient is placed on the MRI bed. Page 2 showing needle insertion procedure and extraction.}
     \label{fig:surgicalWorkflowPg2}
 \end{figure}
@@ -698,7 +711,7 @@ For the purposes of motion planning, the robot's starting configuration needed t
 \label{sec:sendJointTrajectories}
 Trajectories in ROS were well standardized as messages with a list of joint names and a list of joint trajectory points which included position, velocity, accelerations, and effort of each of the active DOF and a duration time from the start of the trajectory at which that trajectory point was to be achieved. Of course, this format did not exist in OpenIGTLink, so another conversion had to be made. Again, the NDArray type would have been most suitable, but instead a string was used, in which a time stamp, joint positions, and joint velocities were sent separated by semicolons and commas. For instance, the joint positions were listed with commas while a semicolon separated both the duration time and the joint velocities. A node listened to trajectories being published from the motion planner, transformed the joint space as discussed in \autoref{sec:transformJointSpace}, converted units, and sent those messages over OpenIGTLink. The robot controller would then parse this array to perform the desired trajectory.
 
-To provide a method for visualizing the trajectory in Slicer before approving it and allowing the controller to perform the action, another array was sent which contained the end effector position as an array at each state in the trajectory. This removed the need to have a FK solver bundled within Slicer. \todo{Revisit this when completed.}
+% To provide a method for visualizing the trajectory in Slicer before approving it and allowing the controller to perform the action, another array was sent which contained the end effector position as an array at each state in the trajectory. This removed the need to have a FK solver bundled within Slicer. \todo{Revisit this when completed.}
 
 
 \section{Software Packaging}
@@ -760,7 +773,7 @@ Some further tweaks were necessary to the URDF once it was generated by the Soli
 
 \subsection{Transforming Joint Space Representations}
 \label{sec:transformJointSpace}
-\todo[inline]{Revisit this section when completed.}
+\todo[inline]{Revisit joint space representation transformation when completed.}
 
 
 \section{MoveIt! Neurobot Configuration}
@@ -1008,7 +1021,7 @@ In order to have an accurate collision model of the patient head for motion plan
 
 
 \section{Slicer Processing}
-The process of generating a solid mesh from a series of scans within Slicer was generally straightforward with the Segment Editor. A segment was added using the thresholding tool with the lower bound set to a number which just eliminated the background from the image and the upper bound set to the maximum. \autoref{fig:segmentationThreshold} shows the scan planes with the threshold mask and the rendered 3D volume. \todo{cite}
+The process of generating a solid mesh from a series of scans within Slicer was generally straightforward with the Segment Editor, which was generally well documented on both the Slicer Wiki and through a tutorial written for completing segmentations for 3D printing body parts. \cite{segmentationEditorTutorial} Slicer and this tool in particular have been noted at providing excellent algorithms for processing medical images, for instance, segmenting brain tumors, in a very accessible way for researchers. \cite{segmentationEditorPaper} A segment was added using the thresholding tool with the lower bound set to a number which just eliminated the background from the image and the upper bound set to the maximum. \autoref{fig:segmentationThreshold} shows the scan planes with the threshold mask and the rendered 3D volume.
 
 \begin{figure}[thpb]
 	\centering
@@ -1075,9 +1088,9 @@ The decimated polydata object's points were \todo{GF:can you confirm that the lo
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Optimization of Patient Head Positioning}
-\todo[inline]{Not sure this will happen. Revisit or move the below to future work. GF:what do you have in mind, and what is the status?}
-An occasional problem that occurred during procedures was that in some cases, the patient's head or the burr hole was placed in way that was not conducive to the actual workspace of the neurobot. While the workspace visualization could show what was reachable on a trial and error process once the scans of the patient were taken, there would be great utility in a tool that could show optimal locations for the burr hole to be placed on the patient's skull given typical head orientations once the patient was in the scanner with the robot. Though an automated system which computes an optimal patient head orientation and burr hole based on MRI scans and pre-operative data would be desirable, sometimes a human can make equally valid decisions if they are provided with sufficient data in an easily understandable format.
+%\chapter{Optimization of Patient Head Positioning}
+%\todo[inline]{Not sure this will happen. Revisit or move the below to future work. GF:what do you have in mind, and what is the status?}
+%An occasional problem that occurred during procedures was that in some cases, the patient's head or the burr hole was placed in way that was not conducive to the actual workspace of the neurobot. While the workspace visualization could show what was reachable on a trial and error process once the scans of the patient were taken, there would be great utility in a tool that could show optimal locations for the burr hole to be placed on the patient's skull given typical head orientations once the patient was in the scanner with the robot. Though an automated system which computes an optimal patient head orientation and burr hole based on MRI scans and pre-operative data would be desirable, sometimes a human can make equally valid decisions if they are provided with sufficient data in an easily understandable format.
 
 % \section{Description of Optimization Problem}
 % The patient head position and orientation could be optimized to provide the robot with greatest manipulability around the target area. This would involve consideration of the target area, typical burr hole locations on the skull, comfortable range of motion of the patient's head, and the flexibility of robot mounting locations. Though a challenging problem to solve, this could remove some of the uncertainty and replanning that occurs during procedures due to a patient position that prevents the robot from reaching the target site.
@@ -1156,13 +1169,12 @@ The path smoothing operation was also examined in some detail. \autoref{fig:path
 
 
 \section{System Workspace Validation}
-\todo[inline]{GF:where are you at with these tests?}
 To test the workspace validation, motion capture was used on the neurobot as it completed movements mimicing those generated during the workspace analysis on the modeled neurobot. The end goal was to directly compare the shape of the workspace obtained by the real hardware with that achieved by the software system. Fiducials were used on the robot's base to establish the base frame of the robot and a valid transform to directly relate the modeled robot frames with the simulated robot frames. A single fiducial was placed on the robot where the entry point would be located for the robot, as shown in \autoref{fig:workspaceExperimentSetup}.
 
 \begin{figure}[thpb]
 	\centering
 	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
-    \missingfigure[figwidth=4in]{picture of experiment.}
+    \missingfigure[figwidth=4in]{picture of workspace validation experiment.}
     \caption{Picture of the experimental setup of the neurobot for workspace validation.}
     \label{fig:workspaceExperimentSetup}
 \end{figure}
@@ -1177,7 +1189,7 @@ a script commanded the robot to move to joint positions evenly spaced in the con
     \label{fig:workspaceMocapCompare}
 \end{figure}
 
-\todo[inline]{Revisit for analysis once tests are complete.}
+\todo[inline]{Revisit for analysis once workspace tests are complete.}
 
 
 \section{Trajectory Validation}
@@ -1201,9 +1213,7 @@ In the software system, a motion plan was requested to a goal which could result
     \label{fig:trajectoryMocapCompare}
 \end{figure}
 
-\todo[inline]{Revisit for analysis once tests are complete.}
-
-%\section{Patient Head Optimization Results}
+\todo[inline]{Revisit for analysis once trajectory tests are complete.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1245,44 +1255,60 @@ In the process of developing these capabilities for the system, there were some 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Future Work}
 \label{futureWork}
-While the system was successful in meeting its objectives and requirements, there were some improvements that could be made to further improve its capability and utility. Natural extensions to this project could benefit the greater community as a whole with sufficient resources and time. \todo{add part about making this production-ready}
+While the system was successful in meeting its objectives and requirements, there were some improvements that could be made to further improve its capability and utility. Natural extensions to this project could benefit the greater community as a whole with sufficient resources and time. To eventually move this research-grade system into the production environment where the software could eventually be used clinically with humans, the software stack would be subjected to significant scrutiny to prove it was robust and safe. Several different improvements and extensions to this work are discussed below.
 
+\subsubsection{Improved Software Packaging}
 As mentioned previously, utilizing the software within a VM was not an ideal design choice, but given the time constraints, requirements, and delicate nature of software environments and library installations, this was the best balance of performance and cost. With additional time, it would be ideal to contain the software with Docker or in some way integrate the system better to reduce this extra complexity. It could be possible to make a hardware change to solve this problem too. A high-performance traditional x86 processor in a small form factor (such as an Intel NUC) could be added to the neurobot control box or as the means of providing network communication over the fiber cable and hosting some other higher level functions. This would also yield the benefit of exposing the neurobot to the ROS environment, and perhaps tighter integration of the neurobot with ROS could spur some additional development or integration with other hardware platforms.
 
-In modeling the neurobot, there were some changes that could be made to the SolidWorks to URDF add-in that could enhance its functionality, such as saving the joint configuration data and improving the joint type auto detection. While the workflow of updating a robot model and migrating those changes into URDF is not too burdensome, addressing these problems would greatly speed the process of completing those updates, as had to be done in this project. Eventually, building a simulation of the neurboot in ROS' simulation environment, Gazebo, could help fine-tune the neurobot controls and allow the motion planning solution to be more vested and allow proper unit testing, especially since it is possible in Gazebo to model parallelogram linkages. It would be interesting to develop a simulation of an MRI scanner as well and attempt to model the entire workflow. 
+\subsubsection{Modeling Improvements}
+In modeling the neurobot, there were some changes that could be made to the SolidWorks to URDF add-in that could enhance its functionality, such as saving the joint configuration data and improving the joint type auto detection. While the workflow of updating a robot model and migrating those changes into URDF is not too burdensome, addressing these problems would greatly speed the process of completing those updates, as had to be done in this project. Eventually, building a simulation of the neurboot in ROS' simulation environment, Gazebo, could help fine-tune the neurobot controls and allow the motion planning solution to be more vested and allow proper unit testing, especially since it is possible in Gazebo to model parallelogram linkages. It would be interesting to develop a simulation of an MRI scanner as well and attempt to model the entire workflow with imaging.
 
-In the workspace analysis, the probe should be rotated during collision checks to make sure that a given configuration allows the probe to be rotated during treatment without hitting the MRI bore. This was not important during current testing of the neurobot since a symmetric probe was used during treatments, but more sophisticated treatments using a narrow beam probe would need this enhancement, albeit at a performance cost. The resolution of the workspace checking could also be enhanced, and perhaps an analytical workspace analysis would be worth developing to reduce the processing time. Alternatively, saving workspaces for the different probe configurations, effectively caching them and loading the proper configuration given the offset specifications, could massively reduce the computational time currently required for checking collisions with the bore and generating the workspace. 
+One issue that was not addressed in this work was handling the calibration routine of the robot for setting calibrated joint limits for the ROS model of the robot. This could be remedied by sending special joint state messages over OpenIGTLink which can define when the robot is in a calibration state and a final message when the robot has been successfully homed. In this way, the true zero joint values can be updated for the URDF and joint states in the trajectory will be closer to the actual robot hardware.
+
+The needle modeling could be improved by making several different end effector URDF's that could be added or removed from the robot depending on the procedure configuration. Such a configuration change could be enabled through using the macro XML extensions in the URDF. This would eliminate some of the less conventional methods in the workspace analysis of artificially lengthening or shortening the probe tip by manipulating the treatment offset. Additionally, this approach would be more general and extensible if different tools were used on the robot.
+
+\subsubsection{IK Solver Improvements}
+Another improvement would be to develop an analytical IK solution for the ROS model of the robot. With the robot model properly represented in OpenRave, a functioning IKFast plugin could be created to enable analytical IK solving of the robot's end effector, which would improve the execution time when solving the IK during the entry point workspace checking. Alternatively, a custom kinematic solver plugin can be written for the MoveIt! robot configuration, which would potentially allow the same IK solver used on the robot controller to be imported and used on the ROS model. However, the joint space converter would have to operate each time an IK query was called, but this would likely remain faster than the numerical IK solver currently implemented with KDL. 
+
+\subsubsection{Workspace Analysis Additions}
+In the workspace analysis, the probe should be rotated during collision checks to make sure that a given configuration allows the probe to be rotated during treatment without hitting the MRI bore. This was not important during current testing of the neurobot since a symmetric probe was used during treatments, but more sophisticated treatments using a narrow beam probe would need this enhancement, albeit at a performance cost. The resolution of the workspace checking could also be enhanced, and perhaps an analytical workspace analysis would be worth developing to reduce the processing time. Alternatively, saving workspaces for the different probe configurations, effectively caching them and loading the proper configuration given the offset specifications, could massively reduce the computational time currently required for checking collisions with the bore and generating the workspace. Collision checking could also be parallelized or GPU-accelerated to reduce the time it takes to produce the workspaces.
 
 Since a significant portion of this project involved developing a tool for completing the workspace analysis of the neurobot, it would be a valuable endeavor to make the solution more generic and release it as a freely available ROS package for conducting workspace analysis. This would take some additional development effort and a commitment from developers (or enough interest in the community) to continue supporting and updating the package as ROS continues to develop. Yet the effort would be worth it by helping WPI and AIM Lab become more public and well-recognized in the robotics community for their contributions.
 
+\subsubsection{Trajectory Display and Confirmation}
 In evaluating the validity of the planned trajectory in Slicer, it would be helpful to have a visualization of the robot and the ultrasonic probe that could be traced along the planned trajectory. This would provide a more thorough understanding of the positioning context of the system as it relates to the patient within the MRI machine as well as ensuring that parts of the robot would not strike the patient when executing the trajectory. There could have been more features added to the Slicer interface to better improve the interaction with the motion planning system, but further improvements were not possible in the given time frame.
 
-The patient head pose and burr hole location could be algorithmically optimized (rather than through an operator-informed decision) to ensure maximum reachability around the tumor location by porting the robot model into OpenRave and utilizing existing optimality planners for determining where to locate the base of industrial robot manipulators. \cite{workspaceChecker} With the robot model properly represented in OpenRave, a functioning IKFast plugin could be created as well to enable analytical IK solving of the robot's end effector, which would improve the execution time when solving the IK during the entry point workspace checking.
+\subsubsection{Optimization of Burr Hole Location}
+The patient head pose and burr hole location could be algorithmically optimized (rather than through an operator-informed decision) to ensure maximum manipulability around the tumor location. One way of achieving this could be by porting the robot model into OpenRave and utilizing an existing optimality planners for determining where to locate the base of industrial robot manipulators. \cite{workspaceChecker} It is likely that this technique could be replicated in ROS itself, as a manipulability index is computable for the kinematic chain of the robot, thus lending itself to possible adaption for positioning the patient head in order to maximize the manipulability around the target site, which is of more importance in the future where multiple ablations could be performed to fully destroy the tumor conformally. Another approach at this problem is to sample entry points in the robot's workspace and compute the volume of the reachable element workspace for each one. In this way, it can be demonstrated which entry points provide the largest access in the patient, and this could be used to position the patient head and/or burr hole.
 
-\todo[inline]{Making the head segmentation more automated.}
-
-\todo[inline]{Calibrating joint limits.}
-
-\todo[inline]{GF:can we make the end effector a separate model w/ its own URDF that is imported into the arm URDF? Adnan/Radian/Ankur are doing similar w/ davinci to make the tool separate form the arm.}
-
-More development support for the ROS-OpenIGTLink-Bridge package would open up the door for greater interoperability between the medical and robotics research worlds. However, there are some soul-seeking questions that need to be answered. How much reinventing happens on each side of the fence? There are excellent visualization tools for each platform, but it would be difficult to migrate features from one into another; perhaps there must always be two interfaces for interacting with medical data and robotics sensory information. Additionally, a lot of these tools are for research purposes only \todo{Flesh out how to turn this into a production system} and could be hard to attain Food and Drug Administration approval for human treatments due to validating operational safety on a large, open-source software stack and ensuring proper security protocols (to ensure patient privacy and safety) on both ROS and OpenIGTLink communications, not to mention potential licensing issues. Surpassing these more intricate issues can necessitate developing in-house solutions, which greatly increases cost and tends to result in reproducing solutions to basic problems that already exist. Perhaps there is a greater conversation that needs to happen in this front, but at the same time, it is sometimes better to prove out a system concept quickly with the best tools on hand rather than miss an opportunity for sake of technicality to offer a novel treatment system for treating clinical threats to human life and improving the quality of living for those suffering from neurological diseases.
+\subsubsection{Automation of Head Segmentation}
+There were a number of human-in the loop tasks to complete for completing the head segmentation process for obtaining the volume of the patient. This included setting the threshold for masking, removing islands, and running filters on the selected volume. Besides the segmentation masking step, which is done by a threshold specified by a user as background noise can change between scanners, the other steps can use preset parameters. Most likely, this automation could be achieved by creating a Slicer module to use the segmentation editor to automate the process. The serialization and deserialization of the polydata objects also can take a couple dozen seconds to complete, so reducing the polygon count within Slicer using a module before packaging the data would speed up the workflow.
 
 \section{Trajectory Control in Slicer}
 A final check of the validity of the motion plan was performed in Slicer. The end effector path was converted by a ROS node into a OpenIGTLink polydata object that contained the series of lines connecting the points of the path, as illustrated in \autoref{fig:motionPlanSlicer}. This allowed a final sanity check to make sure that the trajectory reached the entry point in a reasonable way and would avoid hitting the patient. Once this was confirmed, the trajectory was allowed to be executed on the robot by using the interface provided on the robot controller software and pressing the foot pedal.
 
-\begin{figure}[thpb]
-	\centering
-	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
-   \missingfigure[figwidth=4in]{Screenshot in Slicer of planned path}
-   \caption{Screenshot of Slicer showing the end effector path from the motion planning solution.}
-   \label{fig:motionPlanSlicer}
-\end{figure}
+\subsubsection{Bridging and Towards Production-Ready Software}
+More development support for the ROS-OpenIGTLink-Bridge package would open up the door for greater interoperability between the medical and robotics research worlds. However, there are some soul-seeking questions that need to be answered. How much reinventing happens on each side of the fence? There are excellent visualization tools for each platform, but it would be difficult to migrate features from one into another; perhaps there must always be two interfaces for interacting with medical data and robotics sensory information. 
+
+Additionally, a lot of these tools are for research purposes only and could be hard to attain Food and Drug Administration approval for human treatments due to validating operational safety on a large, open-source software stack and ensuring proper security protocols (to ensure patient privacy and safety) on both ROS and OpenIGTLink communications, not to mention potential licensing issues. To bring this software system into production, the open-source software platforms would likely be forgone to enable greater control over revisions, licensing freedoms, and ability to validate and certify the custom-built software. Surpassing these more intricate issues can necessitate developing in-house solutions, which greatly increases cost and tends to result in reproducing solutions to basic problems that already exist. Perhaps there is a greater conversation that needs to happen in this front, but at the same time, it is sometimes better to prove out a system concept quickly with the best tools on hand rather than miss an opportunity for sake of technicality to offer a novel treatment system for treating clinical threats to human life and improving the quality of living for those suffering from neurological diseases.
+
+
+
+%\begin{figure}[thpb]
+%	\centering
+%	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+%   \missingfigure[figwidth=4in]{Screenshot in Slicer of planned path}
+%   \caption{Screenshot of Slicer showing the end effector path from the motion planning solution.}
+%   \label{fig:motionPlanSlicer}
+%\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 \chapter{Multimedia Resources}
 \label{sec:appendixVideos}
-Videos of the system in operation are listed below: \todo{update with videos from presentation, add presentation link}
+The presentation of this thesis can be found at \url{https://docs.google.com/presentation/d/1Phs1Y4dXaJT5bG8Cnt8NBwlvA2UG12JH63xtuhlZ850/edit?usp=sharing}.
+
+Videos of the system in operation are listed below: \todo{update with newer videos}
 \begin{enumerate}
 \item Robot and joint movements visualized in RViz \url{https://youtu.be/A8vxQcD-D1M}
 \item MoveIt! Planning Scene with MRI Bore and head \url{https://youtu.be/uBkmzkpJ0bE}
@@ -1488,6 +1514,10 @@ Install \url{https://tortoisehg.bitbucket.io/} to pull and build Cmake from sour
 \bibitem{ikFastMoveIt} Sucan, I. A., and Chitta, S. (2016). ``Moveit! IKFast Plugin Tutorial.'' \url{http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/ikfast_tutorial.html}
 
 \bibitem{moveitIssue} Sucan, I. A., and Chitta, S. (2013). ``ros-planning moveit issue 118'' \url{https://github.com/ros-planning/moveit/issues/118}
+
+\bibitem{segmentationEditorTutorial} Pinter, Csaba. ``Segmentation for 3D Printing.'' NA-MIC Tutorial Contest: Winter 2017, National Alliance for Medical Image Computing, 2017, \url{github.com/SlicerRt/SlicerRtDoc/raw/master/tutorials/SegmentationFor3DPrinting_TutorialContestWinter2017.pdf}.
+
+\bibitem{segmentationPaper} R. Kikinis and S. Pieper, ``3D Slicer as a tool for interactive brain tumor segmentation,'' 2011 Annual International Conference of the IEEE Engineering in Medicine and Biology Society, Boston, MA, 2011, pp. 6982-6984. doi: 10.1109/IEMBS.2011.6091765 \url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6091765&isnumber=6089866}
 
 \bibitem{workspaceChecker} ROS.org ``reuleaux package documentation.'' Accessed April 2017. \url{http://wiki.ros.org/reuleaux}
 
