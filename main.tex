@@ -424,13 +424,13 @@ Most of the neurobot frames follow similar conventions to those used in the scan
 \label{sec:kinematicsJointInfo}
 The neurobot is essentially a Cartesian platform base with a remote center of motion wrist which also includes a degree of freedom for driving the needle along its axis, as illustrated in \autoref{fig:neurobotKinematics}, totaling seven active DOF. This makes the system under constrained in some configurations. Cartesian motions of the base are achieved through screw drives, with lateral translation being a simple screw driven joint. Vertical and axial motion is obtained through a differentially driven pair of lead screws attached to a parallelogram mechanism. When both screws are driven in the same direction, this achieves axial translation. When screws are driven in different directions, the `legs' of the parallelogram are brought closer together or further apart, which achieves a change in height.
 
-\todo[inline]{Jane: Please add a DH parameter table to describe the forward kinematics of the needle insertion system.}
-
 \begin{figure}[thpb]
 	\centering
-	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
-    \missingfigure[figwidth=4in]{Neurobot kinematics, possibly from 3 views }
-    \caption{Neurobot kinematic structure.}
+	\subfloat[Diagram showing remote center of motion pitch joint, with yaw joint along same axis.]{\includegraphics[width=0.5\textwidth]{images/neurobot_pitch_joint.jpg}\label{fig:subKin1}}
+	\hfill
+  \subfloat[Parallelogram structure composing cartesian base on the neurobot for both vertical and axial translation.]{\includegraphics[width=0.5\textwidth]{images/neurobot_parallelogram.png}\label{subKin2}}
+  \subfloat[Needle driver joint showing insertion joint and rotation on the probe.]{\includegraphics[width=0.3\textwidth]{images/neurobot_needle_driver.jpg}}\label{subKin3}
+    \caption{Neurobot pitch, parallelogram, and needle driver mechanisms. All images from \cite{neurobotIros}}
     \label{fig:neurobotKinematics}
 \end{figure}
 
@@ -716,6 +716,8 @@ In order to utilize the tools within ROS for completing collision detection and 
 
 \section{Representation of Neurobot Kinematics}
 Generating this particular robot model in ROS required a bit more processing than a normal serial manipulator. The URDF does not allow closed loop linkages since the kinematic structure of the robot is eventually described using TF, which expresses coordinate frames as a tree structure. This complicated the development of an accurate model since the neurobot includes parallel linkages in the design, resulting in more joints than degrees of freedom. Further, as described in \autoref{sec:kinematicsJointInfo}, axial and vertical motion is attained through a pair of lead screws, where the differential between the two achieves vertical motion and synchronized actuation produces axial motion. 
+
+\todo[inline]{DH parameters for the modeled robot.}
 
 A workaround the limitation of the URDF to describe closed loop chains was to use mimic tags, \todo{GF: maybe a figure point out where you used this} which describe how one joint mimics or follows the pattern of another and removes the mimicing joint from the list of the robot's active DOF. This allowed the parallelogram linkage mechanism, which was actually two prismatic joints, to be modeled as two decoupled joints with a prismatic joint for axial translation and a revolute joint for changes in height. Two separate chains with a single active degree of freedom that controlled the height through rotations on one linkage. A similar mimicing pattern was used for the pitch axis, and the result of the final modeling of the neurobot is shown in \autoref{fig:neuroROSModel}.
 
@@ -1268,13 +1270,13 @@ More development support for the ROS-OpenIGTLink-Bridge package would open up th
 \section{Trajectory Control in Slicer}
 A final check of the validity of the motion plan was performed in Slicer. The end effector path was converted by a ROS node into a OpenIGTLink polydata object that contained the series of lines connecting the points of the path, as illustrated in \autoref{fig:motionPlanSlicer}. This allowed a final sanity check to make sure that the trajectory reached the entry point in a reasonable way and would avoid hitting the patient. Once this was confirmed, the trajectory was allowed to be executed on the robot by using the interface provided on the robot controller software and pressing the foot pedal.
 
-%\begin{figure}[thpb]
-%	\centering
-%	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
-%    \missingfigure[figwidth=4in]{Screenshot in Slicer of planned path}
-%    \caption{Screenshot of Slicer showing the end effector path from the motion planning solution.}
-%    \label{fig:motionPlanSlicer}
-%\end{figure}
+\begin{figure}[thpb]
+	\centering
+	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
+   \missingfigure[figwidth=4in]{Screenshot in Slicer of planned path}
+   \caption{Screenshot of Slicer showing the end effector path from the motion planning solution.}
+   \label{fig:motionPlanSlicer}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
