@@ -645,15 +645,17 @@ This chapter covers the development setup of the system, implementation of key i
 The system was designed to run on a Ubuntu 16.04 computer with ROS Kinetic installed. Typically, ROS releases are tied to specific Ubuntu releases, and LTS versions are supported with security patches and bug fixes for five years after release with new releases every two years. Usually, ROS versions are generally API-compatible between sequential versions, but changes to the API structure may throw warnings during compilation that those API functions are being changed or removed in the next ROS version. Over a greater time period, ROS 1 will generally remain consistent across yearly revisions, but ROS 2.0 is not expected to maintain API compatibility. Installing 3D Slicer on this system was optional and trivial, but at least one computer had to have Slicer installed for conducting the procedure. The most recent stable Slicer program  was used, which was 4.8.1. Beyond the simple one-line installation of ROS and MoveIt!, OpenIGTLink had to be downloaded and built from source using a script. With those simple dependencies installed, software was ready to be built.
 
 \subsection{ROS Workspace}
-A standard catkin build tools workspace was created for building and sourcing the ROS packages for the software platform. A git repository contained the code for the project and could be cloned and built in the catkin workspace alongside other ROS packages. Nodes were written in C++, and \autoref{fig:rosNodeGraph} shows the network of running ROS nodes the topics used for message transport.
+A standard catkin build tools workspace was created for building and sourcing the ROS packages for the software platform. A git repository contained the code for the project and could be cloned and built in the catkin workspace alongside other ROS packages. Nodes were written in C++ and contained in the package structure shown in \autoref{fig:softwareDiagram}.
 
-\begin{figure}[thpb]
-	\centering
-	\includegraphics[width=\textwidth]{diagrams/rosgraph_workspace_clipped.pdf}
-    \todo[inline]{Needs to be readable when printed}
-    \caption{Graph of ROS nodes and topics on the completed system. }
-    \label{fig:rosNodeGraph}
-\end{figure}
+% , and \autoref{fig:rosNodeGraph} shows the network of running ROS nodes the topics used for message transport.
+
+% \begin{figure}[thpb]
+% 	\centering
+% 	\includegraphics[width=\textwidth]{diagrams/rosgraph_april.pdf}
+%     \todo[inline]{Needs to be readable when printed}
+%     \caption{Graph of ROS nodes and topics on the completed system. }
+%     \label{fig:rosNodeGraph}
+% \end{figure}
 
 
 \section{Bridging with OpenIGTLink}
@@ -666,7 +668,7 @@ The key transform necessary for the software system was the registration transfo
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[height=6in]{diagrams/neuro_tf_frames_clipped.pdf}
+	\includegraphics[height=8in]{diagrams/neuro_tf_frames_clipped.pdf}
     \caption{TF tree of the system showing the transforms defined in ROS. }
     \label{fig:rosTFTree}
 \end{figure}
@@ -1015,7 +1017,6 @@ Essentially, the same tools used for converting the joint space as discussed in 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{MRI Segmentation}
 \label{sec:mriSegmentation}
-\todo[inline]{GF: maybe we should try on a real human head as well, i believe there are datasets available online. I think we may even have some from dr pilitsis from early in the project.}
 In order to have an accurate collision model of the patient head for motion planning, a 3D mesh of the patient head was extracted from available MRI scans and sent over OpenIGTLink to the ROS network for further processing and loading into the planning scene monitor. The following two sections describe this process in more detail.
 
 
@@ -1069,7 +1070,16 @@ A different ROS node was created with the same basic format as the point cloud c
     \label{fig:segmentationDecimated}
 \end{figure}
 
-The decimated polydata object's points were \todo{GF:can you confirm that the low res head is not smaller that the high res one? It should ideally encompass the full high res one so it does not eliminate potential collisions.} converted to a PCL point cloud so the same code could be used for performing the concave hull approximation developed in \autoref{sec:sendingWorkspaceVolume}, and the resulting VTK object was saved to disk so that it could be viewed in Slicer for reference purposes, as shown in \autoref{fig:headMeshConcave}. The VTK object was then saved as an STL, and the STL path was published to the Workspace Visualizer so it could load the mesh resource as a collision object at the appropriate time and publish that to the planning scene. \autoref{fig:patientHeadInPlanningScene} shows the final outcome of this process with the patient head model properly loaded into the planning scene, attached to the base link of the robot to allow collision checks to be skipped for that link and to prevent false positives.
+To ensure that the decimated mesh (reducing the STL file size from 90.4 MB to 16.5MB) would not significantly impact the accuracy of collision checks, the original 3D segmented model was compared with the decimated version of the model. \autoref{fig:meshCompare} shows the decimated mesh overlaid with the original mesh. Examining the scan planes, it can be seen that the two stay within about two pixel widths of each other, which shows how tightly the decimated mesh still matches the original shape. MoveIt! also adds an extra cushion around environmental objects during collision checks to help ensure that uncertainties in sensing do not cause unforseen collisions with the environment.
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\textwidth]{images/mesh_resolution_compare.png}
+    \caption{Screenshot from Slicer showing the STL of the decimated patient head in blue with the original mesh in red shown in the 3D preview nad overlaid on the original images.}
+    \label{fig:meshCompare}
+\end{figure}
+
+The decimated polydata object's points were converted to a PCL point cloud so the same code could be used for performing the concave hull approximation developed in \autoref{sec:sendingWorkspaceVolume}, and the resulting VTK object was saved to disk so that it could be viewed in Slicer for reference purposes, as shown in \autoref{fig:headMeshConcave}. The VTK object was then saved as an STL, and the STL path was published to the Workspace Visualizer so it could load the mesh resource as a collision object at the appropriate time and publish that to the planning scene. \autoref{fig:patientHeadInPlanningScene} shows the final outcome of this process with the patient head model properly loaded into the planning scene, attached to the base link of the robot to allow collision checks to be skipped for that link and to prevent false positives.
 
 \begin{figure}[thpb]
 	\centering
@@ -1085,6 +1095,17 @@ The decimated polydata object's points were \todo{GF:can you confirm that the lo
     \label{fig:patientHeadInPlanningScene}
 \end{figure}
 
+\subsection{Segmentation of Human Head}
+Slicer includes several freely available data sets of medical images for conducting research, and one of those data sets is of MR images of a human head. To verify that this procedure worked well for a human head, the same steps described above were repeated for the human head model. The results showed the process (even using the same threshold values) produced a good model of the patient head and indicated the process could be replicated for human subjects. \autoref{fig:humanHeadSegmentation} shows the human head segmentation in both Slicer and RViz.
+
+\begin{figure}[thpb]
+	\centering
+    \subfloat[Slicer view of segmented model of human head.]{\includegraphics[width=0.4\textwidth]{images/segmentation_human_head.png}\label{fig:seg1}}
+  \hfill
+  \subfloat[RViz view of human head as attached collision model in the planning scene.]{\includegraphics[width=0.6\textwidth]{images/segmentation_rviz_human_head.png}\label{fig:seg2}}
+    \caption{Results of segmenting a human head from MR images.}
+    \label{fig:humanHeadSegmentation}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\chapter{Optimization of Patient Head Positioning}
@@ -1197,7 +1218,7 @@ To validate the trajectory generation and execution, a similar setup was used as
 \begin{figure}[thpb]
 	\centering
 	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
-    \missingfigure[figwidth=4in]{picture of experiment.}
+    \missingfigure[figwidth=4in]{picture of trajectory experiment.}
     \caption{Picture of the experimental setup of the neurobot for trajectory validation.}
     \label{fig:trajectoryExperimentalSetup}
 \end{figure}
@@ -1267,26 +1288,23 @@ One issue that was not addressed in this work was handling the calibration routi
 The needle modeling could be improved by making several different end effector URDF's that could be added or removed from the robot depending on the procedure configuration. Such a configuration change could be enabled through using the macro XML extensions in the URDF. This would eliminate some of the less conventional methods in the workspace analysis of artificially lengthening or shortening the probe tip by manipulating the treatment offset. Additionally, this approach would be more general and extensible if different tools were used on the robot.
 
 \subsubsection{IK Solver Improvements}
-Another improvement would be to develop an analytical IK solution for the ROS model of the robot. With the robot model properly represented in OpenRave, a functioning IKFast plugin could be created to enable analytical IK solving of the robot's end effector, which would improve the execution time when solving the IK during the entry point workspace checking. Alternatively, a custom kinematic solver plugin can be written for the MoveIt! robot configuration, which would potentially allow the same IK solver used on the robot controller to be imported and used on the ROS model. However, the joint space converter would have to operate each time an IK query was called, but this would likely remain faster than the numerical IK solver currently implemented with KDL. 
+Another improvement would be to develop an analytical IK solution for the ROS model of the robot. With the robot model properly represented in OpenRAVE, a functioning IKFast plugin could be created to enable analytical IK solving of the robot's end effector, which would improve the execution time when solving the IK during the entry point workspace checking. Alternatively, a custom kinematic solver plugin can be written for the MoveIt! robot configuration, which would potentially allow the same IK solver used on the robot controller to be imported and used on the ROS model. However, the joint space converter would have to operate each time an IK query was called, but this would likely remain faster than the numerical IK solver currently implemented with KDL. 
 
 \subsubsection{Workspace Analysis Additions}
 In the workspace analysis, the probe should be rotated during collision checks to make sure that a given configuration allows the probe to be rotated during treatment without hitting the MRI bore. This was not important during current testing of the neurobot since a symmetric probe was used during treatments, but more sophisticated treatments using a narrow beam probe would need this enhancement, albeit at a performance cost. The resolution of the workspace checking could also be enhanced, and perhaps an analytical workspace analysis would be worth developing to reduce the processing time. Alternatively, saving workspaces for the different probe configurations, effectively caching them and loading the proper configuration given the offset specifications, could massively reduce the computational time currently required for checking collisions with the bore and generating the workspace. Collision checking could also be parallelized or GPU-accelerated to reduce the time it takes to produce the workspaces.
 
 Since a significant portion of this project involved developing a tool for completing the workspace analysis of the neurobot, it would be a valuable endeavor to make the solution more generic and release it as a freely available ROS package for conducting workspace analysis. This would take some additional development effort and a commitment from developers (or enough interest in the community) to continue supporting and updating the package as ROS continues to develop. Yet the effort would be worth it by helping WPI and AIM Lab become more public and well-recognized in the robotics community for their contributions.
 
-\subsubsection{Trajectory Display and Confirmation}
-In evaluating the validity of the planned trajectory in Slicer, it would be helpful to have a visualization of the robot and the ultrasonic probe that could be traced along the planned trajectory. This would provide a more thorough understanding of the positioning context of the system as it relates to the patient within the MRI machine as well as ensuring that parts of the robot would not strike the patient when executing the trajectory. There could have been more features added to the Slicer interface to better improve the interaction with the motion planning system, but further improvements were not possible in the given time frame.
+\subsubsection{Slicer Additions}
+Building a module within Slicer to handle some of the manual steps of the work flow would have increased the ease of use of the system and allowed the interface to be less complicated. A module should be built that controls and supervises the state and actions of the software system by providing an interface within Slicer itself. In evaluating the validity of the planned trajectory in Slicer, it would be helpful to have a visualization of the path, the robot, and the ultrasonic probe that could be traced along the planned trajectory. This would provide a more thorough understanding of the positioning context of the system as it relates to the patient within the MRI machine as well as ensuring that parts of the robot would not strike the patient when executing the trajectory. Once this trajectory is checked by an operator, it can be confirmed and then executed by the robot once the safety foot pedal is pressed (necessary for all movement), improving the safety of executing trajectories generated by the software system. These additional features in a module could have improved the interaction with the motion planning system, but further improvements were not possible in the given time frame.
 
 \subsubsection{Optimization of Burr Hole Location}
-The patient head pose and burr hole location could be algorithmically optimized (rather than through an operator-informed decision) to ensure maximum manipulability around the tumor location. One way of achieving this could be by porting the robot model into OpenRave and utilizing an existing optimality planners for determining where to locate the base of industrial robot manipulators. \cite{workspaceChecker} It is likely that this technique could be replicated in ROS itself, as a manipulability index is computable for the kinematic chain of the robot, thus lending itself to possible adaption for positioning the patient head in order to maximize the manipulability around the target site, which is of more importance in the future where multiple ablations could be performed to fully destroy the tumor conformally. Another approach at this problem is to sample entry points in the robot's workspace and compute the volume of the reachable element workspace for each one. In this way, it can be demonstrated which entry points provide the largest access in the patient, and this could be used to position the patient head and/or burr hole.
+The patient head pose and burr hole location could be algorithmically optimized (rather than through an operator-informed decision) to ensure maximum manipulability around the tumor location. One way of achieving this could be by porting the robot model into OpenRAVE and utilizing an existing optimality planners for determining where to locate the base of industrial robot manipulators. \cite{workspaceChecker} It is likely that this technique could be replicated in ROS itself, as a manipulability index is computable for the kinematic chain of the robot, thus lending itself to possible adaption for positioning the patient head in order to maximize the manipulability around the target site, which is of more importance in the future where multiple ablations could be performed to fully destroy the tumor conformally. Another approach at this problem is to sample entry points in the robot's workspace and compute the volume of the reachable element workspace for each one. In this way, it can be demonstrated which entry points provide the largest access in the patient, and this could be used to position the patient head and/or burr hole.
 
 \subsubsection{Automation of Head Segmentation}
 There were a number of human-in the loop tasks to complete for completing the head segmentation process for obtaining the volume of the patient. This included setting the threshold for masking, removing islands, and running filters on the selected volume. Besides the segmentation masking step, which is done by a threshold specified by a user as background noise can change between scanners, the other steps can use preset parameters. Most likely, this automation could be achieved by creating a Slicer module to use the segmentation editor to automate the process. The serialization and deserialization of the polydata objects also can take a couple dozen seconds to complete, so reducing the polygon count within Slicer using a module before packaging the data would speed up the workflow.
 
-\section{Trajectory Control in Slicer}
-A final check of the validity of the motion plan was performed in Slicer. The end effector path was converted by a ROS node into a OpenIGTLink polydata object that contained the series of lines connecting the points of the path, as illustrated in \autoref{fig:motionPlanSlicer}. This allowed a final sanity check to make sure that the trajectory reached the entry point in a reasonable way and would avoid hitting the patient. Once this was confirmed, the trajectory was allowed to be executed on the robot by using the interface provided on the robot controller software and pressing the foot pedal.
-
-\subsubsection{Bridging and Towards Production-Ready Software}
+\subsubsection{Bridging and Progress Towards Production-Ready Software}
 More development support for the ROS-OpenIGTLink-Bridge package would open up the door for greater interoperability between the medical and robotics research worlds. However, there are some soul-seeking questions that need to be answered. How much reinventing happens on each side of the fence? There are excellent visualization tools for each platform, but it would be difficult to migrate features from one into another; perhaps there must always be two interfaces for interacting with medical data and robotics sensory information. 
 
 Additionally, a lot of these tools are for research purposes only and could be hard to attain Food and Drug Administration approval for human treatments due to validating operational safety on a large, open-source software stack and ensuring proper security protocols (to ensure patient privacy and safety) on both ROS and OpenIGTLink communications, not to mention potential licensing issues. To bring this software system into production, the open-source software platforms would likely be forgone to enable greater control over revisions, licensing freedoms, and ability to validate and certify the custom-built software. Surpassing these more intricate issues can necessitate developing in-house solutions, which greatly increases cost and tends to result in reproducing solutions to basic problems that already exist. Perhaps there is a greater conversation that needs to happen in this front, but at the same time, it is sometimes better to prove out a system concept quickly with the best tools on hand rather than miss an opportunity for sake of technicality to offer a novel treatment system for treating clinical threats to human life and improving the quality of living for those suffering from neurological diseases.
@@ -1516,7 +1534,7 @@ Install \url{https://tortoisehg.bitbucket.io/} to pull and build Cmake from sour
 
 \bibitem{segmentationEditorTutorial} Pinter, Csaba. ``Segmentation for 3D Printing.'' NA-MIC Tutorial Contest: Winter 2017, National Alliance for Medical Image Computing, 2017, \url{github.com/SlicerRt/SlicerRtDoc/raw/master/tutorials/SegmentationFor3DPrinting_TutorialContestWinter2017.pdf}.
 
-\bibitem{segmentationPaper} R. Kikinis and S. Pieper, ``3D Slicer as a tool for interactive brain tumor segmentation,'' 2011 Annual International Conference of the IEEE Engineering in Medicine and Biology Society, Boston, MA, 2011, pp. 6982-6984. doi: 10.1109/IEMBS.2011.6091765 \url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6091765&isnumber=6089866}
+\bibitem{segmentationEditorPaper} R. Kikinis and S. Pieper, ``3D Slicer as a tool for interactive brain tumor segmentation,'' 2011 Annual International Conference of the IEEE Engineering in Medicine and Biology Society, Boston, MA, 2011, pp. 6982-6984. doi: 10.1109/IEMBS.2011.6091765 \url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6091765&isnumber=6089866}
 
 \bibitem{workspaceChecker} ROS.org ``reuleaux package documentation.'' Accessed April 2017. \url{http://wiki.ros.org/reuleaux}
 
