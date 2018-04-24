@@ -16,6 +16,11 @@
 \usepackage[nottoc,numbib]{tocbibind} % Chris - References in TOC
 % \usepackage[printwatermark]{xwatermark}
 
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref} % Hyphenate hyperlinks
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
 \setlength{\textheight}{8.63in}
 \setlength{\textwidth}{5.9in}
 \setlength{\topmargin}{-0.2in}
@@ -33,6 +38,7 @@
 
 % \newwatermark[allpages,color=red!50,angle=0,scale=1,xpos=0,ypos=130]{DRAFT}
 
+\urlstyle{same}  % don't use monospace font for urls
 
 \begin{document}
 
@@ -1344,7 +1350,591 @@ Videos of the system in operation are listed below: \todo{update with newer vide
 
 \chapter{Technical Documentation}
 \label{sec:technicalDocumentation}
-\todo[inline]{Add docs once finalized.}
+The following sections are latex-generated versions of the documentation stored on the repository as markdown-style files.
+
+% pandoc -s README.md -o readme.tex
+
+\hypertarget{neuro-robot-rvizros-interface}{%
+\section{Neuro Robot RVIZ/ROS
+Interface}\label{neuro-robot-rvizros-interface}}
+
+This repository contains the following packages:
+
+\begin{itemize}
+\tightlist
+\item
+  neuro\_robot\_model\_2018\_final - URDF file of the neuro robot and
+  bringup launch files for visualization of the most recent version
+\item
+  neuro\_robot\_model\_2018\_final\_moveit\_config - The moveit package
+  for the neuro robot
+\item
+  neuro\_planning - Includes workspace analyzer, which computes the
+  workspace and handles trajectory following
+\item
+  motion\_planning\_utils - Conversion nodes for going between igtl
+  bridge messages and normal ROS messages.
+\end{itemize}
+
+\hypertarget{virtual-box-image}{%
+\section{Virtual Box Image}\label{virtual-box-image}}
+
+This package is already installed in a VM. Recommend using 4GB of RAM
+with 2-3 processors, with 3 or more preferrable if running the RViz
+interface.
+
+For running this software in a VM, install
+\href{https://www.virtualbox.org/wiki/Downloads}{Virtual
+Box}(recommended) or VMWare for your operating system.
+
+You can then load an image of Ubuntu with this package already installed
+at
+\texttt{\textbackslash{}research.wpi.edu\textbackslash{}users\textbackslash{}Christopher\_Bove\textbackslash{}Motion\ Planning\ VM\ Images\textbackslash{}Ubuntu\ 16.04\ ROS-MoveIt}
+
+\hypertarget{starting-the-software-using-the-vm}{%
+\subsection{Starting the Software Using the
+VM}\label{starting-the-software-using-the-vm}}
+
+\begin{itemize}
+\tightlist
+\item
+  Start Oracle VM Virtual Box.
+\item
+  Click the \texttt{Ubuntu\ 16.04\ ROS-MoveIt} image and click start.
+  The VM will begin booting.
+\item
+  While this is occurring, open up Slicer.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Open the IGTLink module
+    (Modules-\textgreater{}IGT-\textgreater{}OpenIGTLinkIF).
+  \item
+    Click the \texttt{+} Button to add a connector to the scene.
+  \item
+    Set the type to be \texttt{Server}
+  \item
+    Select the Active checkbox to start the server. The status should
+    turn to \texttt{Wait} in the connectors list at the top.
+  \item
+    Note the IP address of this computer (using ipconfig on windows of
+    ifconfig on linux).
+  \end{itemize}
+\item
+  Configure the VM for running the code:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    On the VM desktop (it logs in automatically), double click the
+    \texttt{Link\ to\ igtl\_bridge\_slicer.launch} and configure the IP
+    address and port in the launch file to match the server created in
+    Slicer. Save (ctrl-s) and close the editor.
+  \item
+    On the VM desktop, double click the
+    \texttt{Link\ to\ igtl\_bridge\_robot.launch} and configure the IP
+    address and port in the launch file that is appropriate for the
+    robot. Save (ctrl-s) and close the editor.
+  \item
+    On the VM desktop, double click the
+    \texttt{Link\ to\ start\_workspace\_software.sh}. This opens a
+    terminal and launches the software. Once you see,
+    \texttt{All\ done!\ You\ can\ start\ planning\ now} in green
+    followed by some matrices, you can start using the code.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{other-options}{%
+\subsubsection{Other Options}\label{other-options}}
+
+\begin{itemize}
+\tightlist
+\item
+  If you want to see an RViz visualization (at the expense of a lot more
+  CPU and GPU overhead on the VM), instead of using the script, do:
+\end{itemize}
+
+\begin{verbatim}
+roslaunch neuro_planning workspace_analysis_bringup.launch
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  To check for updates to this package and rebuild the software, click
+  the ``Link to pull\_software\_changes.sh'' on the desktop.
+\end{itemize}
+
+\hypertarget{utilizing-the-software}{%
+\subsection{Utilizing the Software}\label{utilizing-the-software}}
+
+\begin{itemize}
+\tightlist
+\item
+  On the robot controller:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Send the registration transform ``scanner\_to\_robot\_reg.''
+  \item
+    Send the ``robot\_to\_treatment'' offset.
+  \item
+    Send the ``robot\_to\_entry'' offset. This starts the generation of
+    the entry workspace by the program. You should see a progress bar in
+    the VM terminal window.\\
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Note - to send this over ROS, do
+      \texttt{rostopic\ pub\ /robot\_to\_entry\ std\_msgs/Float64\ "data:\ 0.01"}
+    \end{itemize}
+  \end{itemize}
+\item
+  In Slicer (for v 4.8.1):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The entry workspace will show up automatically. To adjust its
+    appearance:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Click Modules-\textgreater{}Models.
+    \item
+      Click ``reachable\_entry\_work''.
+    \item
+      Under Diplay:
+
+      \begin{itemize}
+      \tightlist
+      \item
+        Change Color to whatever you prefer (default is OK for the entry
+        workspace - red works well for element workspace given entry
+        point).
+      \item
+        Change Opacity to 0.1 or 0.2.
+      \item
+        Change Visible Sides to All.
+      \end{itemize}
+    \end{itemize}
+  \item
+    Now, define the entry point.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Scroll the Coronal plane (green) into the workspace desired.
+    \item
+      Select the ``Create and Place Fiducial'' Button in the center of
+      the top toolbar (A blue arrow with a red dot on top), and click
+      where you want the entry point on a 2D slice.
+    \item
+      Click Modules-\textgreater{}Markups, and select the point in the
+      drop down and rename it to \texttt{entry\_point}.
+    \end{itemize}
+  \item
+    Now, we send it over OpenIGTLink.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Go back to the OpenIGTLinkIF module.
+    \item
+      Under I/O Configuration, expand the IGTLConnector, and then click
+      ``OUT''.
+    \item
+      On the drop down menu, select the Fiducials ``F'' and click the
+      ``+'' button.
+    \item
+      Now, expand the ``OUT'' menu and click the MarkupsFiducials Point
+      ``F'' and click the send button. The program will compute a quick
+      workspace check before developing a more thourough analysis of the
+      element workspace given that entry point.
+    \item
+      The workspace will show up under the ``Models'' module, and the
+      characteristics can be adjusted like the
+      ``reachable\_entry\_work'' as before.
+    \item
+      If you resend the Markup Fiducials over OpenIGTLink, the software
+      will again compute the element workspace given the entry point.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{running-the-software}{%
+\section{Running the Software}\label{running-the-software}}
+
+There are a few different functions provided by this package. You can
+run the ROS robot model visualizations or the workspace analysis
+toolkit.
+
+\hypertarget{running-robot-model-visualizations}{%
+\subsection{Running Robot Model
+Visualizations}\label{running-robot-model-visualizations}}
+
+This will launch RVIZ with a Python GUI to control the joint values:
+
+\begin{verbatim}
+roslaunch neuro_robot_model_2018_final rviz_display.launch
+\end{verbatim}
+
+This launches MoveIt! in RVIZ with the ability to generate trajectories
+by dragging around the end effector or other planning groups:
+
+\begin{verbatim}
+roslaunch neuro_robot_2018_final_moveit_generated demo.launch
+\end{verbatim}
+
+\hypertarget{running-workspace-analysis}{%
+\subsection{Running Workspace
+Analysis}\label{running-workspace-analysis}}
+
+\hypertarget{setting-up-openigtlink-connections}{%
+\subsubsection{Setting up OpenIGTLink
+Connections}\label{setting-up-openigtlink-connections}}
+
+The software connects to 2 OpenIGTLink servers - one to the robot and
+one to a Slicer interface. The ports and IP's should be configured
+properly in these two files before launching the software:
+
+\begin{itemize}
+\tightlist
+\item
+  motion\_planning\_utils/launch/igtl\_bridge\_slicer.launch
+\item
+  motion\_planning\_utils/launch/igtl\_bridge\_robot.launch
+\end{itemize}
+
+If the igtl bridge nodes cannot connect to the server, they will die and
+keep respawning (in case the crash was caused by a temporary network
+outage). If you see a bunch of error text in red, this is probably what
+happened.
+
+\hypertarget{launching-the-software}{%
+\subsubsection{Launching the Software}\label{launching-the-software}}
+
+This will launch RVIZ with the Neuroablation moveit robot model and
+enable planning in the environment.
+
+\begin{verbatim}
+roslaunch neuro_planning workspace_analysis_bringup.launch
+\end{verbatim}
+
+\hypertarget{interactive-marker-controls}{%
+\paragraph{Interactive Marker
+Controls}\label{interactive-marker-controls}}
+
+Workspace visualizer will create an interactive marker in RVIZ that can
+be right-clicked to compute the workspace of the robot and spawn
+different collision objects. The following are some of the options: *
+``Workspace (no environ)'' - Generate element workspace without checking
+collisions with bore. * ``Workspace with Bore'' - Generate element
+workspace considering collisions with bore. * ``Entry Workspace with
+Bore'' - Compute entry point workspace given bore collisions. *
+``Workspace given Entry Point'' - Compute element workspace given the
+entry point as selected by the interactive marker pose. * ``Check
+Collision'' - States in the console if the robot is currently in a
+collision state with the published collision environment. * ``Add MRI
+Bore'' - Add the MRI Bore as a collision object. * ``Remove MRI Bore'' -
+Removes the MRI Bore from the world. * ``Add Entry Mesh'' - Adds a proxy
+head mesh with a hole around the canula interactive marker location. *
+``Remove Entry Mesh'' - Removes the head mesh from the world.
+
+\hypertarget{open-igtlink-reactions}{%
+\paragraph{Open IGTLink Reactions}\label{open-igtlink-reactions}}
+
+Primarily, actions are controlled through OpenIGTLink interfaces. The
+following is the expected flow of events: 1. Expects the Transform to be
+published between the optical\_frame and z\_frame registration (named
+``scanner\_to\_robot\_reg''). 2. When the robot to entry offset is
+published (``robot\_to\_entry''), the entry workspace is generated and
+sent over OpenIGTLink. 3. When an entry point is published
+(``entry\_point''), the workspace given that entry point is generated
+and sent over OpenIGTLink. It first sends a rough outline of the entry
+workspace then a more complete one after about a minute.
+
+\hypertarget{os-and-ros-installation}{%
+\section{OS and ROS Installation}\label{os-and-ros-installation}}
+
+For full installation on a new computer, do the following.
+
+\hypertarget{installing-ubuntu}{%
+\subsection{Installing Ubuntu}\label{installing-ubuntu}}
+
+Download an Ubuntu 16.04 image, make a bootable USB stick, and boot it
+on your computer/VM.
+
+When on the screen ``Preparing to Install Ubuntu'' select options to
+download updates and install third-party software.
+
+Install as normal.
+
+Reboot and run updates from the Software Updater. Also install
+additional drivers as needed (System Settings-\textgreater{}Software and
+Updates -\textgreater{} Additional Drivers
+
+\hypertarget{installing-ros-kinetic}{%
+\subsection{Installing ROS Kinetic}\label{installing-ros-kinetic}}
+
+You can use a one-line install found here which is reproduced below:
+http://wiki.ros.org/ROS/Installation/TwoLineInstall
+
+\begin{verbatim}
+wget https://raw.githubusercontent.com/oroca/oroca-ros-pkg/master/ros_install.sh && chmod 755 ./ros_install.sh && ./ros_install.sh catkin_ws kinetic
+\end{verbatim}
+
+Or you can follow the
+\href{http://wiki.ros.org/kinetic/Installation/Ubuntu}{ROS Wiki page for
+Kinetic}.
+
+Then install moveit and other dependencies:
+
+\begin{verbatim}
+sudo apt-get update
+sudo apt-get install ros-kinetic-moveit python-catkin-tools ros-kinetic-tf2-sensor-msgs
+\end{verbatim}
+
+\hypertarget{installing-3d-slicer}{%
+\subsection{Installing 3D Slicer}\label{installing-3d-slicer}}
+
+Download the latest version of slicer: http://download.slicer.org Unpack
+the archive file:
+
+\begin{verbatim}
+cd ~/Downloads
+tar -xvzf Slicer-4.8.1-linux-amd64.tar.gz
+mv Slicer-4.8.1-linux-amd64 ~/
+rm Slicer-4.8.1-linux-amd64.tar.gz
+\end{verbatim}
+
+Now, open the file explorer and navigate to home -\textgreater{}
+Slicer-xxx and double click on the Slicer executable to start Slicer.
+
+Once it's open, right click on the icon on the dock in the left and
+click ``Add to Dash'' so you can easily open up slicer from the GUI.
+You'll have to edit the destkop entry, so do
+
+\begin{verbatim}
+gedit .local/share/applications/slicerapp-real.desktop
+\end{verbatim}
+
+And put the following contents in:
+
+\begin{verbatim}
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=3D Slicer 4.8.1
+Icon=slicerapp-real.png
+Path=/home/chris/Slicer-4.8.1-linux-amd64
+Exec=/home/chris/Slicer-4.8.1-linux-amd64/Slicer
+StartupNotify=false
+StartupWMClass=SlicerApp-real
+OnlyShowIn=Unity;
+X-UnityGenerated=true
+\end{verbatim}
+
+\hypertarget{workspace-setup}{%
+\section{Workspace Setup}\label{workspace-setup}}
+
+\hypertarget{openigtlink-setup}{%
+\subsection{OpenIGTLink Setup}\label{openigtlink-setup}}
+
+The instructions below are taken from:
+https://github.com/openigtlink/ROS-IGTL-Bridge
+
+Complete these commands below:
+
+\begin{verbatim}
+cd ~/
+mkdir -p igtl/OpenIGTLink-build
+cd igtl/
+git clone https://github.com/openigtlink/OpenIGTLink.git
+cd OpenIGTLink-build
+cmake -DBUILD_SHARED_LIBS:BOOL=ON ../OpenIGTLink
+make
+\end{verbatim}
+
+\hypertarget{ros-workspace}{%
+\subsection{ROS Workspace}\label{ros-workspace}}
+
+It's now recommended to use catkin build tools for compiling a catkin
+workspace. We're going to unfortunately remove the workspace generated
+in the one-step install and set it up with catkin build tools:
+
+Setup Catkin build tools workspace:
+
+\begin{verbatim}
+cd ~/
+rm -rf ~/catkin_ws/
+mkdir -p ~/catkin_ws/src
+cd catkin_ws
+catkin build
+\end{verbatim}
+
+\hypertarget{setup-ros-openigtlink-bridge}{%
+\subsection{Setup ROS OpenIGTLink
+Bridge}\label{setup-ros-openigtlink-bridge}}
+
+Recommend adding the extra cmake arg for building at release
+optimizations.
+
+\begin{verbatim}
+
+cd ~/catkin_ws/src
+git clone https://github.com/ChrisBove/ROS-IGTL-Bridge.git
+cd ~/catkin
+catkin config --cmake-args -DOpenIGTLink_DIR:PATH=$HOME/igtl/OpenIGTLink-build -DCMAKE_BUILD_TYPE=Release
+catkin build
+\end{verbatim}
+
+\hypertarget{setup-neuro-motion-planning-packages}{%
+\subsection{Setup Neuro Motion Planning
+Packages}\label{setup-neuro-motion-planning-packages}}
+
+Clone this repo into your catkin workspace:
+
+\begin{verbatim}
+cd ~/catkin_ws/src
+git clone http://fischerlab2.wpi.edu:7990/scm/robctrl/motion_planning_software.git
+# OR you can include your username to avoid typing it each time you pull or push:
+# git clone http://USERNAME@fischerlab2.wpi.edu:7990/scm/robctrl/motion_planning_software.git
+cd ..
+catkin build
+source devel/setup.bash
+\end{verbatim}
+
+Re-source your bashrc with \texttt{source\ \textasciitilde{}/.bashrc}
+(the last step) or close and reopen your terminal to have the package
+changes loaded in your terminal so you can run them.
+
+\hypertarget{other-nice-to-haves}{%
+\subsection{Other Nice-to-haves}\label{other-nice-to-haves}}
+
+\hypertarget{system-time-on-dual-boot}{%
+\subsubsection{System Time on Dual
+Boot}\label{system-time-on-dual-boot}}
+
+Windows and Ubuntu use different times for interpretting what the system
+clock represents. Windows uses local, Ubuntu uses UTC. This can cause
+issues with clocks jumping when dual booting, so changing Ubuntu to use
+local is easiest.
+
+\begin{verbatim}
+timedatectl set-local-rtc 1 --adjust-system-clock
+\end{verbatim}
+
+\hypertarget{system-load-indicator}{%
+\subsubsection{System Load Indicator}\label{system-load-indicator}}
+
+Puts little graphs of CPU, Disk, RAM, and network usage in your task
+bar. Pretty handy. Install with the Ubuntu Software Center or
+\texttt{sudo\ apt-get\ install\ indicator-multiload}.
+
+\hypertarget{terminator}{%
+\subsubsection{Terminator}\label{terminator}}
+
+Arranging multiple terminator windows on the same screen. Install in
+software center or \texttt{sudo\ apt-get\ install\ terminator}.
+
+\hypertarget{eclipse}{%
+\subsubsection{Eclipse}\label{eclipse}}
+
+Install Java first:
+http://ubuntuhandbook.org/index.php/2014/02/install-oracle-java-6-7-or-8-ubuntu-14-04/
+
+\begin{verbatim}
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+\end{verbatim}
+
+Download and extract Eclipse Neon C++ located here to your home drive:
+https://www.eclipse.org/downloads/packages/release/neon/3
+
+Note: We use an older version since Oxygen has a bug which removed the
+preprocessor includes from project properties
+(https://bugs.eclipse.org/bugs/show\_bug.cgi?id=529393).
+
+You can use the install guide here or just follow the directions below:
+http://ubuntuhandbook.org/index.php/2016/01/how-to-install-the-latest-eclipse-in-ubuntu-16-04-15-10/
+Modify the desktop entry like so with
+\texttt{gedit\ \$HOME/.local/share/applications/eclipse.desktop} and put
+the contents in below (modifying paths if/when necessary):
+
+\begin{verbatim}
+[Desktop Entry]
+Name=Eclipse
+Type=Application
+Exec=bash -i -c "$HOME/eclipse/eclipse"
+Terminal=false
+Icon=/home/USERNAME_HERE/eclipse/icon.xpm
+Comment=Integrated Development Environment
+NoDisplay=false
+Categories=Development;IDE;
+Name[en]=Eclipse
+\end{verbatim}
+
+You can reference the guides
+\href{https://github.com/ethz-asl/programming_guidelines/wiki/Catkin-Eclipse}{here}
+and \href{http://wiki.ros.org/IDEs}{the ROS guide at 2.3} or follow the
+directions below:
+
+Eclipse configuration: * Go to
+Windows-\textgreater{}Preferences-\textgreater{}C/C++-\textgreater{}Build-\textgreater{}Settings-\textgreater{}Discovery
+* On ``CDT GCC Build Output Parser {[}Shared{]}'' under ``Container to
+keep discovered entries'' select ``Project'' and click Apply. * On ``CDT
+GCC Built-in Compiler Settings {[}Shared{]}'' configure the line to read
+as:
+\texttt{\$\{COMMAND\}\ \$\{FLAGS\}\ -E\ -P\ -v\ -dD\ -std=c++11\ "\$\{INPUTS\}"}
+* Click Apply then OK to close the window.
+
+You'll need to use a modified catkin build and run a script to generate
+an Ecilpse project file. I like to combine these steps into one script.
+Do \texttt{gedit\ \$HOME/catkin\_ws/eclipse\_build.sh} and paste the
+following:
+
+\begin{verbatim}
+catkin build  --force-cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -D__cplusplus=201103L -D__GXX_EXPERIMENTAL_CXX0X__=1
+
+ROOT=$PWD
+cd build
+for PROJECT in `find $PWD -name .project`; do
+    DIR=`dirname $PROJECT`
+    echo $DIR
+    cd $DIR
+    awk -f $(rospack find mk)/eclipse.awk .project > .project_with_env && mv .project_with_env .project
+done
+cd $ROOT
+\end{verbatim}
+
+Save the file, then do
+\texttt{chmod\ +x\ \$HOME/catkin\_ws/eclipse\_build.sh} and run it by
+cd'ing to your catkin\_ws root where it's located and doing
+\texttt{./eclipse\_build.sh}
+
+Open Eclipse from the Unity launcher and do: * For workspace window,
+just use the default. *
+File-\textgreater{}Import-\textgreater{}General-\textgreater{}Existing
+Projects into Workspace -\textgreater{} Next * Select Root Directory:
+catkin\_ws * Click Finish * Right click on each
+Project-\textgreater{}Properties-\textgreater{}C/C++
+General-\textgreater{}Preprocessor Includes-\textgreater{}Providers *
+Check ``CDT GCC Build Output Parser {[}Shared{]}'' and ``Use global
+provider shared between projects'' on its Language Settings Provider
+Options. * Check ``CDT GCC Built-in Compiler Settings {[}Shared{]}
+and''Use global provider shared between projects" on its Language
+Settings Provider Options. * Click Apply and OK. * Right click each
+project-\textgreater{}Index-\textgreater{}Rebuild.
+
+Let the indexer chew on that for a while\ldots{} And then you should be
+set!
 
 \section{OMPL Windows Installation}
 \label{sec:omplWindowsInstallation}
