@@ -132,7 +132,7 @@ Professor William Michalson, Committee Member
 \doublespacing
 
 \begin{abstract}
-In needle-based surgical interventions, accurate alignment and insertion of the tool is paramount for providing proper treatment at the target site while minimizing healthy tissue damage. While manually-aligned interventions are well-established, robotics platforms promise to reduce procedure time, increase precision, and improve patient comfort and survival rates. Conducting interventions in an MRI scanner can provide real-time, closed-loop feedback for a robotics platform, improving its accuracy, yet the tight environment potentially impairs motion, and perceiving this limitation when planning a procedure can be challenging. This project developed a surgical workflow and software system for evaluating the workspace and planning motions of a robotics platform within the confines of an MRI scanner. 3D Slicer, a medical imaging visualization and processing platform, provided a familiar and intuitive interface for operators to quickly plan procedures with the robotics platform over OpenIGTLink. Robotics tools such as ROS and MoveIt! were utilized to analyze the workspace of the robot within the patient and formulate the motion planning solution for positioning of the robot during surgical procedures. For this study, a 7 DOF robot arm designed for ultrasonic ablation of brain tumors was the targeted platform. The realized system successfully yielded prototype capabilities on the neurobot for conducting workspace analysis and motion planning, integrated systems using OpenIGTLink, provided an opportunity to evaluate current software packages, and informed future work towards production-grade medical software for MRI-guided, needle-based robotic interventions.
+In needle-based surgical interventions, accurate alignment and insertion of the tool is paramount for providing proper treatment at a target site while minimizing healthy tissue damage. While manually-aligned interventions are well-established, robotics platforms promise to reduce procedure time, increase precision, and improve patient comfort and survival rates. Conducting interventions in an MRI scanner can provide real-time, closed-loop feedback for a robotics platform, improving its accuracy, yet the tight environment potentially impairs motion, and perceiving this limitation when planning a procedure can be challenging. This project developed a surgical workflow and software system for evaluating the workspace and planning the motions of a robotics platform within the confines of an MRI scanner. 3D Slicer, a medical imaging visualization and processing platform, provided a familiar and intuitive interface for operators to quickly plan procedures with the robotics platform over OpenIGTLink. Robotics tools such as ROS and MoveIt! were utilized to analyze the workspace of the robot within the patient and formulate the motion planning solution for positioning of the robot during surgical procedures. For this study, a 7 DOF robot arm designed for ultrasonic ablation of brain tumors was the targeted platform. The realized system successfully yielded prototype capabilities on the neurobot for conducting workspace analysis and motion planning, integrated systems using OpenIGTLink, provided an opportunity to evaluate current software packages, and informed future work towards production-grade medical software for MRI-guided, needle-based robotic interventions.
 
 \end{abstract}
 
@@ -146,7 +146,7 @@ In needle-based surgical interventions, accurate alignment and insertion of the 
 
 I would like to express my gratitude to Professor Fischer for his assistance scoping the project, guiding the feature development, and offering alternative solutions when I hit some tough walls to climb. Professor Michalson and Professor Li provided excellent feedback as I worked through and presented the thesis formally, helping refine the end product in a flurry of activity in the closing months. I also need to extend my thanks to the other graduate students I worked with in AIM Lab, Paulo Carvalho, Radian Gondokaryono, Katie Gandomi, Christopher Nycz, and Joe Schornak, for helping me work alongside them and making the project much more entertaining.
 
-A tremendous thanks goes out to my parents for supporting my foray into robotics during my childhood. From tearing apart VCR's to cluttering the basement with model airplanes, dissected Furby's, and walking mechanical ostriches controlled by RockBand guitars, I owe you both a lot in the patience department, especially in your tireless support of helping me start FIRST teams in high school which inspired my education at WPI that culminated in my Master's degree. Thanks for cheering me on when things seemed sometimes hopeless on the path to my first job and always encouraging me to hold fast to the hope that is found in Christ.
+A tremendous thanks goes out to my parents for supporting my foray into robotics during my childhood. From tearing apart VCR's to cluttering the basement with model airplanes, dissected Furby's, and walking mechanical ostriches controlled by RockBand guitars, I owe you both a lot in the patience department, especially in your tireless support of helping me start FIRST teams in high school which inspired an education at WPI that culminated in my Master's degree. Thanks for cheering me on when things seemed sometimes hopeless on the path to my first job and always encouraging me to hold fast to the hope that is found in Christ.
 
 My time at WPI wouldn't have been the same without my sister, Eva, who decided to follow me up here for her studies, and I'm so appreciative of the wonderful friendship we've experienced over our lifetime. I'd like to thank my grandmother, Betty, for all her support of my education and being the closest relative from which I could steal a meal and Rita's Water Ice dessert from (spoiled). My thanks to Cara for always encouraging me to do my best on this project and tremendously improving my cooking skill throughout the year.
 
@@ -212,9 +212,9 @@ My time at WPI wouldn't have been the same without my sister, Eva, who decided t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}
 \label{sec:intro}
-Since only, perhaps, a couple of decades ago, the fields of medicine and robotics remained relatively separate practices, only associated through the common technology utilized by both of them. Yet in responding to increasing needs of healthcare providers for faster, more cost-effective, safer, and more accurate treatments, the solution space has moved towards robotics systems, where, in the industry and beyond, robotics and autonomous systems have been improving performance in procedures which were very labor and time intensive with very high precision and repeatability requirements. In some respects, robotics and medical problems are similar, and the expansive development in both fields has illuminated the strong benefit in joining the two fields of expertise to better solve the challenging issues facing them today.
+Since only, perhaps, a couple of decades ago, the fields of medicine and robotics remained relatively separate practices, only associated through the common technology utilized by both of them. Yet in responding to increasing needs of healthcare providers for faster, more cost-effective, safer, and more accurate treatments, the solution space has moved towards robotics systems, where, in the industry and beyond, robotics and autonomous systems have been improving performance in procedures which were very labor and time intensive while maintaining very high precision and repeatability requirements. In some respects, robotics and medical problems are similar, and the expansive development in both fields has illuminated the strong benefit in joining those two realms of expertise to better solve the challenging issues facing them today.
 
-One of the ways in which robotics has forayed into the medical world is through assisting surgical interventions. As discussed in the following sections, there are a variety of spaces in which robotic medical devices can benefit and improve treatment outcomes compared to non-robotic clinical procedures. This becomes evident when examining the potential for robotics to improve surgeons' perceptive and manipulative capability in minimally invasive surgical procedures. The contributions of this work, discussed in the final section of this chapter, were to design and build a research-grade software system capable of interfacing with medical technology that provides computation and display of a robot's workspace to better inform treatment plans and provide movement to treatment sites while avoiding collisions with the patient. While this system was tailored to a particular robotic platform for neurosurgical cranial procedures, it provided some research frameworks and methodologies adaptable for similar robotics platforms conducting needle-based interventions under the constraints and guidance of imaging systems such as MRI. Procedures that could benefit from this work would be those using rigid-body robotic manipulators to perform tool insertions into a patient, as specified by a human operator, during treatments that occur within an MRI scanner or under other environment constraints. This could include prostate biopsies, deep brain stimulation, tumor ablation, tumor biopsies, or using robotic manipulators for laparoscopic surgery.
+One of the ways in which robotics has forayed into the medical world is through assisting surgical interventions. As discussed in the following sections, there are a variety of spaces in which robotic medical devices can benefit and improve treatment outcomes compared to non-robotic clinical procedures. This becomes evident when examining the potential for robotics to improve surgeons' perceptive and manipulative capability in minimally invasive surgical procedures. The contributions of this work, discussed in the final section of this chapter, were to design and build a research-grade software system capable of interfacing with medical technology that provides computation and display of a robot's workspace to better inform treatment plans and provide movement to treatment sites while avoiding collisions with the patient. While this system was tailored to a particular robotic platform for neurosurgical cranial procedures, it provided some research frameworks and methodologies adaptable for similar robotics platforms conducting needle-based interventions under the constraints and guidance of imaging systems such as MRI. Procedures that could benefit from this work would be those using rigid-body robotic manipulators to perform tool insertions into a patient, as specified by a human operator, during treatments that occur within an MRI scanner or under other environmental constraints. This could include prostate biopsies, deep brain stimulation, tumor ablation, tumor biopsies, or using robotic manipulators for laparoscopic surgery.
 
 
 \section{Clinical Problem}
@@ -494,9 +494,10 @@ As seen in \autoref{fig:offsetConventions}, there are four different offsets use
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width=4in]{diagrams/neuro_offsets_flip.jpg}
-    \todo[inline]{GF: Get originals}
-    \caption{Treatment offset definitions used by the robot control software. }
+    \subfloat[A: Treatment to tip offset. D: Robot to treatment at home.]{\includegraphics[width=0.49\textwidth]{diagrams/surgical_offsets_1.pdf}\label{fig:suboff1}}
+	\hfill
+  \subfloat[B: Robot to entry. C: Cannula to element.]{\includegraphics[width=0.49\textwidth]{diagrams/surgical_offsets_2.pdf}\label{suboff2}}
+    \caption{Treatment offset definitions used by the robot control software. Courtesy of Christopher Nycz}
     \label{fig:offsetConventions}
 \end{figure}
 
@@ -651,7 +652,7 @@ This chapter covers the development setup of the system, implementation of key i
 The system was designed to run on a Ubuntu 16.04 computer with ROS Kinetic installed. Typically, ROS releases are tied to specific Ubuntu releases, and LTS versions are supported with security patches and bug fixes for five years after release with new releases every two years. Usually, ROS versions are generally API-compatible between sequential versions, but changes to the API structure may throw warnings during compilation that those API functions are being changed or removed in the next ROS version. Over a greater time period, ROS 1 will generally remain consistent across yearly revisions, but ROS 2.0 is not expected to maintain API compatibility. Installing 3D Slicer on this system was optional and trivial, but at least one computer had to have Slicer installed for conducting the procedure. The most recent stable Slicer program  was used, which was 4.8.1. Beyond the simple one-line installation of ROS and MoveIt!, OpenIGTLink had to be downloaded and built from source using a script. With those simple dependencies installed, software was ready to be built.
 
 \subsection{ROS Workspace}
-A standard catkin build tools workspace was created for building and sourcing the ROS packages for the software platform. A git repository contained the code for the project and could be cloned and built in the catkin workspace alongside other ROS packages. Nodes were written in C++ and contained in the package structure shown in \autoref{fig:softwareDiagram}.
+A standard catkin build tools workspace was created for building and sourcing the ROS packages for the software platform. A git repository contained the code for the project and could be cloned and built in the catkin workspace alongside other ROS packages. Nodes were written in C++ and contained in the package structure shown in \autoref{fig:softwareDiagram}. \todo{cleanup header and maybe list nodes and functions.}
 
 % , and \autoref{fig:rosNodeGraph} shows the network of running ROS nodes the topics used for message transport.
 
@@ -726,7 +727,7 @@ In order for the system to run on Windows and Mac systems, a VM image of Ubuntu 
 
 
 \section{Software Documentation}
-As with all software projects, documentation of code is key for enabling the system to continue to be useful and ensure that changes can be made easily. Documentation from a non-technical user perspective is written so that new operators can learn how to use the system without necessarily being trained personally. The user documentation can be found in \autoref{sec:userDocumentation}. Code is commented throughout, but having dedicated technical documents for specific procedures to complete routine changes to the software is necessary. \autoref{sec:technicalDocumentation} contains the technical writings developed during the course of this project.
+As with all software projects, documentation of code is key for enabling the system to continue to be useful and ensure that changes can be made easily. Documentation from a non-technical user perspective is written so that new operators can learn how to use the system without necessarily being trained personally. The user documentation can be found on the project repository. Code is commented throughout with Doxygen, but having dedicated technical documents for specific procedures to complete routine changes to the software is necessary. \autoref{sec:technicalDocumentation} contains the technical writings developed during the course of this project.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -767,7 +768,9 @@ Once the joints were assigned and defined in the tree structure with the associa
 \end{itemize}
 
 \subsection{Final URDF Cleanup}
-Some further tweaks were necessary to the URDF once it was generated by the SolidWorks to URDF add-in, which are further documented in \autoref{sec:userDocumentation}. Since some of the parameters for generating the URDF had to be reentered every time the package was generated, sometimes it was easier to edit the joint limit information after the fact. There was some trial and error involved with correcting motion directions, usually amounting to a sign flip to have the joint values increment and decrement as desired. Velocities also had to be specified for the joints so that generated trajectories would not try to move the joints in each time step faster than they were capable of moving. Once the joint limits, velocities, and directions were corrected, mimic tags were added to joints appropriately to achieve the desired kinematic chain. In the end, the robot had seven active degrees of freedom with seven additional joints that were either fixed or mimicing the active joints to produce the correct motion of neurobot, and the GUI for controlling the simulated robot is shown in \autoref{fig:jointStatePublisherGUI} with a rendering of the neurobot with the base plate in RViz.
+Some further tweaks were necessary to the URDF once it was generated by the SolidWorks to URDF add-in, which were outlined in the user documentation stored in the project repository. This included fixing author tags in the package, editing file paths for some of the mesh resources, adding mimic tags to the appropriate joints, and ensuring joint limits and directions were accurate. Since some of the parameters for generating the URDF had to be reentered every time the package was generated, sometimes it was easier to edit the joint limit information after the fact. There was some trial and error involved with correcting motion directions, usually amounting to a sign flip to have the joint values increment and decrement as desired. Velocities also had to be specified for the joints so that generated trajectories would not try to move the joints in each time step faster than they were capable of moving. Once the joint limits, velocities, and directions were corrected, mimic tags were added to joints appropriately to achieve the desired kinematic chain. In the end, the robot had seven active degrees of freedom with seven additional joints that were either fixed or mimicing the active joints to produce the correct motion of neurobot, and the GUI for controlling the simulated robot is shown in \autoref{fig:jointStatePublisherGUI} with a rendering of the neurobot with the base plate in RViz.
+%, which are further documented in \autoref{sec:userDocumentation}. 
+
 
 \begin{figure}[thpb]
 	\centering
@@ -1127,6 +1130,8 @@ Slicer includes several freely available data sets of medical images for conduct
 \chapter{Experiments}
 In order to validate that the system meets the user requirements and to better understand its performance and capabilities, several tests were completed. A series of metrics were collected for the IK solver and motion planning performance of the system. Then, tests were conducted using the actual robot to validate the workspace analysis and motion planning accuracy of the system, which inherently tests the modeling of the neurobot as well. 
 
+\section{Joint State Evaluation}
+To ensure the robot was correctly modeled in ROS, the neurobot was moved to several different configurations and checked against the model in ROS visually. Calipers were used to measure 
 
 \section{Benchmarking}
 Several experiments were conducted in order to gain a better understanding of the execution time of the IK solver and the motion planning implementation. Tests were configured by determining a viable end effector needle pose by uniform random sampling from the configuration space of the robot and using the forward kinematics to compute the end effector position. This position was then fed back into the IK solver and the time it took the IK solver to compute the solution was measured. There were several variations of this test, with collision checking with the environment enabled and disabled for the motion planning section. Tests were conducted on a computer with a Ryzen 7 1700 processor operating at 3.00 GHz with 16GB of DDR4 RAM.
@@ -1190,12 +1195,12 @@ The path smoothing operation was also examined in some detail. \autoref{fig:path
     \label{fig:pathHist}
 \end{figure}
 
-\subsubsection{Planning with Patient Head}
-\todo[inline]{Complete these tests and write section.}
+% \subsubsection{Planning with Patient Head}
+% \todo[inline]{Complete these tests and write section.}
 
 
 \section{System Workspace Validation}
-To test the workspace validation, motion capture was used on the neurobot as it completed movements mimicing those generated during the workspace analysis on the modeled neurobot. The end goal was to directly compare the shape of the workspace obtained by the real hardware with that achieved by the software system. Fiducials were used on the robot's base to establish the base frame of the robot and a valid transform to directly relate the modeled robot frames with the simulated robot frames. A single fiducial was placed on the robot where the entry point would be located for the robot, as shown in \autoref{fig:workspaceExperimentSetup}.
+To test the workspace validation, motion capture was used on the neurobot as it completed movements mimicing those generated during the workspace analysis on the modeled neurobot. The end goal was to directly compare the shape of the workspace obtained by the real hardware with that achieved by the software system. Fiducials were used on the robot's base to establish the base frame of the robot and a valid transform to directly relate the modeled robot frames with the simulated robot frames. Fiducials were placed on the robot where the probe would normally be inserted, as shown in \autoref{fig:workspaceExperimentSetup}.
 
 \begin{figure}[thpb]
 	\centering
@@ -1215,21 +1220,11 @@ a script commanded the robot to move to joint positions evenly spaced in the con
     \label{fig:workspaceMocapCompare}
 \end{figure}
 
-\todo[inline]{Revisit for analysis once workspace tests are complete.}
-
 
 \section{Trajectory Validation}
-To validate the trajectory generation and execution, a similar setup was used as in the previous section. For this test, a simple cube was placed in the actual robot's space and carefully measured from the base. A geometric cube of the same size was added to the robot in the same position in the planning scene within ROS. The fiducial remained on the entry point of the robot. \autoref{fig:trajectoryExperimentalSetup} shows the experimental configuration for this test.
+To validate the trajectory generation and execution, a similar setup was used as in the previous section. For this test, a simple cube was placed in the actual robot's space and carefully measured from the base. A geometric cube of the same size was added to the robot in the same position in the planning scene within ROS. The test environment remained the same as the workspace analysis experiment.
 
-\begin{figure}[thpb]
-	\centering
-	%\includegraphics[width=\textwidth]{diagrams/Software_Diagrams.pdf}
-    \missingfigure[figwidth=4in]{picture of trajectory experiment.}
-    \caption{Picture of the experimental setup of the neurobot for trajectory validation.}
-    \label{fig:trajectoryExperimentalSetup}
-\end{figure}
-
-In the software system, a motion plan was requested to a goal which could result in a collision if the robot position was linearly interpolated to that point. Once the motion plan was computed and the trajectory of the entry point was saved, the real robot executed the same trajectory, triggering a frame capture at each point a segment in the trajectory was reached. The path of the actual robot was then saved as a point cloud and compared to the desired trajectory as determined by the motion planning software, as shown in \autoref{fig:trajectoryMocapCompare}.
+In the software system, a motion plan was requested to a goal in the robot's workspace. Once the motion plan was computed and the trajectory of the entry point was saved, the real robot executed the same trajectory with mocap recording the marker position. The path of the actual robot was then saved as a point cloud and compared to the desired trajectory as determined by the motion planning software, as shown in \autoref{fig:trajectoryMocapCompare}.
 
 \begin{figure}[thpb]
 	\centering
@@ -1238,8 +1233,6 @@ In the software system, a motion plan was requested to a goal which could result
     \caption{Trajectory path compared between the real neurobot (color) and that computed by the motion planning system.}
     \label{fig:trajectoryMocapCompare}
 \end{figure}
-
-\todo[inline]{Revisit for analysis once trajectory tests are complete.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1290,6 +1283,8 @@ As mentioned previously, utilizing the software within a VM was not an ideal des
 In modeling the neurobot, there were some changes that could be made to the SolidWorks to URDF add-in that could enhance its functionality, such as saving the joint configuration data and improving the joint type auto detection. While the workflow of updating a robot model and migrating those changes into URDF is not too burdensome, addressing these problems would greatly speed the process of completing those updates, as had to be done in this project. Eventually, building a simulation of the neurboot in ROS' simulation environment, Gazebo, could help fine-tune the neurobot controls and allow the motion planning solution to be more vested and allow proper unit testing, especially since it is possible in Gazebo to model parallelogram linkages. It would be interesting to develop a simulation of an MRI scanner as well and attempt to model the entire workflow with imaging.
 
 One issue that was not addressed in this work was handling the calibration routine of the robot for setting calibrated joint limits for the ROS model of the robot. This could be remedied by sending special joint state messages over OpenIGTLink which can define when the robot is in a calibration state and a final message when the robot has been successfully homed. In this way, the true zero joint values can be updated for the URDF and joint states in the trajectory will be closer to the actual robot hardware.
+
+The joint velocities of the neurobot were not computed for the control system, so the ROS model did not have these values available. There was not time to perform analysis and testing to determine the max velocities for each joint, which would influence the generated trajectory. Since the controller was just moving to each joint state in the trajectory and waiting for the other joints to reach the same state, this was not a problem. In the future however, the velocity should be used in the trajectory following.
 
 The needle modeling could be improved by making several different end effector URDF's that could be added or removed from the robot depending on the procedure configuration. Such a configuration change could be enabled through using the macro XML extensions in the URDF. This would eliminate some of the less conventional methods in the workspace analysis of artificially lengthening or shortening the probe tip by manipulating the treatment offset. Additionally, this approach would be more general and extensible if different tools were used on the robot.
 
@@ -1342,11 +1337,11 @@ Videos of the system in operation are listed below: \todo{update with newer vide
 \end{enumerate}
 
 
-\chapter{User Documentation}
-\label{sec:userDocumentation}
-\todo[inline]{add docs once finalized.GF: very important!}
+% \chapter{User Documentation}
+% \label{sec:userDocumentation}
+% \todo[inline]{add docs once finalized.GF: very important!}
 
-\todo[inline]{GF:can you please be very clear, perhaps a bullet list, of specifically what needs to be updated after regenerating so that we can readily do it after modifications to the robot design ideally step by step instructions on what to do after design updates, could be in user guide}
+% \todo[inline]{GF:can you please be very clear, perhaps a bullet list, of specifically what needs to be updated after regenerating so that we can readily do it after modifications to the robot design ideally step by step instructions on what to do after design updates, could be in user guide}
 
 \chapter{Technical Documentation}
 \label{sec:technicalDocumentation}
